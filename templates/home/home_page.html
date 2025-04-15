@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+{% include 'home/partials/hero.html' %}
+{% include 'home/partials/about.html' %}
+{% include 'home/partials/menu.html' %}
+{% include 'home/partials/gallery.html' %}
+{% include 'home/partials/contact.html' %}
+
+{% endblock content %}
