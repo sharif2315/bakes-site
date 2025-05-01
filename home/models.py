@@ -1,6 +1,6 @@
 from django.db import models
 
-from wagtail.models import Page
+from wagtail.models import Page, Orderable
 from wagtail.blocks import (
     StructBlock,CharBlock,TextBlock, ListBlock, ChoiceBlock  
 )
@@ -45,7 +45,7 @@ class SvgIcon(models.Model):
         return self.name
 
 
-class ContactMethod(models.Model):
+class ContactMethod(Orderable):
     page = ParentalKey('home.HomePage', related_name='contact_methods')
     svg_icon = models.ForeignKey(SvgIcon, null=True, blank=True, on_delete=models.SET_NULL)
     contact_text = models.CharField(max_length=255)
@@ -70,7 +70,7 @@ class GalleryImage(models.Model):
     # ]
 
 
-class OpeningHour(models.Model):
+class OpeningHour(Orderable):
     page = ParentalKey('home.HomePage', related_name='opening_hours')
     day = models.CharField(max_length=9)
     hours = models.CharField(max_length=50)
