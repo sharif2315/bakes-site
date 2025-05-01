@@ -1,14 +1,37 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
 <!-- HERO SECTION -->
 <div class="relative">
     <!--  HERO IMAGE - CARROT CAKE -->
-    <div class="bg-[url(https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/vegan_carrot_cake_68186_16x9.jpg)] h-screen bg-cover bg-center bg-no-repeat bg-black opacity-50 flex justify-center items-center">
+    {% if page.hero_image %}
+        {% image page.hero_image original as hero_image %}
+        {% comment %} <img src="{{ hero_image.url }}" alt="{{ page.hero_image.title }}"> {% endcomment %}
+        {% comment %} <p>{{ hero_image.url }}</p> {% endcomment %}
 
-        <div class="flex flex-col gap-3 justify-center items-center px-14">
-            <h1 class="text-7xl">Richmond Bakes</h1>
-            <p class="text-xl">Sweet Bakery offers the best cakes and sweets for you.</p>
+        <div
+            style="background-image: url({{ hero_image.url }})" 
+            class="h-screen bg-cover bg-center bg-no-repeat bg-black opacity-50 flex justify-center items-center">
+            <div class="flex flex-col gap-3 justify-center items-center px-14">
+                <h1 class="text-7xl">{{ page.hero_title }}</h1>
+                <p class="text-xl">{{ page.hero_description }}</p>
+            </div>
         </div>
 
-    </div>
+    {% elif page.hero_image_url %}
+        {% comment %} <img src="{{ page.hero_image_url }}" alt="Hero image from URL"> {% endcomment %}
+        {% comment %} <p>{{ page.hero_image_url }}</p> {% endcomment %}
+        <div
+            style="background-image: url({{ page.hero_image_url }})" 
+            class="h-screen bg-cover bg-center bg-no-repeat bg-black opacity-50 flex justify-center items-center">
+            <div class="flex flex-col gap-3 justify-center items-center px-14">
+                <h1 class="text-7xl">{{ page.hero_title }}</h1>
+                <p class="text-xl">{{ page.hero_description }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+
+
     
     <!-- NAVBAR -->
     <div class="absolute top-0 left-0 right-0 z-10 bg-white opacity-75">

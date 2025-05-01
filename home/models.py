@@ -36,10 +36,10 @@ class SvgIcon(models.Model):
     icon = models.TextField(help_text="Paste full inline SVG code here.")
 
 
-    panels = [
-        FieldPanel('name'),
-        FieldPanel('icon'),
-    ]
+    # panels = [
+    #     FieldPanel('name'),
+    #     FieldPanel('icon'),
+    # ]
 
     def __str__(self):
         return self.name
@@ -53,10 +53,10 @@ class ContactMethod(models.Model):
     def __str__(self):
         return self.contact_text
 
-    panels = [
-        FieldPanel('svg_icon'),
-        FieldPanel('contact_text'),
-    ]
+    # panels = [
+    #     FieldPanel('svg_icon'),
+    #     FieldPanel('contact_text'),
+    # ]
 
 
 class GalleryImage(models.Model):
@@ -65,9 +65,9 @@ class GalleryImage(models.Model):
         'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
     )
 
-    panels = [
-        FieldPanel('image'),
-    ]
+    # panels = [
+    #     FieldPanel('image'),
+    # ]
 
 
 class OpeningHour(models.Model):
@@ -75,21 +75,30 @@ class OpeningHour(models.Model):
     day = models.CharField(max_length=9)
     hours = models.CharField(max_length=50)
 
-    panels = [
-        FieldPanel('day'),
-        FieldPanel('hours'),
-    ]
+    # panels = [
+    #     FieldPanel('day'),
+    #     FieldPanel('hours'),
+    # ]
 
 
 # === Main HomePage ===
 
 class HomePage(Page):
+    template = "home/home_page.html"
+    max_count = 1
+    subpage_types = []
+
     # Hero
     hero_title = models.CharField(max_length=255)
     hero_description = models.TextField()
     hero_image = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
+    )
+
+    hero_image_url = models.URLField(
+        blank=True,
+        help_text="Optional. Used only if uploaded image is not provided."
     )
 
         # About
@@ -113,6 +122,7 @@ class HomePage(Page):
             FieldPanel('hero_title'),
             FieldPanel('hero_description'),
             FieldPanel('hero_image'),
+            FieldPanel('hero_image_url'),
         ], heading="Hero Section"),
 
         FieldPanel('about_sections'),
