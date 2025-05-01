@@ -1,0 +1,19 @@
+HTML/CSS
+1. Mobile Navbar slideover
+4. Hero Section Text to be ontop
+
+WAGTAIL
+2. working Contact Form (possibly use Wagtail Forms) with a success message AlpineJS
+5. Models for Hero Section Content
+6. Models for About Section Content
+7. Models for Gallery Section Content
+8. Models for Contact Section Content
+
+9. Recipe Blog
+3. products listing page using Wagtail Pages
+url links for imgs OR allow user to upload images
+
+SETTINGS
+10. env vars for db, minio/s3
+
+use wagtail bakery demo site for reference 
