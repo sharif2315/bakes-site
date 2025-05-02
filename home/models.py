@@ -59,7 +59,7 @@ class ContactMethod(Orderable):
     # ]
 
 
-class GalleryImage(models.Model):
+class GalleryImage(Orderable):
     page = ParentalKey('home.HomePage', related_name='gallery_images')
     image = models.ForeignKey(
         'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
@@ -124,7 +124,8 @@ class HomePage(Page):
             FieldPanel('hero_image'),
             FieldPanel('hero_image_url'),
         ], heading="Hero Section"),
-
+        
+        # About
         FieldPanel('about_sections'),
 
         # Gallery
