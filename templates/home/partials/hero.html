@@ -6,24 +6,43 @@
     {% comment %} <img src="{{ hero_image.url }}" alt="{{ page.hero_image.title }}"> {% endcomment %}
     {% comment %} <p>{{ hero_image.url }}</p> {% endcomment %}
 
-    <div
-        style="background-image: url({{ hero_image.url }})" 
-        class="h-screen bg-cover bg-center bg-no-repeat bg-black opacity-50 flex justify-center items-center">
-        <div class="flex flex-col gap-3 justify-center items-center px-14">
+
+    <div class="relative h-screen flex justify-center items-center">
+        <!-- Background Image -->
+        <div
+            class="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+            style="background-image: url({{ hero_image.url }})" 
+        ></div>
+    
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
+    
+        <!-- Hero Text -->
+        <div class="relative z-20 flex flex-col gap-3 justify-center items-center px-14 text-white">
             <h1 class="text-7xl">{{ page.hero_title }}</h1>
             <p class="text-xl">{{ page.hero_description }}</p>
         </div>
     </div>
 
+
 {% elif page.hero_image_url %}
     {% comment %} <img src="{{ page.hero_image_url }}" alt="Hero image from URL"> {% endcomment %}
     {% comment %} <p>{{ page.hero_image_url }}</p> {% endcomment %}
-    <div
-        style="background-image: url({{ page.hero_image_url }})" 
-        class="h-screen bg-cover bg-center bg-no-repeat bg-black opacity-50 flex justify-center items-center">
-        <div class="flex flex-col gap-3 justify-center items-center px-14">
+    <div class="relative h-screen flex justify-center items-center">
+        <!-- Background Image -->
+        <div
+            class="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+            style="background-image: url({{ page.hero_image_url }})"
+        ></div>
+    
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
+    
+        <!-- Hero Text -->
+        <div class="relative z-10 flex flex-col gap-3 justify-center items-center px-14 text-white">
             <h1 class="text-7xl">{{ page.hero_title }}</h1>
             <p class="text-xl">{{ page.hero_description }}</p>
         </div>
     </div>
+    
 {% endif %}
