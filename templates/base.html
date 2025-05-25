@@ -1,3 +1,4 @@
+{% load django_browser_reload %}
 {% load static wagtailcore_tags wagtailuserbar %}
 
 <!DOCTYPE html>
@@ -26,6 +27,7 @@
         {# Global stylesheets #}
         {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/output.css' %}"> {% endcomment %}
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        
 
 
         {% block extra_css %}
@@ -47,5 +49,7 @@
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
         {% endblock %}
+
+        {% django_browser_reload_script %}
     </body>
 </html>
