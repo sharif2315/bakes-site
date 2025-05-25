@@ -8,13 +8,18 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
 from blog import urls as recipe_urls
-
+from products import urls as product_urls
 urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+    
+    # Recipe URLs
     path("", include(recipe_urls)),
+    
+    # Product URLs
+    path("", include(product_urls)),
     
 ]
 

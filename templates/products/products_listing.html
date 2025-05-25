@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="flex justify-center mx-4 my-8">
+    <div class="max-w-7xl">
+
+        <h1 class="text-4xl font-semibold tracking-wide mb-10 text-gray-800">Products</h1>
+
+        <!-- Blogposts  -->
+        <div class="mb-20">
+        
+            <!-- grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+            
+                {% for _ in times %}
+
+                <!-- product card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                    <div class="w-[245px] h-[367px]">
+                        <img 
+                        class="w-full h-auto overflow-hidden rounded-md" 
+                        src="https://www.janespatisserie.com/wp-content/uploads/2020/04/IMG_0744_1-667x1000.jpg"
+                        alt="">
+                    </div>
+
+                    <!-- name, price -->
+                        <div class="grid gap-2 py-2">
+                            <h3 class="text-gray-600 text-sm">Courgette and Lime Cake</h3>
+                            <p class="text-lg font-bold">£6.99</p>
+
+                        </div>
+                        
+                </div>
+                
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}
