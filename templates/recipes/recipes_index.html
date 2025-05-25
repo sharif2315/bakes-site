@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="flex justify-center mx-4 my-8">
+    <div class="max-w-7xl">
+
+        <h1 class="text-4xl font-semibold tracking-wide mb-10 text-gray-800">My Recipes</h1>
+
+        <!-- featured blog post -->
+        <div class="mb-8">
+            <!-- blog post grid -> img & textblock -->
+             <div class="grid lg:grid-cols-3 bg-gray-100 shadow-sm rounded-sm overflow-hidden">
+                
+                <!-- image -->
+                 <div class="col-span-1 md:col-span-2">
+                    <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/ginger_sponge_cake_51697_16x9.jpg" alt="">
+                 </div>
+
+                 <!-- textblock -->
+                  <div class="col-span-1">
+                    <div class="p-4 grid gap-4">
+                        <h1 class="text-3xl font-semibold tracking-wide">Easy ginger cake</h1>
+                        <p>
+                            This easy ginger traybake cake is sticky, sweet and subtly spiced but still fluffy. It's the perfect tea-time treat for the colder months.
+                        </p>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                        </p>
+                    </div>
+                  </div>
+
+             </div>
+        </div>
+
+        <!-- Blogposts  -->
+         <div class="mb-20">
+            
+            <!-- grid -->
+             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+                
+                {% for _ in times %}
+                
+                <!-- HIDDEN - blogpost card -->
+                <div class="hidden rounded-sm overflow-hidden border border-neutral-200/60 bg-gray-50 text-neutral-700 shadow-sm">
+
+                    <!-- image -->
+                     <div>
+                         <img 
+                            class="_block _w-full _bg-cover w-full h-auto" 
+                            src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg" 
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 p-4">
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+
+
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="w-full h-auto" 
+                            src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg" 
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Baking</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                
+                {% endfor %}
+                
+
+
+             </div>
+         </div>
+
+    </div>
+
+</div>
+{% endblock content %}
