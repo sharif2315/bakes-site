@@ -8,6 +8,7 @@ class RecipeIndex(Page):
     max_count = 1
     template = "recipes/recipes_index.html"
     # subpage_types = ['blog.RecipePage']
+    parent_page_types = ['home.HomePage']
 
     subtitle = models.CharField(max_length=100, blank=True)
     description = RichTextField(

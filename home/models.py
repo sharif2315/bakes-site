@@ -86,7 +86,7 @@ class OpeningHour(Orderable):
 class HomePage(Page):
     template = "home/home_page.html"
     max_count = 1
-    subpage_types = []
+    # subpage_types = ['blog.RecipeIndex']
 
     # Hero
     hero_title = models.CharField(max_length=255)
