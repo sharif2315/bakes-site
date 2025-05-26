@@ -6,15 +6,8 @@
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
 
-        <!-- Title,  Reviews, Ratings -->
-        <div class="flex flex-col gap-3">
-            <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">Mary Berry's easy Victoria sponge</h1>
-            <!-- Reviews, and Ratings -->
-            <div>
-                4 stars 4.1 | 424 ratings
-            </div>
-            <p class="font-bold tracking-wide">Rate this recipe</p>
-        </div>
+        <!-- Title -->
+        <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
     
         <!-- Hero Image and Recipe Summary -->
         <div class="py-4 grid md:grid-cols-4 gap-6 md:gap-5 max-w-[70rem]">
@@ -25,36 +18,28 @@
             </div>
             
             <!-- Instructions Summary -->
-            <div class="col-span-1 flex flex-col gap-4 lg:gap-6 mb-10">
-
-                <div class="w-full sm:max-w-xs _md:w-full px-2 py-1 border-2 flex justify-center">
-                    <p class="lg:text-xl font-semibold tracking-wide">+ Save to My Food</p>
-                </div>
+            <div class="col-span-1 flex flex-col gap-4 lg:gap-6 mb-6">
 
                 <div class="grid grid-cols-2 md:grid-cols-1 gap-5">
 
                     <div class="grid gap-1">
                         <p class="font-bold text-lg">Prepare</p>
-                        <p>Less than 30 mins</p>
+                        <p>{{ page.prepare }}</p>
                     </div>
 
                     <div class="grid gap-1">
                         <p class="font-bold text-lg">Cook</p>
-                        <p>10 - 30 mins</p>
+                        <p>{{ page.cook }}</p>
                     </div>
     
-                    <div class="grid gap-1">
+                    <div class="flex flex-col gap-1">
                         <p class="font-bold text-lg">Serve</p>
-                        <p>Serves 12</p>
+                        <p>{{ page.serves }}</p>
                     </div>
     
                     <div class="grid gap-1">
                         <p class="font-bold text-lg">Dietary</p>
-                        <div class="flex _flex-col gap-2">
-                            <p>Nutfree</p>
-                            <p>Halal</p>
-                            <p>Vegetarian</p>
-                        </div>
+                        <p>{{ page.dietary_info }}</p>
                     </div>
 
                 </div>

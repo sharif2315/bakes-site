@@ -3,6 +3,7 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import FieldPanel
 
+rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
 
 class RecipeIndex(Page):
     max_count = 1
@@ -13,7 +14,8 @@ class RecipeIndex(Page):
     subtitle = models.CharField(max_length=100, blank=True)
     description = RichTextField(
         blank=True,
-        features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
+        features=rt_features,
+        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
     )
 
     content_panels = Page.content_panels + [
@@ -21,3 +23,71 @@ class RecipeIndex(Page):
         FieldPanel('description'),
     ]
 
+
+
+class RecipePage(Page):
+    parent_page_types = ['blog.RecipeIndex']
+    subpage_types = []  # No subpages allowed
+    template = "recipes/recipe_post.html"
+
+    main_image = models.ForeignKey(
+        'wagtailimages.Image', null=True, blank=True,
+        on_delete=models.SET_NULL, related_name='+'
+    )
+
+    description = RichTextField(
+        blank=True,
+        features=rt_features,
+        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
+    )
+
+    prepare = models.CharField(
+        max_length=100, 
+        blank=True, 
+        help_text="Preparation time"
+    )
+    cook = models.CharField(
+        max_length=100, 
+        blank=True, 
+        help_text="Cooking time"
+    )
+    serves = models.CharField(
+        max_length=100, 
+        blank=True, 
+        help_text="Number of servings"
+    )
+
+    # TODO: Replace with a choice field or a more structured field
+    dietary_info = models.CharField(
+        max_length=100, 
+        blank=True, 
+        help_text="Dietary information (e.g., vegan, gluten-free)"
+    )
+
+    ingredients = RichTextField(
+        blank=True,
+        features=rt_features,
+        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
+    )
+    method = RichTextField(
+        blank=True,
+        features=rt_features,
+        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
+    )
+    recipe_tips = RichTextField(
+        blank=True,
+        features=rt_features,
+        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
+    )
+    
+    content_panels = Page.content_panels + [
+        FieldPanel('main_image'),
+        FieldPanel('description'),
+        FieldPanel('prepare'),
+        FieldPanel('cook'),
+        FieldPanel('serves'),
+        FieldPanel('dietary_info'),
+        FieldPanel('ingredients'),
+        FieldPanel('method'),
+        FieldPanel('recipe_tips'),
+    ]
