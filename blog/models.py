@@ -17,9 +17,16 @@ class RecipeIndex(Page):
         features=rt_features,
     )
 
+    featured_recipe = models.ForeignKey(
+        'blog.RecipePage', null=True, blank=True,
+        on_delete=models.SET_NULL, related_name='+',
+        help_text="Featured recipe to display on the Recipes Index page"
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
         FieldPanel('description'),
+        FieldPanel('featured_recipe'),
     ]
 
     def get_context(self, request):
