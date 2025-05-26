@@ -356,6 +356,9 @@
   .mb-10 {
     margin-bottom: calc(var(--spacing) * 10);
   }
+  .mb-12 {
+    margin-bottom: calc(var(--spacing) * 12);
+  }
   .mb-20 {
     margin-bottom: calc(var(--spacing) * 20);
   }
@@ -761,6 +764,9 @@
   }
   .uppercase {
     text-transform: uppercase;
+  }
+  .italic {
+    font-style: italic;
   }
   .opacity-0 {
     opacity: 0%;

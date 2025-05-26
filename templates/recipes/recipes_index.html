@@ -5,7 +5,19 @@
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
 
-        <h1 class="text-4xl font-semibold tracking-wide mb-10 text-gray-800">My Recipes</h1>
+        <div>
+            <h1 class="text-4xl mb-2 font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
+    
+            {% if page.subtitle %}
+                <p class="text-xl">{{ page.subtitle }}</p>
+            {% endif %}
+    
+            {% if page.description %}
+                <p class="text-gray-600 mb-8">
+                    {{ page.description }}
+                </p>
+            {% endif %}
+        </div>
 
         <!-- featured blog post -->
         <div class="mb-8">
@@ -40,6 +52,7 @@
              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
                 
                 {% for _ in times %}
+                {% endfor %}
                 <!-- blogpost card -->
                 <div class="text-neutral-700 mb-4">
 
@@ -67,7 +80,277 @@
                      </div>
                      
                 </div>
-                {% endfor %}
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+                <!-- blogpost card -->
+                <div class="text-neutral-700 mb-4">
+
+                    <!-- image -->
+                     <div class="overflow-hidden rounded-md">
+                         <img 
+                            class="border border-gray-100 w-full h-auto _w-[245px] _h-[367px]" 
+                            {% comment %} src="https://ichef.bbci.co.uk/food/ic/food_16x9_608/recipes/courgette_and_lime_cake_22773_16x9.jpg"  {% endcomment %}
+                            src="https://www.sugarsaltmagic.com/wp-content/uploads/2022/02/Sponge-Tray-Bake-8FEAT.jpg"
+                            alt="">
+                    </div>
+
+                    <!-- title, description -->
+                     <div class="grid gap-2 py-2">
+                        <div class="flex justify-between">
+                            <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
+                            {% comment %} <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">25 mins</p> {% endcomment %}
+                            <p class="text-gray-500 text-sm">25 mins</p>
+
+                        </div>
+                        <h3 class="text-gray-600 font-bold">Courgette and Lime Cake</h3>
+                        <p class="text-sm">
+                            Contrary to popular belief, Lorem Ipsum is not simply random text.
+                        </p>                            
+                     </div>
+                     
+                </div>
+
                 
 
 
