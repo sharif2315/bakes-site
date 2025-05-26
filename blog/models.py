@@ -15,7 +15,6 @@ class RecipeIndex(Page):
     description = RichTextField(
         blank=True,
         features=rt_features,
-        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
     )
 
     content_panels = Page.content_panels + [
@@ -23,12 +22,25 @@ class RecipeIndex(Page):
         FieldPanel('description'),
     ]
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['recipes'] = RecipePage.objects.live().order_by('-first_published_at') #[:3] for paging
+        return context
+
 
 
 class RecipePage(Page):
     parent_page_types = ['blog.RecipeIndex']
     subpage_types = []  # No subpages allowed
     template = "recipes/recipe_post.html"
+
+    # TODO: Add Tags
+
+    summary = models.CharField(
+        max_length=255, 
+        blank=True, 
+        help_text="A brief summary of the recipe"
+    )
 
     main_image = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
@@ -38,7 +50,6 @@ class RecipePage(Page):
     description = RichTextField(
         blank=True,
         features=rt_features,
-        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
     )
 
     prepare = models.CharField(
@@ -51,6 +62,8 @@ class RecipePage(Page):
         blank=True, 
         help_text="Cooking time"
     )
+    # TODO: Update template to dispay prepare and cook times correctly
+    # TODO: Add category field with choices
     serves = models.CharField(
         max_length=100, 
         blank=True, 
@@ -67,20 +80,18 @@ class RecipePage(Page):
     ingredients = RichTextField(
         blank=True,
         features=rt_features,
-        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
     )
     method = RichTextField(
         blank=True,
         features=rt_features,
-        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
     )
     recipe_tips = RichTextField(
         blank=True,
         features=rt_features,
-        # features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
     )
     
     content_panels = Page.content_panels + [
+        FieldPanel('summary'),
         FieldPanel('main_image'),
         FieldPanel('description'),
         FieldPanel('prepare'),
@@ -91,3 +102,4 @@ class RecipePage(Page):
         FieldPanel('method'),
         FieldPanel('recipe_tips'),
     ]
+

@@ -8,13 +8,18 @@
 
         <!-- Title -->
         <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
+        <p>{{ page.summary }}</p>
     
         <!-- Hero Image and Recipe Summary -->
         <div class="py-4 grid md:grid-cols-4 gap-6 md:gap-5 max-w-[70rem]">
             
             <!-- Hero Image -->
             <div class="cols-span-1 md:col-span-3">
-                <img src="https://ichef.bbc.co.uk/ace/standard/1600/food/recipes/mary_berrys_perfect_34317_16x9.jpg.webp" alt="Victoria Sponge Cake">
+                {% image page.main_image original as feature_image %}
+                <img 
+                    src="{{ feature_image.url }}"
+                    alt="Victoria Sponge Cake"
+                >
             </div>
             
             <!-- Instructions Summary -->
@@ -44,22 +49,16 @@
 
                 </div>
 
-
-
-
             </div>
     
         </div>
 
         <!-- SUMMARY - use RichText field-->
+         {% if page.description %}
          <div class="flex flex-col gap-3 mb-8 max-w-3xl">
-            <p>
-                Mary Berry's easy Victoria sponge cake recipe is a baking classic and a tasty tea-time treat.
-            </p>
-            <p>
-                Each serving provides 501 kcal, 5g protein, 50g carbohydrates (of which 36g sugars), 31g fat (of which 19g saturates), 0.8g fibre and 0.8g salt (serving with 300g of jam and 300ml cream). 
-            </p>
+            {{ page.description | richtext }}
          </div>
+         {% endif %}
 
          <!-- CONTAINER -> INGREDIENTS & METHOD -->
           <div class="grid md:grid-cols-8 gap-10 md:gap-3 mb-10">
