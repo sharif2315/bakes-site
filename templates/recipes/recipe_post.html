@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
 
@@ -67,37 +67,16 @@
             <!-- INGREDIENTS -->
             <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
                 <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
-
-                <p>4 free-range eggs</p>
-                <p>225g/8oz caster sugar, plus a little extra for dusting the finished cake</p>
-                <p>225g/8oz self-raising flour</p>
-                <p>2 tsp baking powder</p>
-                <p>225g/8oz baking spread at room temperature, plus a little extra to grease the tins</p>
-                <h2 class="font-bold">To serve</h2>
-                <p>good-quality strawberry or raspberry jam</p>
-                <p>whipped double cream (optional)</p>
+                {{ page.ingredients|richtext }}
             </div>
 
 
             <!-- METHOD -->
              <div class="md:pl-4 md:col-span-5">
-                <h1 class="text-2xl font-bold tracking-wide mb-3">Method</h1>
-                <ol class="grid gap-3">
-                    <li>Preheat the oven to 180C/160C Fan/Gas 4. Grease and line two 20cm/8in sandwich tins.</li>
-
-                    <li>Break the eggs into a large mixing bowl, then add the sugar, flour, baking powder and butter. </li>Mix together until well combined with an electric hand mixer (you can also use a wooden spoon), but be careful not to over mix. Put a damp cloth under your bowl when you’re mixing to stop it moving around. The finished mixture should fall off a spoon easily.
-
-                    <li>Divide the mixture evenly between the tins: this doesn’t need to be exact, but you can weigh the filled tins if you want to check. Use a spatula to remove all of the mixture from the bowl and gently smooth the surface of the cakes. </li>
-
-                    <li>Bake the cakes on the middle shelf of the oven for 25 minutes. Check them after 20 minutes. The cakes are done when they are golden-brown and coming away from the edge of the tins. Press them gently to check. They should be springy to the touch.</li>
-
-                    <li>Set aside to cool in their tins for 5 minutes. Run a palette or rounded butter knife around the nside edge of the tins and carefully turn the cakes out onto a cooling rack.</li>
-
-                    <li>To assemble the cake, place one cake upside down onto a plate and spread it with plenty of jam. If you want to, you can spread over whipped cream too.</li>
-
-                    <li>Top with the second cake, top-side up. Sprinkle over the caster sugar.</li>
-                </ol>
-
+                <div class="flex flex-col gap-3">
+                    <h1 class="text-2xl font-bold tracking-wide mb-3">Method</h1>
+                    {{ page.method | richtext}}
+                </div>
              </div>
 
           </div>
@@ -105,21 +84,7 @@
           <!-- RECIPE TIPS -->
           <div class="flex flex-col gap-3 bg-gray-100 p-6 rounded-sm">
             <h1 class="text-2xl font-bold">Recipe tips</h1>
-            <p>Baking spread is a margarine that is suitable for baking. Check the label. You can use softened butter as well.</p>
-
-            <p>To freeze the cakes: Allow the cakes to cool completely, then wrap each cake well in cling film or freezer bags. Freeze for up to 6 months. Allow to defrost thoroughly before filling.</p>
-
-            <p>To ensure your cakes are perfectly matched, weigh the batter in the tins as you fill them so that they contain the same amount.</p>
-
-            <p>To take your cakes out of the tins without leaving a wire rack mark on the top, put the clean tea towel over the tin, put your hand onto the tea towel and turn the tin upside-down. The cakes should come out onto your hand and the tea towel – then you can turn them from your hand onto the wire rack. Set aside to cool completely.</p>
-
-            <p>If you find your sponge cakes always have a big dome in the middle, your oven probably runs a bit hot (it's not unusual for the temperature in the oven to vary significantly from what's on the dial). Try reducing the temperature by 10C.</p>
-
-            <p>All-in-one methods like Mary favours are very simple, but it is even more important that your butter is at the right temperature or it won't combine easily with the other ingredients. If you need to soften your butter quickly watch the technique video below. It's particulary useful on cold days when butter stays hard at room temperature.</p>
-
-            <p>Many experienced bakers swear by using baking spread instead of butter. It has the advantage of being usuable straight from the fridge and makes lovely light cakes. Butter is generally considered to taste better though and it is in these very simple cakes that you are most likely to notice the difference.</p>
-
-            <p>If you prefer a buttercream filling in your sponge cakes try Mary's recipe for a Victoria Sandwich with buttercream.</p>
+            {{ page.recipe_tips | richtext }}
           </div>
 
     </div>
