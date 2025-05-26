@@ -29,7 +29,13 @@
                 </a>
                 <ul class="hidden sm:flex gap-8 tracking-wide">
                     <li class="hover:text-gray-500"><a href="/products">Products</a></li>
-                    <li class="hover:text-gray-500"><a href="/recipes">Recipes</a></li>
+
+                    {% if recipe_index %}
+                    <li class="hover:text-gray-500">
+                        <a href="{{ recipe_index.url }}">Recipes</a>
+                    </li>
+                    {% endif %}
+                  
                     <li class="hover:text-gray-500"><a href="#about">About</a></li>
                     <li class="hover:text-gray-500"><a href="#contact">Contact</a></li>
                 </ul>

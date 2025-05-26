@@ -143,3 +143,17 @@ class HomePage(Page):
         # Opening Hours
         InlinePanel('opening_hours', label="Opening Hours", max_num=7),
     ]
+
+    # # get Recipe Index url if exists
+    # def get_recipe_index(self):
+    #     from blog.models import RecipeIndex
+    #     try:
+    #         return RecipeIndex.objects.get(parent=self)
+    #     except RecipeIndex.DoesNotExist:
+    #         return None
+
+    # def get_context(self, request):
+    #     context = super().get_context(request)
+    #     context['recipe_index'] = self.get_recipe_index()
+    #     return context
+
