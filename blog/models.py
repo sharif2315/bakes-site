@@ -1,7 +1,12 @@
 from django.db import models
 from wagtail.models import Page
-from wagtail.fields import RichTextField, StreamField
+from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
+
+from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase
+
 
 rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
 
@@ -34,6 +39,13 @@ class RecipeIndex(Page):
         context['recipes'] = RecipePage.objects.live().order_by('-first_published_at') #[:3] for paging
         return context
 
+
+class RecipePageTags(TaggedItemBase):
+    content_object = ParentalKey(
+        'blog.RecipePage',
+        related_name='tagged_items',
+        on_delete=models.CASCADE,
+    )
 
 
 class RecipePage(Page):
@@ -96,10 +108,17 @@ class RecipePage(Page):
         blank=True,
         features=rt_features,
     )
+
+    tags = ClusterTaggableManager(
+        through=RecipePageTags,
+        blank=True,
+        help_text="A list of tags to categorize the recipe post.",
+    )
     
     content_panels = Page.content_panels + [
         FieldPanel('summary'),
         FieldPanel('main_image'),
+        FieldPanel('tags'),
         FieldPanel('description'),
         FieldPanel('prepare'),
         FieldPanel('cook'),
