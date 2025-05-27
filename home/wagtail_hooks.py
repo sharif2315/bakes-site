@@ -7,7 +7,7 @@ from .models import SvgIcon
 @register_snippet
 class TagSnippetViewSet(SnippetViewSet):
     model = SvgIcon
-    icon = "tag"
+    # icon = "tag"
     add_to_admin_menu = True
     menu_label = "SVG Icons"
     menu_order = 200
