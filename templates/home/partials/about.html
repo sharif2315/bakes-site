@@ -12,13 +12,20 @@
         </div>
 
         {% if block.value.features %}
+        <ul>
             {% for feature in block.value.features %}
-                <p>{{ feature.value.title }}</p>
-                <p>{{ feature.value.description }}</p>
+                <li>
+                    <h3>{{ feature.title }}</h3>
+                    <p>{{ feature.description }}</p>
+                    <span>{{ feature.svg_icon }}</span>
+                </li>
             {% endfor %}
-        {% else %}
-                <p>No features available</p>
-        {% endif %}
+        </ul>
+    {% else %}
+        <p>No features available</p>
+    {% endif %}
+    
+    
         
     {% endif %}
 {% endfor %}
@@ -45,8 +52,13 @@
                         {% endif %}
                     </div>
 
+
+                    {% if block.value.features %}
+                    {% for feature in block.value.features %}
+
                     <!-- Features - [ svg_icon, title, description ] - [1] -->
                     <div class='flex gap-8 sm:gap-4'>
+
                         <div class='flex justify-center items-center'>
                             <div class='p-3 bg-pink-400/50 rounded-full shadow-md'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -61,16 +73,20 @@
                                 </svg>
                             </div>
                         </div>
+
                         <div class='flex flex-col gap-2'>
-                            <h2 class='font-bold text-xl'>Organic and Healthy Delights</h2>
-                            <p class='text-md'>Savor our guilt-free desserts crafted with organic ingredients for a delectable
-                                and
-                                healthy experience</p>
+                            {% if feature.title %}
+                            <h2 class='font-bold text-xl'>{{ feature.title }}</h2>
+                            {% endif %}
+                            {% if feature.description %}
+                            <p class='text-md'>{{ feature.description }}</p>
+                            {% endif %}
                         </div>
                     </div>
 
+
                     <!-- Features - [ svg_icon, title, description ] - [2] -->
-                    <div class='flex gap-8 sm:gap-4'>
+                    {% comment %} <div class='flex gap-8 sm:gap-4'>
                         <div class='flex justify-center items-center'>
                             <div class='p-3 bg-pink-400/50 rounded-full shadow-md'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -89,10 +105,10 @@
                             <p class='text-md'>Immerse yourself in desserts that embody exceptional taste and uncompromising
                                 quality at every bite</p>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
 
                     <!-- Features - [ svg_icon, title, description ] - [3] -->
-                    <div class='flex gap-8 sm:gap-4'>
+                    {% comment %} <div class='flex gap-8 sm:gap-4'>
                         <div class='flex justify-center items-center'>
                             <div class='p-3 bg-pink-400/50 rounded-full shadow-md'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -113,7 +129,10 @@
                             <p class='text-md'>Explore our dessert creations that tantalize the palate with innovative flavors
                                 and impeccable craftsmanship</p>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
+
+                    {% endfor %}
+                    {% endif %}
 
 
                 </div>
