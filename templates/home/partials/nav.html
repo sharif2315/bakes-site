@@ -28,7 +28,12 @@
                     <div>Richmond Bakes</div>
                 </a>
                 <ul class="hidden sm:flex gap-8 tracking-wide">
-                    <li class="hover:text-gray-500"><a href="/products">Products</a></li>
+
+                    {% if product_listing %}
+                    <li class="hover:text-gray-500">
+                        <a href="{{ product_listing.url }}">Products</a>
+                    </li>
+                    {% endif %}
 
                     {% if recipe_index %}
                     <li class="hover:text-gray-500">
