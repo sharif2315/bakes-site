@@ -5,7 +5,8 @@ from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
 
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
+
 
 
 class ProductListing(Page):
@@ -54,15 +55,15 @@ class DietaryOption(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(Page):
     parent_page_types = ['products.ProductListing']
     subpage_types = []
     template = "products/product_detail.html"
 
-    description = RichTextField(blank=True, features=['h2', 'h3', 'bold', 'italic'])
+    description = RichTextField(blank=False, features=['h2', 'h3', 'bold', 'italic'])
     price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    dietary_options = models.ManyToManyField(
+    dietary_options = ParentalManyToManyField(
         "products.DietaryOption", 
         blank=True,
         related_name="products"
