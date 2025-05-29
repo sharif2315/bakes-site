@@ -2,9 +2,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 
-
 {% block content %}
-
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
 
@@ -24,34 +22,33 @@
                     <h3 class="block sm:hidden uppercase tracking-wider text-sm">Category Name</h3>
                     <h2 class="block sm:hidden  text-2xl font-semibold">{{ page.title }}</h2>
                     <p class="block sm:hidden text-2xl md:text-3xl font-bold">£{{ page.price }}</p>
+                
 
+                {% with first_image=page.product_images.all|first %}
                 <!-- images block -->
                 <div class="mt-4 sm:mt-0">
                     <!-- main image -->
+                    {% image first_image.image original as product_image %}
                     <img class="w-full h-auto  overflow-hidden rounded-md"
-                            src="https://www.paul-uk.com/media/catalog/product/c/a/cake_resizes.png"
+                            src="{{ product_image.url }}"
                             alt=""
                     >
+
                     <!-- all images -->
                     <div class="grid grid-cols-3 gap-2 mt-4">
-                        <img 
-                            class="rounded-md hover:cursor-pointer hover:opacity-75" 
-                            src="https://www.paul-uk.com/media/catalog/product/c/a/cake_resizes.png"
-                            alt=""
-                        >
-                        <img 
-                            class="rounded-md hover:cursor-pointer hover:opacity-75" 
-                            src="https://www.paul-uk.com/media/catalog/product/c/a/cake_resizes.png"
-                            alt=""
-                        >
-                        <img 
-                            class="rounded-md hover:cursor-pointer hover:opacity-75" 
-                            src="https://www.paul-uk.com/media/catalog/product/c/a/cake_resizes.png"
-                            alt=""
-                        >
+                        {% for image_obj in page.product_images.all %}
 
+                        {% image image_obj.image original as product_image %}
+                        <img 
+                            class="rounded-md hover:cursor-pointer hover:opacity-75" 
+                            src="{{ product_image.url }}"
+                            alt=""
+                        >
+                        {% endfor %}
                     </div>
                 </div>
+                {% endwith %}
+
 
                 <!-- overview block -->
                  <div class="px-6 flex flex-col mt-6 md:mt-0">
