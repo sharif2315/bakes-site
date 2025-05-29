@@ -11,9 +11,10 @@ class TagSnippetViewSet(SnippetViewSet):
     add_to_admin_menu = True
     menu_label = "Dietary Options"
     menu_order = 200
-    list_display = ["name", "description"]
+    list_display = ["name", "description", "colour"]
     search_fields = ["name",]
     panels = [
         FieldPanel("name"),
         FieldPanel("description"),
+        FieldPanel("colour"),
     ]

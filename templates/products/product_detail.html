@@ -5,22 +5,6 @@
 
 {% block content %}
 
-{% with options=page.dietary_options.all %}
-  {% if options %}
-    <ul>
-      {% for option in options %}
-        <li>{{ option.name }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <div class="flex justify-center items-center gap-2 mb-6 text-sm text-gray-700">
-        <p>No dietary options available.</p>
-    </div>
-  {% endif %}
-{% endwith %}
-
-
-
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
 
@@ -77,9 +61,9 @@
 
                     {% with options=page.dietary_options.all %}
                         {% if options %}
-                            <div class="flex gap-2 mt-4">
+                            <div class="flex flex-wrap gap-2 mt-4">
                                 {% for option in options %}
-                                    <p class="bg-[#70AE46] text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide">{{ option.name }}</p>
+                                    <p class="bg-{{ option.colour }}-600 text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide">{{ option.name }}</p>
                                 {% endfor %}
                             </div>    
                         {% endif %}
