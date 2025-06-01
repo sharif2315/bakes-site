@@ -48,6 +48,16 @@ class ProductImage(models.Model):
         return f"Image for {self.product.title}"
 
 
+class ProductCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True, help_text="Description of the product category")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Product Categories"
+
 class DietaryOption(models.Model):
     COLOUR_CHOICES = [
         ("#e7000b", "Red"),
@@ -78,10 +88,17 @@ class Product(Page):
         blank=True,
         related_name="products"
     )
+    category = models.ForeignKey(
+        'products.ProductCategory', 
+        null=True, blank=True, 
+        on_delete=models.SET_NULL, 
+        related_name='products'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('description'),
         FieldPanel('price'),
+        FieldPanel('category'),
         FieldPanel("dietary_options", widget=forms.CheckboxSelectMultiple),
         InlinePanel('product_images', label="Product Images", min_num=1, max_num=3),
     ]

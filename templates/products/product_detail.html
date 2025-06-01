@@ -57,7 +57,9 @@
 
                 <!-- overview block -->
                  <div class="px-6 flex flex-col mt-6 md:mt-0">
-                    <h3 class="hidden sm:block uppercase tracking-wider text-sm">Category Name</h3>                    
+                    {% if page.category %}
+                    <h3 class="hidden sm:block uppercase tracking-wider text-sm">{{ page.category.name }}</h3>
+                    {% endif %}
                     <h2 class="hidden sm:block  text-2xl font-semibold mt-2">{{ page.title }}</h2>
                     <p class="hidden sm:block  text-3xl font-bold mt-4">£{{ page.price }}</p>
 
