@@ -50,12 +50,13 @@ class ProductImage(models.Model):
 
 class DietaryOption(models.Model):
     COLOUR_CHOICES = [
-        ("red", "Red"),
-        ("green", "Green"),
-        ("orange", "Orange"),
-        ("blue", "Blue"),
-        ("purple", "Purple"),
-        ("gray", "Gray"),
+        ("#e7000b", "Red"),
+        ("#5ea500", "Green"),
+        ("#ff8904", "Orange"),
+        ("#51a2ff", "Blue"),
+        ("#c27aff", "Purple"),
+        ("#fda5d5", "Pink"),
+        ("#99a1af", "Gray"),
     ]
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, help_text="Optional description of the dietary option (e.g. Vegan, Gluten-Free)")

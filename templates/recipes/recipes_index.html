@@ -57,7 +57,7 @@
      
                          <!-- image -->
                           <div class="overflow-hidden rounded-md">
-                            {% image recipe.main_image original as recipe_image %}
+                            {% image recipe.main_image fill-300x300 as recipe_image %}
                               <img 
                                  class="border border-gray-100 w-full h-auto" 
                                  src="{{recipe_image.url}}"

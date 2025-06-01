@@ -23,7 +23,7 @@
                         <div class="w-[245px] h-[367px]">
                             {% with first_image=product.product_images.all|first %}
                                 {% if first_image %}
-                                    {% image first_image.image original as product_image %}
+                                    {% image first_image.image fill-400x400 as product_image %}
                                     <img 
                                     class="w-full h-auto overflow-hidden rounded-md" 
                                     src="{{ product_image.url }}"
