@@ -355,9 +355,6 @@
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
-  .h-\[367px\] {
-    height: 367px;
-  }
   .h-auto {
     height: auto;
   }
@@ -378,9 +375,6 @@
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
-  }
-  .w-\[245px\] {
-    width: 245px;
   }
   .w-full {
     width: 100%;

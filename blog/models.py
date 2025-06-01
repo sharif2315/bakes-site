@@ -1,12 +1,12 @@
 from django.db import models
+from django import forms
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
-
-from modelcluster.fields import ParentalKey
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
-
+from products.models import DietaryOption
 
 rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
 
@@ -53,24 +53,26 @@ class RecipePage(Page):
     subpage_types = []  # No subpages allowed
     template = "recipes/recipe_post.html"
 
-    # TODO: Add Tags
-
     summary = models.CharField(
         max_length=255, 
         blank=True, 
         help_text="A brief summary of the recipe"
     )
-
     main_image = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
     )
-
     description = RichTextField(
         blank=True,
         features=rt_features,
     )
-
+    category = models.ForeignKey(
+        'products.Category', 
+        null=True, blank=True, 
+        on_delete=models.SET_NULL, 
+        related_name='recipes',
+        help_text="Category of the recipe",
+    )
     prepare = models.CharField(
         max_length=100, 
         blank=True, 
@@ -82,20 +84,17 @@ class RecipePage(Page):
         help_text="Cooking time"
     )
     # TODO: Update template to dispay prepare and cook times correctly
-    # TODO: Add category field with choices
     serves = models.CharField(
         max_length=100, 
         blank=True, 
         help_text="Number of servings"
     )
-
-    # TODO: Replace with a choice field or a more structured field
-    dietary_info = models.CharField(
-        max_length=100, 
-        blank=True, 
-        help_text="Dietary information (e.g., vegan, gluten-free)"
+    dietary_options = ParentalManyToManyField(
+        DietaryOption, 
+        blank=True,
+        related_name="recipes",
+        help_text="Dietary options applicable to this recipe"
     )
-
     ingredients = RichTextField(
         blank=True,
         features=rt_features,
@@ -116,14 +115,15 @@ class RecipePage(Page):
     )
     
     content_panels = Page.content_panels + [
+        FieldPanel('category'),
         FieldPanel('summary'),
         FieldPanel('main_image'),
         FieldPanel('tags'),
+        FieldPanel("dietary_options", widget=forms.CheckboxSelectMultiple),
         FieldPanel('description'),
         FieldPanel('prepare'),
         FieldPanel('cook'),
         FieldPanel('serves'),
-        FieldPanel('dietary_info'),
         FieldPanel('ingredients'),
         FieldPanel('method'),
         FieldPanel('recipe_tips'),

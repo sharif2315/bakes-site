@@ -4,9 +4,7 @@ from django import forms
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
-
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
-
 
 
 class ProductListing(Page):
@@ -48,7 +46,7 @@ class ProductImage(models.Model):
         return f"Image for {self.product.title}"
 
 
-class ProductCategory(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, help_text="Description of the product category")
 
@@ -57,6 +55,7 @@ class ProductCategory(models.Model):
 
     class Meta:
         verbose_name_plural = "Product Categories"
+
 
 class DietaryOption(models.Model):
     COLOUR_CHOICES = [
@@ -89,7 +88,7 @@ class Product(Page):
         related_name="products"
     )
     category = models.ForeignKey(
-        'products.ProductCategory', 
+        'products.Category', 
         null=True, blank=True, 
         on_delete=models.SET_NULL, 
         related_name='products'
