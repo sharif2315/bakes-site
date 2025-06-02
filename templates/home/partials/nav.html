@@ -12,8 +12,15 @@
     <!-- Side Nav -->
     <div id="mySidenav" class="sm:hidden fixed top-0 left-0 h-full w-64 bg-gray-900 text-white pt-16 transition-transform duration-500 -translate-x-full z-50">
         <a href="javascript:void(0)" onclick="closeNav()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-white transition duration-300">&times;</a>
-        <a href="#" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">Products</a>
-        <a href="#" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">Recipes</a>
+        
+        {% if product_listing %}
+        <a href="{{ product_listing.url }}" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">{{ product_listing.title }}</a>
+        {% endif %}
+
+        {% if recipe_index %}
+        <a href="{{ recipe_index.url }}" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">{{ recipe_index.title }}</a>
+        {% endif %}
+        
         <a href="#" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">About</a>
         <a href="#" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">Contact</a>
     </div>
@@ -31,13 +38,13 @@
 
                     {% if product_listing %}
                     <li class="hover:text-gray-500">
-                        <a href="{{ product_listing.url }}">Products</a>
+                        <a href="{{ product_listing.url }}">{{ product_listing.title }}</a>
                     </li>
                     {% endif %}
 
                     {% if recipe_index %}
                     <li class="hover:text-gray-500">
-                        <a href="{{ recipe_index.url }}">Recipes</a>
+                        <a href="{{ recipe_index.url }}">{{ recipe_index.title }}</a>
                     </li>
                     {% endif %}
                   
