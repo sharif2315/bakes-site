@@ -6,8 +6,15 @@
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
 
+        <!-- Category -->
+        {% if page.category %}
+        <p class="text-sm uppercase tracking-wide">{{ page.category.name }}</p>
+        {% endif %}
+
         <!-- Title -->
         <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
+
+        <!-- Summary -->
         <p>{{ page.summary }}</p>
     
         <!-- Hero Image and Recipe Summary -->
@@ -18,7 +25,7 @@
                 {% image page.main_image original as feature_image %}
                 <img 
                     src="{{ feature_image.url }}"
-                    alt="Victoria Sponge Cake"
+                    alt="#"
                 >
             </div>
             
@@ -42,8 +49,23 @@
                         <p>{{ page.serves }}</p>
                     </div>
     
-                    <div class="grid gap-1">
-                        <p class="font-bold text-lg">Dietary</p>
+                    <div>
+                        
+                        {% with options=page.dietary_options.all %}
+                        {% if options %}
+                                <p class="font-bold text-lg">Dietary</p>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    {% for option in options %}
+                                        <p 
+                                            style="background-color: {{ option.colour }}" 
+                                            class="text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide"
+                                        >
+                                            {{ option.name }}
+                                        </p>
+                                    {% endfor %}
+                                </div>    
+                            {% endif %}
+                        {% endwith %}
 
                     </div>
 
@@ -66,15 +88,15 @@
             <!-- INGREDIENTS -->
             <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
                 <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
-                {{ page.ingredients|richtext }}
+                {{ page.ingredients | richtext }}
             </div>
 
 
             <!-- METHOD -->
              <div class="md:pl-4 md:col-span-5">
                 <div class="flex flex-col gap-3">
-                    <h1 class="text-2xl font-bold tracking-wide mb-3">Method</h1>
-                    {{ page.method | richtext}}
+                    <h1 class="text-2xl font-bold tracking-wide">Method</h1>
+                    {{ page.method | richtext }}
                 </div>
              </div>
 

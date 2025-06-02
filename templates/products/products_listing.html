@@ -32,11 +32,17 @@
 
     
                         <!-- name, price -->
-                            <div class="grid gap-2 py-2">
-                                <h3 class="text-gray-600 text-sm">{{ product.title }}</h3>
-                                <p class="text-lg font-bold">£{{ product.price }}</p>
-    
-                            </div>
+                        <div class="grid gap-2 py-2">
+                            <h3 class="text-gray-600 font-bold tracking-wide">{{ product.title }}</h3>
+                            
+                            {% if product.category %}
+                                <p class="max-w-fit text-gray-500 font-semibold text-sm tracking-wide bg-gray-100 rounded-xl px-3 py-1">
+                                    {{ product.category.name }}
+                                </p>
+                            {% endif %}
+                            
+                            <p class="text-lg font-bold">£{{ product.price }}</p>
+                        </div>
                             
                     </div>
                 </a>

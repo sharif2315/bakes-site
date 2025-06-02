@@ -14,10 +14,12 @@
                     <div class="flex gap-4 items-center">
 
                             {% if entry.svg_icon %}
+                            <div class="w-6 h-6">
                                 {{ entry.svg_icon.icon|safe }}
+                            </div>
                             {% endif %}
 
-                        <a href="" class="hover:cursor-pointer">
+                        <a href="#" class="hover:cursor-pointer">
                             <p>{{ entry.contact_text }}</p>
                         </a>
                     </div>

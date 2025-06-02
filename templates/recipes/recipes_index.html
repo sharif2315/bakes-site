@@ -66,14 +66,19 @@
      
                          <!-- title, description -->
                           <div class="grid gap-2 py-2">
-                             <div class="flex justify-between items-center">
-                                 <p class="text-gray-500 text-sm bg-gray-100 rounded-xl px-3 py-1">Cakes</p>
-                                 <p class="text-gray-500 text-sm">{{ recipe.prepare }}</p>
-                             </div>
+                            
+                            {% if recipe.category %}
+                            <div class="flex justify-between items-center">
+                                <p class="text-gray-500 text-sm font-semibold bg-gray-100 rounded-xl px-3 py-1">{{ recipe.category.name }}</p>
+                                <p class="text-gray-500 text-sm">{{ recipe.prepare }}</p>
+                            </div>
+                            {% else %}
+                            <p class="text-gray-500 text-sm">{{ recipe.prepare }}</p>
+                            {% endif %}
+
                              <h3 class="text-gray-600 font-bold">{{ recipe.title }}</h3>
-                             <p class="text-sm">
-                                 {{ recipe.summary }}
-                             </p>                            
+                             
+                             <p class="text-sm">{{ recipe.summary }}</p>                            
                           </div>
                           
                      </div>
