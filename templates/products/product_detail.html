@@ -1,17 +1,26 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 
 {% block content %}
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
 
-        <div class="flex items-center gap-2 mb-6 text-sm text-gray-700">
-            <p>Home</p>
-            <p>/</p>
-            <p>Products</p>
-            <p>/</p>
-            <p>{{ page.title }}</p>
+        <!-- Breadcrumbs -->
+        <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
+            <a href="#" class="hover:text-gray-900 transition duration-300">
+                <p>Home</p>
+            </a>
+            <span class="text-gray-500">
+                {% include 'icons/breadcrumb.html' %}
+            </span>
+            <a href="#" class="hover:text-gray-900 transition duration-300">
+                <p>Products</p>
+            </a>
+            <span class="text-gray-500">
+                {% include 'icons/breadcrumb.html' %}
+            </span>
+            <p class="text-gray-900">{{ page.title }}</p>
         </div>
 
         <div class="mb-20">

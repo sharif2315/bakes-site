@@ -4,6 +4,17 @@
 {% block content %}
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
+
+        <!-- Breadcrumbs -->
+        <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
+            <a href="#" class="hover:text-gray-900 transition duration-300">
+                <p>Home</p>
+            </a>
+            <span class="text-gray-500">
+                {% include 'icons/breadcrumb.html' %}
+            </span>
+            <p class="text-gray-900">Recipes</p>
+        </div>
         
         <!-- Title and Description -->
         <div class="mb-6">

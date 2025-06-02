@@ -5,24 +5,41 @@
 
 <div class="flex justify-center mx-4 my-8">
     <div class="max-w-7xl">
-
-        <!-- Category -->
-        {% if page.category %}
-        <p class="text-sm uppercase tracking-wide">{{ page.category.name }}</p>
-        {% endif %}
-
-
-
-        <!-- Title -->
-        <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
-
-        <!-- Summary -->
-        <p>{{ page.summary }}</p>
         
-        <!-- Date Posted -->
-        <p class="text-sm text-gray-500">
-            {{ page.date_posted|date:"F j, Y" }}
-        </p>
+        <!-- Breadcrumbs -->
+        <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
+            <a href="#" class="hover:text-gray-900 transition duration-300">
+                <p>Home</p>
+            </a>
+            <span class="text-gray-500">
+                {% include 'icons/breadcrumb.html' %}
+            </span>
+            <a href="#" class="hover:text-gray-900 transition duration-300">
+                <p>Recipes</p>
+            </a>
+            <span class="text-gray-500">
+                {% include 'icons/breadcrumb.html' %}
+            </span>
+            <p class="text-gray-900">{{ page.title }}</p>
+        </div>         
+
+        <div class="grid gap-1">
+            <!-- Category -->
+            {% if page.category %}
+            <p class="text-sm uppercase tracking-wide">{{ page.category.name }}</p>
+            {% endif %}
+    
+            <!-- Title -->
+            <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
+    
+            <!-- Summary -->
+            <p>{{ page.summary }}</p>
+            
+            <!-- Date Posted -->
+            <p class="text-sm text-gray-500">
+                {{ page.date_posted|date:"F j, Y" }}
+            </p>
+        </div>
 
         <!-- Hero Image and Recipe Summary -->
         <div class="py-4 grid md:grid-cols-4 gap-6 md:gap-5 max-w-[70rem]">
