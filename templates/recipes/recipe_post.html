@@ -11,12 +11,19 @@
         <p class="text-sm uppercase tracking-wide">{{ page.category.name }}</p>
         {% endif %}
 
+
+
         <!-- Title -->
         <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
 
         <!-- Summary -->
         <p>{{ page.summary }}</p>
-    
+        
+        <!-- Date Posted -->
+        <p class="text-sm text-gray-500">
+            {{ page.date_posted|date:"F j, Y" }}
+        </p>
+
         <!-- Hero Image and Recipe Summary -->
         <div class="py-4 grid md:grid-cols-4 gap-6 md:gap-5 max-w-[70rem]">
             
@@ -52,7 +59,7 @@
                     </div>
                     
                     <!-- Dietary Options -->
-                    <div>
+                    <div class="col-span-2 md:col-span-1">
                         {% with options=page.dietary_options.all %}
                         {% if options %}
                                 <p class="font-bold text-lg tracking-wide">Dietary</p>
@@ -71,7 +78,7 @@
                     </div>
 
                     <!-- Tags -->
-                    <div>
+                    <div class="col-span-2 md:col-span-1">
                         {% with tags=page.tags.all %}
                         {% if tags %}
                             <p class="font-bold text-lg tracking-wide">Tags</p>

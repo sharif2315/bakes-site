@@ -2,11 +2,13 @@ from django.db import models
 from django import forms
 from wagtail.models import Page
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from products.models import DietaryOption
+
+from django.utils import timezone
 
 rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
 
@@ -56,7 +58,6 @@ class RecipePage(Page):
     summary = models.CharField(
         max_length=255, 
         blank=True, 
-        help_text="A brief summary of the recipe"
     )
     main_image = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
@@ -71,7 +72,6 @@ class RecipePage(Page):
         null=True, blank=True, 
         on_delete=models.SET_NULL, 
         related_name='recipes',
-        help_text="Category of the recipe",
     )
     prepare = models.CharField(
         max_length=100, 
@@ -93,7 +93,6 @@ class RecipePage(Page):
         DietaryOption, 
         blank=True,
         related_name="recipes",
-        help_text="Dietary options applicable to this recipe"
     )
     ingredients = RichTextField(
         blank=True,
@@ -111,19 +110,36 @@ class RecipePage(Page):
     tags = ClusterTaggableManager(
         through=RecipePageTags,
         blank=True,
-        help_text="A list of tags to categorize the recipe post.",
+    )
+    date_posted = models.DateField(
+        "Date Posted",
+        default=timezone.now,
     )
     
     content_panels = Page.content_panels + [
-        FieldPanel('category'),
-        FieldPanel('summary'),
-        FieldPanel('main_image'),
-        FieldPanel('tags'),
-        FieldPanel("dietary_options", widget=forms.CheckboxSelectMultiple),
+        MultiFieldPanel(
+            [   
+                FieldPanel('summary'),
+                FieldRowPanel([
+                    FieldPanel('category'),
+                   FieldPanel('date_posted'),
+                ]),
+                FieldPanel('main_image'),
+
+            ],
+            heading="Recipe Details",
+        ),
+        
+        FieldRowPanel([
+            FieldPanel("dietary_options", widget=forms.CheckboxSelectMultiple),
+            FieldPanel('tags'),
+        ]),
+        FieldRowPanel([
+            FieldPanel('prepare'),
+            FieldPanel('cook'),
+            FieldPanel('serves'),
+        ]),
         FieldPanel('description'),
-        FieldPanel('prepare'),
-        FieldPanel('cook'),
-        FieldPanel('serves'),
         FieldPanel('ingredients'),
         FieldPanel('method'),
         FieldPanel('recipe_tips'),
