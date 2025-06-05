@@ -63,22 +63,32 @@
 
             <h2 class="text-3xl text-center lg:text-left">Send us a Message</h2>
 
-            <form action="#" method="POST">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
                 <div class="grid gap-x-8 gap-y-6 sm:grid-cols-2 text-gray-900 ">
 
                     <div>
                         <label class="block text-sm leading-6">First name</label>
                         <div class="mt-2.5">
-                            <input type="text" name="first-name" id="first-name" autoComplete="given-name"
-                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" />
+                            <input 
+                                type="text" 
+                                name="first_name" 
+                                id="first-name"
+                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" 
+                            />
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-sm leading-6">Last name</label>
                         <div class="mt-2.5">
-                            <input type="text" name="last-name" id="last-name" autoComplete="family-name"
-                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" />
+                            <input 
+                                type="text" 
+                                name="last_name" 
+                                id="last-name"                                
+                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" 
+                            />
                         </div>
                     </div>
 

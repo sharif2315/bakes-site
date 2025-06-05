@@ -25,9 +25,9 @@
             {% endif %}
     
             {% if page.description %}
-                <p class="text-gray-600">
-                    {{ page.description }}
-                </p>
+                <div class="text-gray-600 grid gap-2">
+                    {{ page.description | richtext }}
+                </div>
             {% endif %}
         </div>
         

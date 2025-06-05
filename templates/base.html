@@ -38,6 +38,19 @@
         {% wagtailuserbar %}
 
         {% include 'home/partials/nav.html' %}
+
+        {% if messages %}
+        <ul class="mb-4">
+            {% for message in messages %}
+            <li class="text-green-700 bg-green-100 px-4 py-2 rounded">
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {# Main content block #}
+
         
         {% block content %}{% endblock %}
 
