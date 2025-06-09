@@ -15,6 +15,7 @@ from wagtail.fields import StreamField
 from modelcluster.fields import ParentalKey
 
 from home.forms import ContactForm
+from utils.email import send_contact_email
 
 
 class AboutFeatureBlock(StructBlock):
@@ -186,12 +187,19 @@ class HomePage(Page):
                     message=form.cleaned_data['message'],
                 )
 
-                # Send email
-                send_mail(
+                # Compose message with user's contact details
+                message = (
+                    f"New contact form submission:\n\n"
+                    f"First name: {form.cleaned_data['first_name']}\n"
+                    f"Last name: {form.cleaned_data['last_name']}\n"
+                    f"Email: {form.cleaned_data['email']}\n\n"
+                    f"Message:\n{form.cleaned_data['message']}"
+                )
+                
+                # Send email (safe — only sends if settings are present)
+                send_contact_email(
                     subject='Contact Form Submission',
-                    message=form.cleaned_data['message'],
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.CONTACT_FORM_RECEIVER],
+                    message=message,
                 )
 
                 messages.success(request, "Thanks! Your message has been sent.")
