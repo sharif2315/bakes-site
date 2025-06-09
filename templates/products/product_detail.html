@@ -26,51 +26,58 @@
         <div class="mb-20">
             
             <!-- images block and  overview block container-->
-             <div class="max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-1">
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
 
-                    <h3 class="block sm:hidden uppercase tracking-wider text-sm">Category Name</h3>
-                    <h2 class="block sm:hidden  text-2xl font-semibold">{{ page.title }}</h2>
-                    <p class="block sm:hidden text-2xl md:text-3xl font-bold">£{{ page.price }}</p>
+                <div class="block sm:hidden">
+                    <h3 class="uppercase tracking-wider text-sm">Category Name</h3>
+                    <h2 class="text-2xl font-semibold">{{ page.title }}</h2>
+                    <p class="text-2xl md:text-3xl font-bold">£{{ page.price }}</p>
+                </div>
                                 
-                    {% with first_image=page.product_images.all|first %}
-                        {% if first_image %}
-                            {% image first_image.image fill-300x300 as main_image %}
-                            
-                            <!-- images block -->
-                            <div x-data="{ selectedImage: '{{ main_image.url }}' }" class="mt-4 sm:mt-0">
-                            
-                            <!-- main image -->
+                {% with first_image=page.product_images.all|first %}
+                    {% if first_image %}
+                        {% image first_image.image fill-300x300 as main_image %}
+                        
+                        <!-- images block -->
+                        <div x-data="{ selectedImage: '{{ main_image.url }}' }" class="mt-4 sm:mt-0">
+                        
+                        <!-- main image -->
+                        <img 
+                            class="w-full h-auto overflow-hidden rounded-md"
+                            :src="selectedImage"
+                            alt=""
+                        >
+
+                        <!-- all images -->
+                        <div class="grid grid-cols-3 gap-2 mt-4">
+                            {% for image_obj in page.product_images.all %}
+                            {% image image_obj.image fill-300x300 as thumb_image %}
                             <img 
-                                class="w-full h-auto overflow-hidden rounded-md"
-                                :src="selectedImage"
+                                class="rounded-md hover:cursor-pointer hover:opacity-75"
+                                src="{{ thumb_image.url }}"
+                                @click="selectedImage = '{{ thumb_image.url }}'"
                                 alt=""
                             >
+                            {% endfor %}
+                        </div>
 
-                            <!-- all images -->
-                            <div class="grid grid-cols-3 gap-2 mt-4">
-                                {% for image_obj in page.product_images.all %}
-                                {% image image_obj.image fill-300x300 as thumb_image %}
-                                <img 
-                                    class="rounded-md hover:cursor-pointer hover:opacity-75"
-                                    src="{{ thumb_image.url }}"
-                                    @click="selectedImage = '{{ thumb_image.url }}'"
-                                    alt=""
-                                >
-                                {% endfor %}
-                            </div>
-
-                            </div>
-                        {% endif %}
-                    {% endwith %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
 
 
                 <!-- overview block -->
-                 <div class="px-6 flex flex-col mt-6 md:mt-0">
-                    {% if page.category %}
-                    <h3 class="hidden sm:block uppercase tracking-wider text-sm">{{ page.category.name }}</h3>
-                    {% endif %}
-                    <h2 class="hidden sm:block  text-2xl font-semibold mt-2">{{ page.title }}</h2>
-                    <p class="hidden sm:block  text-3xl font-bold mt-4">£{{ page.price }}</p>
+                <div class="px-6 flex flex-col mt-6 md:mt-0 bg-yellow-600">
+
+                    <div class="hidden sm:block">
+                        {% if page.category %}
+                        <h3 class="uppercase tracking-wider text-sm">{{ page.category.name }}</h3>
+                        {% endif %}
+
+                        <h2 class="text-2xl font-semibold mt-2">{{ page.title }}</h2>
+                        <p class="text-3xl font-bold mt-4">£{{ page.price }}</p>
+                    </div>
+
 
                     {% with options=page.dietary_options.all %}
                         {% if options %}
@@ -87,13 +94,13 @@
                         {% endif %}
                     {% endwith %}
                     
+
                     <div class="text-gray-600 mt-3 flex flex-col gap-2">
                         {{ page.description | richtext }}
                     </div>
                     
 
                     <div class="flex justify-between items-center gap-4 mt-6 px-4">
-
                         <div class="flex justify-center items-center text-lg">
                             <a href="#">-</a>
                             <input type="number" class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" value="1">
@@ -104,12 +111,10 @@
                             Add to Cart
                         </button>
                     </div>
-                    
-                 </div>
 
-                
+                </div>
+
              </div>
-
             
         </div>
 
