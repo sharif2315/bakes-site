@@ -1,157 +1,149 @@
-{% extends "base.html" %}
+{% extends "base_inner.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block content %}
+{% block inner_content %}
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
+        <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
+            <p>{{ home_page.title }}</p>
+        </a>
+        <span class="text-gray-500">
+            {% include 'icons/breadcrumb.html' %}
+        </span>
+        <a href="{{ recipe_index.url }}" class="hover:text-gray-900 transition duration-300">
+            <p>{{ recipe_index.title }}</p>
+        </a>
+        <span class="text-gray-500">
+            {% include 'icons/breadcrumb.html' %}
+        </span>
+        <p class="text-gray-900">{{ page.title }}</p>
+    </div>         
 
-<div class="flex justify-center mx-4 my-8">
-    <div class="max-w-7xl">
+    <div class="grid gap-1">
+        <!-- Category -->
+        {% if page.category %}
+        <p class="text-sm uppercase tracking-wide">{{ page.category.name }}</p>
+        {% endif %}
+
+        <!-- Title -->
+        <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
+
+        <!-- Summary -->
+        <p>{{ page.summary }}</p>
         
-        <!-- Breadcrumbs -->
-        <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
-            <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
-                <p>{{ home_page.title }}</p>
-            </a>
-            <span class="text-gray-500">
-                {% include 'icons/breadcrumb.html' %}
-            </span>
-            <a href="{{ recipe_index.url }}" class="hover:text-gray-900 transition duration-300">
-                <p>{{ recipe_index.title }}</p>
-            </a>
-            <span class="text-gray-500">
-                {% include 'icons/breadcrumb.html' %}
-            </span>
-            <p class="text-gray-900">{{ page.title }}</p>
-        </div>         
+        <!-- Date Posted -->
+        <p class="text-sm text-gray-500">
+            {{ page.date_posted|date:"F j, Y" }}
+        </p>
+    </div>
 
-        <div class="grid gap-1">
-            <!-- Category -->
-            {% if page.category %}
-            <p class="text-sm uppercase tracking-wide">{{ page.category.name }}</p>
-            {% endif %}
-    
-            <!-- Title -->
-            <h1 class="font-bold text-2xl lg:text-3xl tracking-wide">{{ page.title}}</h1>
-    
-            <!-- Summary -->
-            <p>{{ page.summary }}</p>
-            
-            <!-- Date Posted -->
-            <p class="text-sm text-gray-500">
-                {{ page.date_posted|date:"F j, Y" }}
-            </p>
+    <!-- Hero Image and Recipe Summary -->
+    <div class="py-4 grid md:grid-cols-4 gap-6 md:gap-5 max-w-[70rem]">
+        
+        <!-- Hero Image -->
+        <div class="cols-span-1 md:col-span-3 overflow-hidden rounded-md">
+            {% image page.main_image original as feature_image %}
+            <img 
+                src="{{ feature_image.url }}"
+                alt="#"
+            >
         </div>
+        
+        <!-- Instructions Summary -->
+        <div class="col-span-1 flex flex-col gap-4 lg:gap-6 mb-6">
 
-        <!-- Hero Image and Recipe Summary -->
-        <div class="py-4 grid md:grid-cols-4 gap-6 md:gap-5 max-w-[70rem]">
-            
-            <!-- Hero Image -->
-            <div class="cols-span-1 md:col-span-3 overflow-hidden rounded-md">
-                {% image page.main_image original as feature_image %}
-                <img 
-                    src="{{ feature_image.url }}"
-                    alt="#"
-                >
-            </div>
-            
-            <!-- Instructions Summary -->
-            <div class="col-span-1 flex flex-col gap-4 lg:gap-6 mb-6">
-
-                <div class="grid grid-cols-2 md:grid-cols-1 gap-5">
-                    <!-- Prepare -->
-                    <div class="grid gap-1">
-                        <p class="font-bold text-lg tracking-wide">Prepare</p>
-                        <p>{{ page.prepare }}</p>
-                    </div>
-                    
-                    <!-- Cook -->
-                    <div class="grid gap-1">
-                        <p class="font-bold text-lg tracking-wide">Cook</p>
-                        <p>{{ page.cook }}</p>
-                    </div>
-                    
-                    <!-- Serves -->                    
-                    <div class="flex flex-col gap-1">
-                        <p class="font-bold text-lg tracking-wide">Serve</p>
-                        <p>{{ page.serves }}</p>
-                    </div>
-                    
-                    <!-- Dietary Options -->
-                    <div class="col-span-2 md:col-span-1">
-                        {% with options=page.dietary_options.all %}
-                        {% if options %}
-                                <p class="font-bold text-lg tracking-wide">Dietary</p>
-                                <div class="flex flex-wrap gap-2 mt-2">
-                                    {% for option in options %}
-                                        <p 
-                                            style="background-color: {{ option.colour }}" 
-                                            class="text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide"
-                                        >
-                                            {{ option.name }}
-                                        </p>
-                                    {% endfor %}
-                                </div>    
-                            {% endif %}
-                        {% endwith %}
-                    </div>
-
-                    <!-- Tags -->
-                    <div class="col-span-2 md:col-span-1">
-                        {% with tags=page.tags.all %}
-                        {% if tags %}
-                            <p class="font-bold text-lg tracking-wide">Tags</p>
+            <div class="grid grid-cols-2 md:grid-cols-1 gap-5">
+                <!-- Prepare -->
+                <div class="grid gap-1">
+                    <p class="font-bold text-lg tracking-wide">Prepare</p>
+                    <p>{{ page.prepare }}</p>
+                </div>
+                
+                <!-- Cook -->
+                <div class="grid gap-1">
+                    <p class="font-bold text-lg tracking-wide">Cook</p>
+                    <p>{{ page.cook }}</p>
+                </div>
+                
+                <!-- Serves -->                    
+                <div class="flex flex-col gap-1">
+                    <p class="font-bold text-lg tracking-wide">Serve</p>
+                    <p>{{ page.serves }}</p>
+                </div>
+                
+                <!-- Dietary Options -->
+                <div class="col-span-2 md:col-span-1">
+                    {% with options=page.dietary_options.all %}
+                    {% if options %}
+                            <p class="font-bold text-lg tracking-wide">Dietary</p>
                             <div class="flex flex-wrap gap-2 mt-2">
-                                {% for tag in tags %}
+                                {% for option in options %}
                                     <p 
-                                        class="text-gray-500 px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide bg-gray-100"
+                                        style="background-color: {{ option.colour }}" 
+                                        class="text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide"
                                     >
-                                        {{ tag.name }}
+                                        {{ option.name }}
                                     </p>
                                 {% endfor %}
-                            </div>
+                            </div>    
                         {% endif %}
-                        {% endwith %}
-                    </div>
+                    {% endwith %}
+                </div>
 
+                <!-- Tags -->
+                <div class="col-span-2 md:col-span-1">
+                    {% with tags=page.tags.all %}
+                    {% if tags %}
+                        <p class="font-bold text-lg tracking-wide">Tags</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            {% for tag in tags %}
+                                <p 
+                                    class="text-gray-500 px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide bg-gray-100"
+                                >
+                                    {{ tag.name }}
+                                </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
                 </div>
 
             </div>
-    
+
         </div>
 
-        <!-- SUMMARY - use RichText field-->
-         {% if page.description %}
-         <div class="flex flex-col gap-3 mb-8 max-w-3xl">
-            {{ page.description | richtext }}
-         </div>
-         {% endif %}
+    </div>
 
-         <!-- CONTAINER -> INGREDIENTS & METHOD -->
-          <div class="grid md:grid-cols-8 gap-10 md:gap-3 mb-10">
+    <!-- SUMMARY - use RichText field-->
+        {% if page.description %}
+        <div class="flex flex-col gap-3 mb-8 max-w-3xl">
+        {{ page.description | richtext }}
+        </div>
+        {% endif %}
 
-            <!-- INGREDIENTS -->
-            <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
-                <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
-                {{ page.ingredients | richtext }}
+        <!-- CONTAINER -> INGREDIENTS & METHOD -->
+        <div class="grid md:grid-cols-8 gap-10 md:gap-3 mb-10">
+
+        <!-- INGREDIENTS -->
+        <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
+            <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
+            {{ page.ingredients | richtext }}
+        </div>
+
+
+        <!-- METHOD -->
+            <div class="md:pl-4 md:col-span-5">
+            <div class="flex flex-col gap-3">
+                <h1 class="text-2xl font-bold tracking-wide">Method</h1>
+                {{ page.method | richtext }}
+            </div>
             </div>
 
+        </div>
 
-            <!-- METHOD -->
-             <div class="md:pl-4 md:col-span-5">
-                <div class="flex flex-col gap-3">
-                    <h1 class="text-2xl font-bold tracking-wide">Method</h1>
-                    {{ page.method | richtext }}
-                </div>
-             </div>
-
-          </div>
-
-          <!-- RECIPE TIPS -->
-          <div class="flex flex-col gap-3 bg-gray-100 p-6 rounded-sm">
-            <h1 class="text-2xl font-bold">Recipe tips</h1>
-            {{ page.recipe_tips | richtext }}
-          </div>
-
-    </div>
-</div>
-
-{% endblock content %}
+        <!-- RECIPE TIPS -->
+        <div class="flex flex-col gap-3 bg-gray-100 p-6 rounded-sm">
+        <h1 class="text-2xl font-bold">Recipe tips</h1>
+        {{ page.recipe_tips | richtext }}
+        </div>
+{% endblock inner_content %}

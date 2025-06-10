@@ -1,124 +1,123 @@
-{% extends "base.html" %}
+{% extends "base_inner.html" %}
 {% load static wagtailcore_tags wagtailimages_tags %}
 
 
-{% block content %}
-<div class="flex justify-center mx-4 my-8">
-    <div class="max-w-7xl">
-
-        <!-- Breadcrumbs -->
-        <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
-            <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
-                <p>{{ home_page.title }}</p>
-            </a>
-            <span class="text-gray-500">
-                {% include 'icons/breadcrumb.html' %}
-            </span>
-            <a href="{{ product_listing.url }}" class="hover:text-gray-900 transition duration-300">
-                <p>{{ product_listing.title }}</p>
-            </a>
-            <span class="text-gray-500">
-                {% include 'icons/breadcrumb.html' %}
-            </span>
-            <p class="text-gray-900">{{ page.title }}</p>
-        </div>
-
-        <div class="mb-20">
-            
-            <!-- images block and  overview block container-->
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
-
-                <div class="block sm:hidden">
-                    <h3 class="uppercase tracking-wider text-sm">Category Name</h3>
-                    <h2 class="text-2xl font-semibold">{{ page.title }}</h2>
-                    <p class="text-2xl md:text-3xl font-bold">£{{ page.price }}</p>
-                </div>
-                                
-                {% with first_image=page.product_images.all|first %}
-                    {% if first_image %}
-                        {% image first_image.image fill-300x300 as main_image %}
-                        
-                        <!-- images block -->
-                        <div x-data="{ selectedImage: '{{ main_image.url }}' }" class="mt-4 sm:mt-0">
-                        
-                        <!-- main image -->
-                        <img 
-                            class="w-full h-auto overflow-hidden rounded-md"
-                            :src="selectedImage"
-                            alt=""
-                        >
-
-                        <!-- all images -->
-                        <div class="grid grid-cols-3 gap-2 mt-4">
-                            {% for image_obj in page.product_images.all %}
-                            {% image image_obj.image fill-300x300 as thumb_image %}
-                            <img 
-                                class="rounded-md hover:cursor-pointer hover:opacity-75"
-                                src="{{ thumb_image.url }}"
-                                @click="selectedImage = '{{ thumb_image.url }}'"
-                                alt=""
-                            >
-                            {% endfor %}
-                        </div>
-
-                        </div>
-                    {% endif %}
-                {% endwith %}
-
-
-                <!-- overview block -->
-                <div class="px-6 flex flex-col mt-6 md:mt-0 bg-yellow-600">
-
-                    <div class="hidden sm:block">
-                        {% if page.category %}
-                        <h3 class="uppercase tracking-wider text-sm">{{ page.category.name }}</h3>
-                        {% endif %}
-
-                        <h2 class="text-2xl font-semibold mt-2">{{ page.title }}</h2>
-                        <p class="text-3xl font-bold mt-4">£{{ page.price }}</p>
-                    </div>
-
-
-                    {% with options=page.dietary_options.all %}
-                        {% if options %}
-                            <div class="flex flex-wrap gap-2 mt-4">
-                                {% for option in options %}
-                                    <p 
-                                        style="background-color: {{ option.colour }}" 
-                                        class="text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide"
-                                    >
-                                        {{ option.name }}
-                                    </p>
-                                {% endfor %}
-                            </div>    
-                        {% endif %}
-                    {% endwith %}
-                    
-
-                    <div class="text-gray-600 mt-3 flex flex-col gap-2">
-                        {{ page.description | richtext }}
-                    </div>
-                    
-
-                    <div class="flex justify-between items-center gap-4 mt-6 px-4">
-                        <div class="flex justify-center items-center text-lg">
-                            <a href="#">-</a>
-                            <input type="number" class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" value="1">
-                            <a href="#">+</a>
-                        </div>
-                        
-                        <button class="bg-black hover:cursor-pointer hover:opacity-75 text-white px-16 py-3 rounded-md text-sm font-semibold tracking-wide text-nowrap">
-                            Add to Cart
-                        </button>
-                    </div>
-
-                </div>
-
-             </div>
-            
-        </div>
-
+{% block inner_content %}
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
+        <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
+            <p>{{ home_page.title }}</p>
+        </a>
+        <span class="text-gray-500">
+            {% include 'icons/breadcrumb.html' %}
+        </span>
+        <a href="{{ product_listing.url }}" class="hover:text-gray-900 transition duration-300">
+            <p>{{ product_listing.title }}</p>
+        </a>
+        <span class="text-gray-500">
+            {% include 'icons/breadcrumb.html' %}
+        </span>
+        <p class="text-gray-900">{{ page.title }}</p>
     </div>
 
-</div>
-{% endblock content %}
+    <div class="mb-20">
+        
+        <!-- images block and  overview block container-->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-6">
+                            
+            {% with first_image=page.product_images.all|first %}
+                {% if first_image %}
+                    {% image first_image.image fill-300x300 as main_image %}
+                    
+                    <!-- images block -->
+                    <div x-data="{ selectedImage: '{{ main_image.url }}' }" class="mt-4 sm:mt-0">
+                    
+                    <!-- main image -->
+                    <img 
+                        class="w-full h-auto overflow-hidden rounded-md"
+                        :src="selectedImage"
+                        alt=""
+                    >
+
+                    <!-- all images -->
+                    <div class="grid grid-cols-3 gap-2 mt-4">
+                        {% for image_obj in page.product_images.all %}
+                        {% image image_obj.image fill-300x300 as thumb_image %}
+                        <img 
+                            class="rounded-md hover:cursor-pointer hover:opacity-75"
+                            src="{{ thumb_image.url }}"
+                            @click="selectedImage = '{{ thumb_image.url }}'"
+                            alt=""
+                        >
+                        {% endfor %}
+                    </div>
+
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- overview block -->
+            <div class="px-6 flex flex-col gap-8 mt-6 md:mt-0 md:max-w-md">
+
+                <!-- Category, title, price -->
+                <div class="flex flex-col gap-2">
+                    <h2 class="text-2xl font-semibold">{{ page.title }}</h2>
+                    
+                    {% if page.category %}
+                    <h3 class="uppercase tracking-wider text-sm">{{ page.category.name }}</h3>
+                    {% endif %}
+
+                    <p class="text-md">£{{ page.price }}</p>
+                </div>
+
+
+                <!-- Quantity & Add to Cart Button -->
+                    <div class="flex justify-center items-center text-lg rounded border border-slate-400 max-w-[8rem]">
+                        <a href="#" class="py-2 px-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
+                        </a>
+                        <input 
+                            type="number" 
+                            class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none py-2" 
+                            value="1"
+                        >                            
+                        <a href="#" class="py-2 px-3 text-slate-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        </a>
+                    </div>
+                    
+                    <button class="bg-black hover:cursor-pointer hover:opacity-75 text-white px-16 py-3 rounded-md text-sm font-semibold tracking-wide text-nowrap">
+                        Add to Cart
+                    </button>
+
+
+                <!-- Dietary Options -->
+                {% with options=page.dietary_options.all %}
+                    {% if options %}
+                        <div class="flex flex-wrap gap-2">
+                            {% for option in options %}
+                                <p 
+                                    style="background-color: {{ option.colour }}" 
+                                    class="text-white px-3 py-2 rounded-3xl text-xs font-semibold tracking-wide"
+                                >
+                                    {{ option.name }}
+                                </p>
+                            {% endfor %}
+                        </div>    
+                    {% endif %}
+                {% endwith %}
+                
+                
+                <!-- Description -->
+                <div class="text-gray-600 flex flex-col gap-2">
+                    {{ page.description | richtext }}
+                </div>
+                
+
+            </div>
+
+            </div>
+        
+    </div>
+
+{% endblock inner_content %}
