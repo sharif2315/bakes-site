@@ -1,25 +1,37 @@
 from django.db import models
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.conf import settings
-
-
 from wagtail.models import Page, Orderable
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.fields import StreamField
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.blocks import (
     StructBlock,CharBlock,TextBlock, ListBlock, ChoiceBlock  
 )
-from wagtail.images.blocks import ImageChooserBlock
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
-from wagtail.fields import StreamField
 from modelcluster.fields import ParentalKey
 
-from home.forms import ContactForm
 from utils.email import send_contact_email
+from .forms import ContactForm
+
+
+class SvgIcon(models.Model):
+    name = models.CharField(max_length=100)
+    icon = models.TextField(help_text="Paste full inline SVG code here.")
+
+    def __str__(self):
+        return self.name
+
+
+def get_svg_icon_choices():
+    return [(icon.id, icon.name) for icon in SvgIcon.objects.all()]
 
 
 class AboutFeatureBlock(StructBlock):
-    svg_icon = CharBlock(help_text="SVG path or class")  # or use custom block to validate svg uploads
+    svg_icon = ChoiceBlock(
+        choices=get_svg_icon_choices(),
+        help_text="Select an SVG icon",
+        required=False
+    )
     title = CharBlock()
     description = TextBlock()
 
@@ -32,38 +44,6 @@ class AboutSectionBlock(StructBlock):
         AboutFeatureBlock(), 
         max_num=3    
     )
-"""
-{% for block in page.about_sections %}
-    {% if block.block_type == 'about_section' %}
-
-        <div>
-            <p>{{ block.value.title }}</p>
-            <p>{{ block.value.description }}</p>
-
-            {% image block.value.image original as image %}
-            <p>{{ image.url }}</p>
-        </div>
-        
-    {% endif %}
-{% endfor%}
-"""
-    # class Meta:
-    #     template = "blocks/about_section.html"
-    #     icon = "user"
-
-
-class SvgIcon(models.Model):
-    name = models.CharField(max_length=100)
-    icon = models.TextField(help_text="Paste full inline SVG code here.")
-
-
-    # panels = [
-    #     FieldPanel('name'),
-    #     FieldPanel('icon'),
-    # ]
-
-    def __str__(self):
-        return self.name
 
 
 class ContactSubmission(models.Model):
@@ -210,4 +190,3 @@ class HomePage(Page):
         context = self.get_context(request)
         context['form'] = form
         return render(request, self.template, context)
-
