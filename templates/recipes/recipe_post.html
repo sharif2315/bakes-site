@@ -3,21 +3,7 @@
 
 {% block inner_content %}
     <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
-        <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
-            <p>{{ home_page.title }}</p>
-        </a>
-        <span class="text-gray-500">
-            {% include 'icons/breadcrumb.html' %}
-        </span>
-        <a href="{{ recipe_index.url }}" class="hover:text-gray-900 transition duration-300">
-            <p>{{ recipe_index.title }}</p>
-        </a>
-        <span class="text-gray-500">
-            {% include 'icons/breadcrumb.html' %}
-        </span>
-        <p class="text-gray-900">{{ page.title }}</p>
-    </div>         
+    {% include "components/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
 
     <div class="grid gap-1">
         <!-- Category -->
@@ -115,35 +101,35 @@
     </div>
 
     <!-- SUMMARY - use RichText field-->
-        {% if page.description %}
-        <div class="flex flex-col gap-3 mb-8 max-w-3xl">
+    {% if page.description %}
+    <div class="flex flex-col gap-3 mb-8 max-w-3xl">
         {{ page.description | richtext }}
+    </div>
+    {% endif %}
+
+    <!-- CONTAINER -> INGREDIENTS & METHOD -->
+    <div class="grid md:grid-cols-8 gap-10 md:gap-3 mb-10">
+
+    <!-- INGREDIENTS -->
+    <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
+        <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
+        {{ page.ingredients | richtext }}
+    </div>
+
+
+    <!-- METHOD -->
+        <div class="md:pl-4 md:col-span-5">
+        <div class="flex flex-col gap-3">
+            <h1 class="text-2xl font-bold tracking-wide">Method</h1>
+            {{ page.method | richtext }}
         </div>
-        {% endif %}
-
-        <!-- CONTAINER -> INGREDIENTS & METHOD -->
-        <div class="grid md:grid-cols-8 gap-10 md:gap-3 mb-10">
-
-        <!-- INGREDIENTS -->
-        <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
-            <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
-            {{ page.ingredients | richtext }}
-        </div>
-
-
-        <!-- METHOD -->
-            <div class="md:pl-4 md:col-span-5">
-            <div class="flex flex-col gap-3">
-                <h1 class="text-2xl font-bold tracking-wide">Method</h1>
-                {{ page.method | richtext }}
-            </div>
-            </div>
-
         </div>
 
-        <!-- RECIPE TIPS -->
-        <div class="flex flex-col gap-3 bg-gray-100 p-6 rounded-sm">
-        <h1 class="text-2xl font-bold">Recipe tips</h1>
-        {{ page.recipe_tips | richtext }}
-        </div>
+    </div>
+
+    <!-- RECIPE TIPS -->
+    <div class="flex flex-col gap-3 bg-gray-100 p-6 rounded-sm">
+    <h1 class="text-2xl font-bold">Recipe tips</h1>
+    {{ page.recipe_tips | richtext }}
+    </div>
 {% endblock inner_content %}

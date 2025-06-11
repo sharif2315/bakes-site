@@ -4,21 +4,7 @@
 
 {% block inner_content %}
     <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
-        <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
-            <p>{{ home_page.title }}</p>
-        </a>
-        <span class="text-gray-500">
-            {% include 'icons/breadcrumb.html' %}
-        </span>
-        <a href="{{ product_listing.url }}" class="hover:text-gray-900 transition duration-300">
-            <p>{{ product_listing.title }}</p>
-        </a>
-        <span class="text-gray-500">
-            {% include 'icons/breadcrumb.html' %}
-        </span>
-        <p class="text-gray-900">{{ page.title }}</p>
-    </div>
+    {% include "components/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
 
     <div class="mb-20">
         

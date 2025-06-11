@@ -1,14 +1,16 @@
 from django.db import models
 from django import forms
+from django.utils import timezone
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
-from products.models import DietaryOption
 
-from django.utils import timezone
+from products.models import DietaryOption
+from utils.breadcrumbs import get_breadcrumbs
+
 
 rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
 
@@ -39,6 +41,7 @@ class RecipeIndex(Page):
     def get_context(self, request):
         context = super().get_context(request)
         context['recipes'] = RecipePage.objects.live().order_by('-first_published_at') #[:3] for paging
+        context['breadcrumbs'] = get_breadcrumbs(self)
         return context
 
 
@@ -145,3 +148,7 @@ class RecipePage(Page):
         FieldPanel('recipe_tips'),
     ]
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['breadcrumbs'] = get_breadcrumbs(self)
+        return context

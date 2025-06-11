@@ -6,6 +6,8 @@ from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 
+from utils.breadcrumbs import get_breadcrumbs
+
 
 class ProductListing(Page):
     max_count = 1
@@ -27,6 +29,7 @@ class ProductListing(Page):
     def get_context(self, request):
         context = super().get_context(request)
         context['products'] = Product.objects.live().order_by('-first_published_at')
+        context['breadcrumbs'] = get_breadcrumbs(self)
         return context
 
 
@@ -104,3 +107,8 @@ class Product(Page):
 
     def __str__(self):
         return self.title
+    
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['breadcrumbs'] = get_breadcrumbs(self)
+        return context

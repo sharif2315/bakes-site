@@ -1,0 +1,14 @@
+<div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
+    {% for crumb in breadcrumbs %}
+        {% if not forloop.first %}
+            <span class="text-gray-500">{% include 'icons/breadcrumb.html' %}</span>
+        {% endif %}
+        {% if crumb.url %}
+            <a href="{{ crumb.url }}" class="hover:text-gray-900 transition duration-300">
+                <p>{{ crumb.title }}</p>
+            </a>
+        {% else %}
+            <p class="text-gray-900">{{ crumb.title }}</p>
+        {% endif %}
+    {% endfor %}
+</div>

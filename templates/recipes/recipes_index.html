@@ -3,15 +3,7 @@
 
 {% block inner_content %}
     <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 mb-5 text-sm text-gray-500">
-        <a href="{{ home_page.url }}" class="hover:text-gray-900 transition duration-300">
-            <p>{{ home_page.title }}</p>
-        </a>
-        <span class="text-gray-500">
-            {% include 'icons/breadcrumb.html' %}
-        </span>
-        <p class="text-gray-900">{{ recipe_index.title }}</p>
-    </div>
+    {% include "components/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
     
     <!-- Title and Description -->
     <div class="mb-6">
@@ -37,7 +29,9 @@
             <!-- image -->
                 <div class="col-span-1 md:col-span-2">
                 {% image page.featured_recipe.main_image original as featured_recipe_image %}
-                <img src="{{ featured_recipe_image.url }}" alt="">
+                <a href="{{ page.featured_recipe.url }}">
+                    <img src="{{ featured_recipe_image.url }}" alt="">
+                </a>
                 </div>
 
                 <!-- textblock -->
