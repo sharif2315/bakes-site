@@ -5,9 +5,7 @@ from wagtail.models import Page, Orderable
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.blocks import (
-    StructBlock,CharBlock,TextBlock, ListBlock, ChoiceBlock  
-)
+from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock, ChoiceBlock
 from modelcluster.fields import ParentalKey
 
 from utils.email import send_contact_email
@@ -22,13 +20,23 @@ class SvgIcon(models.Model):
         return self.name
 
 
-def get_svg_icon_choices():
-    return [(icon.id, icon.name) for icon in SvgIcon.objects.all()]
+class SvgIconChoiceBlock(ChoiceBlock):
+    def __init__(self, **kwargs):
+        # Don't set choices here to avoid triggering the DB at import time
+        super().__init__(choices=[], **kwargs)
+
+    def get_choices(self, *args, **kwargs):
+        # Called at form render time, safe to access DB
+        return [(icon.id, icon.name) for icon in SvgIcon.objects.all()]
+
+    def render_form(self, value, prefix='', errors=None):
+        # Update choices dynamically when the form is rendered
+        self.choices = self.get_choices()
+        return super().render_form(value, prefix=prefix, errors=errors)
 
 
 class AboutFeatureBlock(StructBlock):
-    svg_icon = ChoiceBlock(
-        choices=get_svg_icon_choices(),
+    svg_icon = SvgIconChoiceBlock(
         help_text="Select an SVG icon",
         required=False
     )
@@ -40,10 +48,7 @@ class AboutSectionBlock(StructBlock):
     image = ImageChooserBlock()
     title = CharBlock()
     description = TextBlock()
-    features = ListBlock(
-        AboutFeatureBlock(), 
-        max_num=3    
-    )
+    features = ListBlock(AboutFeatureBlock(), max_num=3)
 
 
 class ContactSubmission(models.Model):
@@ -65,11 +70,6 @@ class ContactMethod(Orderable):
     def __str__(self):
         return self.contact_text
 
-    # panels = [
-    #     FieldPanel('svg_icon'),
-    #     FieldPanel('contact_text'),
-    # ]
-
 
 class GalleryImage(Orderable):
     page = ParentalKey('home.HomePage', related_name='gallery_images')
@@ -77,26 +77,16 @@ class GalleryImage(Orderable):
         'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
     )
 
-    # panels = [
-    #     FieldPanel('image'),
-    # ]
-
 
 class OpeningHour(Orderable):
     page = ParentalKey('home.HomePage', related_name='opening_hours')
     day = models.CharField(max_length=9)
     hours = models.CharField(max_length=50)
 
-    # panels = [
-    #     FieldPanel('day'),
-    #     FieldPanel('hours'),
-    # ]
-
 
 class HomePage(Page):
     template = "home/home_page.html"
     max_count = 1
-    # subpage_types = ['blog.RecipeIndex']
 
     # Hero
     hero_title = models.CharField(max_length=255)
@@ -111,7 +101,7 @@ class HomePage(Page):
         help_text="Optional. Used only if uploaded image is not provided."
     )
 
-        # About
+    # About
     about_sections = StreamField(
         [("about_section", AboutSectionBlock())],
         use_json_field=True,
@@ -155,7 +145,7 @@ class HomePage(Page):
     ]
 
 
-    def serve(self, request, *args, **kwargs):
+    def serve(self, request):
         if request.method == 'POST':
             form = ContactForm(request.POST)
             if form.is_valid():
