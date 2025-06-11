@@ -40,7 +40,13 @@ class RecipeIndex(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context['recipes'] = RecipePage.objects.live().order_by('-first_published_at') #[:3] for paging
+
+        # Exclude the featured recipe if it exists
+        recipes = RecipePage.objects.live().order_by('-first_published_at') # [:3] for paging
+        if self.featured_recipe:
+            recipes = recipes.exclude(id=self.featured_recipe.id)
+
+        context['recipes'] = recipes
         context['breadcrumbs'] = get_breadcrumbs(self)
         return context
 
