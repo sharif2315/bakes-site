@@ -1,79 +1,56 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<!-- ABOUT SECTION -->
-{% for block in page.about_sections %}
-    {% if block.block_type == 'about_section' %}
-        <div id='about' class='my-24 grid lg:grid-cols-2 gap-24 lg:gap-0'>
-            
-            <div class='col-span-1 m-auto px-12 sm:px-0 max-w-md sm:max-w-2xl {% if forloop.counter0|divisibleby:2 %}lg:order-last{% endif %}'>
+{% for section in about_sections %}
+    <div id='about' class='my-24 grid lg:grid-cols-2 gap-24 lg:gap-0'>
 
-                <div class='grid gap-10 max-w-md'>
-                    
-                    <!-- Title and Description -->
-                    <div class='grid gap-4'>                
-                        <!-- Title -->
-                        {% if block.value.title %}
-                            <h1 class='text-3xl'>{{ block.value.title }}</h1>
-                        {% endif %}
-                        
-                        <!-- Description -->
-                        {% if block.value.description %}
-                            <p>{{ block.value.description }}</p>
-                        {% endif %}
-                    </div>
+        <div class='col-span-1 m-auto px-12 sm:px-0 max-w-md sm:max-w-2xl {% if forloop.counter0|divisibleby:2 %}lg:order-last{% endif %}'>
 
+            <div class='grid gap-10 max-w-md'>
 
-                    {% if block.value.features %}
-                    {% for feature in block.value.features %}
+                <div class='grid gap-4'>
+                    {% if section.title %}
+                        <h1 class='text-3xl'>{{ section.title }}</h1>
+                    {% endif %}
+                    {% if section.description %}
+                        <p>{{ section.description }}</p>
+                    {% endif %}
+                </div>
 
-                    <!-- Features - [ svg_icon, title, description ] - [1] -->
+                {% if section.features %}
+                    {% for feature in section.features %}
                     <div class='flex gap-8 sm:gap-4'>
 
                         <div class='flex justify-center items-center'>
                             <div class='p-3 bg-pink-400/50 rounded-full shadow-md'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-soup w-10 h-10">
-                                    <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"></path>
-                                    <path d="M7 21h10"></path>
-                                    <path d="M19.5 12 22 6"></path>
-                                    <path d="M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62"></path>
-                                    <path d="M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62"></path>
-                                    <path d="M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62"></path>
-                                </svg>
+                                    {{ feature.svg_icon.icon|safe }}
                             </div>
                         </div>
 
                         <div class='flex flex-col gap-2'>
                             {% if feature.title %}
-                            <h2 class='font-bold text-xl'>{{ feature.title }}</h2>
+                                <h2 class='font-bold text-xl'>{{ feature.title }}</h2>
                             {% endif %}
                             {% if feature.description %}
-                            <p class='text-md'>{{ feature.description }}</p>
+                                <p class='text-md'>{{ feature.description }}</p>
                             {% endif %}
                         </div>
                     </div>
-
                     {% endfor %}
-                    {% endif %}
-
-
-                </div>
+                {% endif %}
 
             </div>
-
-            {% if block.value.image %}
-            <!-- image -->
-            <div class='col-span-1 m-auto'>
-                {% image block.value.image original as image %}
-                <img
-                    src= {{ image.url }}
-                    alt=""
-                    class='rounded-xl shadow-md aspect-square max-w-[18rem] max-h-[18rem] sm:max-w-[30rem] sm:max-h-[30rem] object-cover' 
-                    />
-            </div>
-            {% endif %}
 
         </div>
-    {% endif %}
-{% endfor%}
+
+        {% if section.image %}
+        <div class='col-span-1 m-auto'>
+            {% image section.image original as image %}
+            <img
+                src="{{ image.url }}"
+                alt=""
+                class='rounded-xl shadow-md aspect-square max-w-[18rem] max-h-[18rem] sm:max-w-[30rem] sm:max-h-[30rem] object-cover' />
+        </div>
+        {% endif %}
+
+    </div>
+{% endfor %}

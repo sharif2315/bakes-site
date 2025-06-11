@@ -190,3 +190,38 @@ class HomePage(Page):
         context = self.get_context(request)
         context['form'] = form
         return render(request, self.template, context)
+
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['form'] = ContactForm()
+
+        about_sections = []
+
+        for section in self.about_sections:
+            section_dict = {
+                'image': section.value.get('image'),
+                'title': section.value.get('title'),
+                'description': section.value.get('description'),
+                'features': []
+            }
+
+            for feature in section.value.get('features', []):
+                svg_icon_obj = None
+                svg_icon_id = feature.get('svg_icon')
+                if svg_icon_id:
+                    try:
+                        svg_icon_obj = SvgIcon.objects.get(id=svg_icon_id)
+                    except SvgIcon.DoesNotExist:
+                        pass
+
+                section_dict['features'].append({
+                    'svg_icon': svg_icon_obj,
+                    'title': feature.get('title'),
+                    'description': feature.get('description'),
+                })
+
+            about_sections.append(section_dict)
+
+        context['about_sections'] = about_sections  # ✅ don't touch self.about_sections
+        return context
