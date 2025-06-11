@@ -2,8 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block inner_content %}
-    <!-- Breadcrumbs -->
-    {% include "components/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
 
     <h1 class="text-4xl font-semibold tracking-wide mb-10 text-gray-800">{{ page.title }}</h1>
 
@@ -52,4 +50,5 @@
         </div>
         
     </div>
+
 {% endblock inner_content %}

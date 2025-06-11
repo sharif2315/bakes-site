@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="flex justify-center mx-12 my-8">
     <div class="max-w-7xl">
+
+        {% include "components/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
+
         {% block inner_content %}
         {% endblock inner_content %}
     </div>
 </div>
+
 {% endblock content %}

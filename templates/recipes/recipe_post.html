@@ -2,8 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block inner_content %}
-    <!-- Breadcrumbs -->
-    {% include "components/breadcrumbs.html" with breadcrumbs=breadcrumbs %}
 
     <div class="grid gap-1">
         <!-- Category -->
@@ -132,4 +130,5 @@
     <h1 class="text-2xl font-bold">Recipe tips</h1>
     {{ page.recipe_tips | richtext }}
     </div>
+    
 {% endblock inner_content %}
