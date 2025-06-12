@@ -6,6 +6,7 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock, ChoiceBlock
+from wagtail.snippets.blocks import SnippetChooserBlock
 from modelcluster.fields import ParentalKey
 
 from utils.email import send_contact_email
@@ -20,26 +21,8 @@ class SvgIcon(models.Model):
         return self.name
 
 
-class SvgIconChoiceBlock(ChoiceBlock):
-    def __init__(self, **kwargs):
-        # Don't set choices here to avoid triggering the DB at import time
-        super().__init__(choices=[], **kwargs)
-
-    def get_choices(self, *args, **kwargs):
-        # Called at form render time, safe to access DB
-        return [(icon.id, icon.name) for icon in SvgIcon.objects.all()]
-
-    def render_form(self, value, prefix='', errors=None):
-        # Update choices dynamically when the form is rendered
-        self.choices = self.get_choices()
-        return super().render_form(value, prefix=prefix, errors=errors)
-
-
 class AboutFeatureBlock(StructBlock):
-    svg_icon = SvgIconChoiceBlock(
-        help_text="Select an SVG icon",
-        required=False
-    )
+    svg_icon = SnippetChooserBlock(SvgIcon, required=False)
     title = CharBlock()
     description = TextBlock()
 
@@ -197,16 +180,8 @@ class HomePage(Page):
             }
 
             for feature in section.value.get('features', []):
-                svg_icon_obj = None
-                svg_icon_id = feature.get('svg_icon')
-                if svg_icon_id:
-                    try:
-                        svg_icon_obj = SvgIcon.objects.get(id=svg_icon_id)
-                    except SvgIcon.DoesNotExist:
-                        pass
-
                 section_dict['features'].append({
-                    'svg_icon': svg_icon_obj,
+                    'svg_icon': feature.get('svg_icon'),  # already a SvgIcon instance
                     'title': feature.get('title'),
                     'description': feature.get('description'),
                 })
