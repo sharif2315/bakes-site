@@ -354,6 +354,9 @@
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
   .h-auto {
     height: auto;
   }
@@ -368,6 +371,9 @@
   }
   .w-6 {
     width: calc(var(--spacing) * 6);
+  }
+  .w-10 {
+    width: calc(var(--spacing) * 10);
   }
   .w-56 {
     width: calc(var(--spacing) * 56);
@@ -401,9 +407,6 @@
   }
   .max-w-fit {
     max-width: fit-content;
-  }
-  .max-w-full {
-    max-width: 100%;
   }
   .max-w-md {
     max-width: var(--container-md);
@@ -442,17 +445,11 @@
   .justify-center {
     justify-content: center;
   }
-  .justify-center-safe {
-    justify-content: safe center;
-  }
   .justify-end {
     justify-content: flex-end;
   }
   .justify-items-center {
     justify-items: center;
-  }
-  .justify-items-center-safe {
-    justify-items: safe center;
   }
   .gap-1 {
     gap: calc(var(--spacing) * 1);
@@ -743,16 +740,6 @@
   }
   .ring-gray-300 {
     --tw-ring-color: var(--color-gray-300);
-  }
-  .outline-2 {
-    outline-style: var(--tw-outline-style);
-    outline-width: 2px;
-  }
-  .outline-green-500 {
-    outline-color: var(--color-green-500);
-  }
-  .outline-red-500 {
-    outline-color: var(--color-red-500);
   }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter;
@@ -1254,11 +1241,6 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -1277,6 +1259,11 @@
   syntax: "*";
   inherits: false;
   initial-value: 1;
+}
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
 }
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
@@ -1307,11 +1294,11 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-scale-x: 1;
       --tw-scale-y: 1;
       --tw-scale-z: 1;
+      --tw-outline-style: solid;
     }
   }
 }
