@@ -41,24 +41,14 @@
 
         {% include 'home/partials/nav.html' %}
 
-        {% if messages %}
-        <ul class="mb-4">
-            {% for message in messages %}
-            <li class="text-green-700 bg-green-100 px-4 py-2 rounded">
-                {{ message }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
-        {# Main content block #}
-
-        
+        {# Main content block #}        
         {% block content %}{% endblock %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
 
+        {% include '_messages.html'  %}
 
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
