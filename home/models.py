@@ -46,9 +46,21 @@ class ContactSubmission(models.Model):
 
 
 class ContactMethod(Orderable):
+    CONTACT_TYPE_CHOICES = [
+        ('phone', 'Phone'),
+        ('email', 'Email'),
+        ('address', 'Address'),
+    ]
     page = ParentalKey('home.HomePage', related_name='contact_methods')
     svg_icon = models.ForeignKey(SvgIcon, null=True, blank=True, on_delete=models.SET_NULL)
     contact_text = models.CharField(max_length=255)
+    contact_type = models.CharField(max_length=10, choices=CONTACT_TYPE_CHOICES)
+
+    panels = [
+        FieldPanel('svg_icon'),
+        FieldPanel('contact_text'),
+        FieldPanel('contact_type'),
+    ]
 
     def __str__(self):
         return self.contact_text

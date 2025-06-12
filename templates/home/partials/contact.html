@@ -11,18 +11,29 @@
 
             {% if page.contact_methods.all %}
                 {% for entry in page.contact_methods.all %}
-                    <div class="flex gap-4 items-center">
-
-                            {% if entry.svg_icon %}
-                            <div class="w-6 h-6">
-                                {{ entry.svg_icon.icon|safe }}
-                            </div>
-                            {% endif %}
-
-                        <a href="#" class="hover:cursor-pointer">
-                            <p>{{ entry.contact_text }}</p>
-                        </a>
+                <div class="flex gap-4 items-center">
+                    {% if entry.svg_icon %}
+                    <div class="w-6 h-6">
+                        {{ entry.svg_icon.icon|safe }}
                     </div>
+                    {% endif %}
+
+                    {% if entry.contact_type == 'phone' %}
+                    <a href="tel:{{ entry.contact_text|cut:' ' }}" class="hover:cursor-pointer">
+                        <p>{{ entry.contact_text }}</p>
+                    </a>
+                    {% elif entry.contact_type == 'email' %}
+                    <a href="mailto:{{ entry.contact_text }}" class="hover:cursor-pointer">
+                        <p>{{ entry.contact_text }}</p>
+                    </a>
+                    {% elif entry.contact_type == 'address' %}
+                    <a href="https://www.google.com/maps/search/{{ entry.contact_text|urlencode }}" target="_blank" class="hover:cursor-pointer">
+                        <p>{{ entry.contact_text }}</p>
+                    </a>
+                    {% else %}
+                    <p>{{ entry.contact_text }}</p>
+                    {% endif %}
+                </div>
                 {% endfor %}
             {% endif %}
 
