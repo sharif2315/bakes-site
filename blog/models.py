@@ -13,6 +13,7 @@ from utils.breadcrumbs import get_breadcrumbs
 
 
 rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
+rt_features_with_image = rt_features + ['image']
 
 class RecipeIndex(Page):
     max_count = 1
@@ -105,15 +106,15 @@ class RecipePage(Page):
     )
     ingredients = RichTextField(
         blank=True,
-        features=rt_features,
+        features=rt_features_with_image,
     )
     method = RichTextField(
         blank=True,
-        features=rt_features,
+        features=rt_features_with_image,
     )
     recipe_tips = RichTextField(
         blank=True,
-        features=rt_features,
+        features=rt_features_with_image,
     )
 
     tags = ClusterTaggableManager(
