@@ -98,9 +98,9 @@
 
     </div>
 
-    <!-- SUMMARY - use RichText field-->
+    <!-- SUMMARY -->
     {% if page.description %}
-    <div class="flex flex-col gap-3 mb-8 max-w-3xl">
+    <div class="richtext flex flex-col gap-3 mb-8 max-w-3xl">
         {{ page.description | richtext }}
     </div>
     {% endif %}
@@ -109,7 +109,7 @@
     <div class="grid md:grid-cols-8 gap-10 md:gap-3 mb-10">
 
     <!-- INGREDIENTS -->
-    <div class="flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
+    <div class="richtext flex flex-col md:col-span-3 gap-3 border-r border-slate-200 md:pr-4">
         <h1 class="text-2xl font-bold tracking-wide">Ingredients</h1>
         {{ page.ingredients | richtext }}
     </div>
@@ -117,7 +117,7 @@
 
     <!-- METHOD -->
         <div class="md:pl-4 md:col-span-5">
-        <div class="flex flex-col gap-3">
+        <div class="richtext flex flex-col gap-3">
             <h1 class="text-2xl font-bold tracking-wide">Method</h1>
             {{ page.method | richtext }}
         </div>
@@ -127,7 +127,7 @@
 
     <!-- RECIPE TIPS -->
     <div class="flex flex-col gap-3 bg-gray-100 p-6 rounded-sm">
-    <h1 class="text-2xl font-bold">Recipe tips</h1>
+    <h1 class="richtext text-2xl font-bold">Recipe tips</h1>
     {{ page.recipe_tips | richtext }}
     </div>
     

@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+.richtext ol {
+    @apply list-decimal list-outside flex flex-col gap-3 pl-2 space-y-2;
+}
+
+.richtext ul {
+    @apply list-disc list-outside flex flex-col gap-3 pl-2 space-y-2;
+}
+
+.richtext img {
+    @apply rounded-md shadow-sm;
+}
+
+.richtext h2 {
+    @apply text-3xl;
+}
+
+.richtext h3 {
+    @apply text-2xl;
+}
+
+.richtext h4 {
+    @apply text-xl;
+}
+
+.richtext hr {
+    @apply text-slate-200;
+}
