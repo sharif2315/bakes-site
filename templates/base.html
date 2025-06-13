@@ -1,5 +1,6 @@
 {% load django_browser_reload %}
 {% load static wagtailcore_tags wagtailuserbar %}
+{% load django_vite %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,13 +24,13 @@
         {% if request.in_preview_panel %}
         <base target="_blank">
         {% endif %}
-
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/output.css' %}">
         
         <!-- Favicon -->
         <link rel="icon" href="{% static 'icons/store.svg' %}" type="image/svg+xml">
 
+        <!-- Vite Tags -->
+        {% vite_hmr_client %}
+        {% vite_asset 'static/js/main.js' %}
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -46,7 +47,8 @@
         {% block content %}{% endblock %}
 
         {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
+        <!--TODO: delete and replace with pines slideover -->
+        {% comment %} <script type="text/javascript" src="{% static 'js/nav.js' %}"></script> {% endcomment %}
 
         {% include '_messages.html'  %}
 
@@ -55,6 +57,5 @@
         {% endblock %}
 
         {% django_browser_reload_script %}
-        <script src="//unpkg.com/alpinejs" defer></script>
     </body>
 </html>

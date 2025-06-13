@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "products",
 
     "django_browser_reload",
+    "django_vite",
 ]
 
 MIDDLEWARE = [
@@ -145,11 +146,9 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    # os.path.join(PROJECT_DIR, "static"),
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "assets"),
 ]
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
 

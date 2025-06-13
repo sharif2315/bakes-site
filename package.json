@@ -1,9 +1,22 @@
 {
+  "name": "bakes-site",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "dev": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch"
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vite": "^6.3.5"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.4",
-    "tailwindcss": "^4.1.4"
+    "@tailwindcss/vite": "^4.1.10",
+    "alpinejs": "^3.14.9",
+    "htmx.org": "^2.0.4",
+    "tailwindcss": "^4.1.10"
   }
 }

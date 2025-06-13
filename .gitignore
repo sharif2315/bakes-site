@@ -9,6 +9,9 @@ __pycache__/
 # Meidia files
 media/
 
+# vite files
+/assets
+
 # Distribution / packaging
 .Python
 build/
