@@ -1,13 +1,13 @@
 version: '3.8'
 
 services:
-  postgres:
+  db:
     image: postgres:15
     container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
+      POSTGRES_DB: wagtail_db
     ports:
       - "5432:5432"
     volumes:
@@ -22,7 +22,7 @@ services:
     ports:
       - "5050:80"
     depends_on:
-      - postgres
+      - db
 
   minio:
     image: minio/minio
