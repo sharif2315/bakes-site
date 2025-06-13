@@ -2,3 +2,4 @@ Django>=5.1,<5.2
 wagtail>=6.4,<6.5
 django-vite==3.1.0
 python-decouple==3.8
+django-browser-reload==1.18.0

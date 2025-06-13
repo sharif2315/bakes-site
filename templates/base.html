@@ -10,14 +10,17 @@
             {% block title %}
             {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
             {% endblock %}
+
             {% block title_suffix %}
             {% wagtail_site as current_site %}
             {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
             {% endblock %}
         </title>
+
         {% if page.search_description %}
         <meta name="description" content="{{ page.search_description }}" />
         {% endif %}
+        
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Force all links in the live preview panel to be opened in a new tab #}
@@ -33,7 +36,6 @@
         {% vite_asset 'static/js/main.js' %}
 
         {% block extra_css %}
-        {# Override this in templates to add extra stylesheets #}
         {% endblock %}
     </head>
 
@@ -41,7 +43,6 @@
         {% wagtailuserbar %}
 
         {% include 'home/partials/nav.html' %}
-
 
         {# Main content block #}        
         {% block content %}{% endblock %}
@@ -53,7 +54,6 @@
         {% include '_messages.html'  %}
 
         {% block extra_js %}
-        {# Override this in templates to add extra javascript #}
         {% endblock %}
 
         {% django_browser_reload_script %}
