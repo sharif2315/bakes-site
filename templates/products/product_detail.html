@@ -41,10 +41,10 @@
             {% endwith %}
 
             <!-- overview block -->
-            <div class="px-6 flex flex-col gap-8 mt-6 md:mt-0 md:max-w-md">
+            <div class="px-6 space-y-8 mt-6 md:mt-0 md:max-w-md">
 
                 <!-- Category, title, price -->
-                <div class="flex flex-col gap-2">
+                <div class="space-y-2">
                     <h2 class="text-2xl font-semibold">{{ page.title }}</h2>
                     
                     {% if page.category %}
@@ -54,60 +54,52 @@
                     <p class="text-md">£{{ page.price }}</p>
                 </div>
 
-
                 <!-- Quantity & Add to Cart Button -->
-                    <div 
-                        x-data="{ qty: 1 }" 
-                        class="flex justify-center items-center text-lg rounded border border-slate-400 max-w-[8rem]"
-                    >
-                        <!-- Minus Icon -->
-                        <button 
-                            type="button" 
-                            @click="if (qty > 1) qty--" 
-                            class="py-2 px-3 text-slate-700 hover:cursor-pointer"
-                                >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
-                        </button>
-
-                        <input 
-                            type="number" 
-                            class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none py-2" 
-                            {% comment %} value="1" {% endcomment %}
-                            min="1"
-                            :value="qty"
-                            @input="qty = $event.target.value"
-                            name="quantity"
-                        >
-                        
-                        <!-- Add Icon -->
-                        <button 
-                            type="button" 
-                            @click="qty++" 
-                            class="py-2 px-3 text-slate-700 hover:cursor-pointer"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                        </button>
-
-
-                    </div>
-
                     <form 
                         method="POST"
                         hx-post="{% url 'add_to_cart' page.id %}" 
                         hx-target="#cart-count"
                         hx-swap="outerHTML"
-                        _class="outline outline-red-400"
+                        class="space-y-6"
+                        x-data="{ qty: 1 }" 
                     >
                         {% csrf_token %}
-                        <button class="w-full bg-black hover:cursor-pointer hover:opacity-75 text-white px-16 py-3 rounded-md text-sm font-semibold tracking-wide text-nowrap">
+
+                        <div class="flex justify-center items-center text-lg rounded border border-slate-400 max-w-[8rem]">
+                            <!-- Minus Icon -->
+                            <button 
+                                type="button" 
+                                @click="if (qty > 1) qty--" 
+                                class="py-2 px-3 text-slate-700 hover:cursor-pointer"
+                                    >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
+                            </button>
+
+                            <input 
+                                type="number" 
+                                class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none py-2" 
+                                min="1"
+                                :value="qty"
+                                @input="qty = $event.target.value"
+                                name="quantity"
+                            >
+                            
+                            <!-- Add Icon -->
+                            <button 
+                                type="button" 
+                                @click="qty++" 
+                                class="py-2 px-3 text-slate-700 hover:cursor-pointer"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            </button>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full bg-black hover:cursor-pointer hover:opacity-75 text-white px-16 py-3 rounded-md text-sm font-semibold tracking-wide text-nowrap">
                             Add to Cart
                         </button>
                     </form>
                     
-                    {% comment %} <button class="bg-black hover:cursor-pointer hover:opacity-75 text-white px-16 py-3 rounded-md text-sm font-semibold tracking-wide text-nowrap">
-                        Add to Cart
-                    </button> {% endcomment %}
-
 
                 <!-- Dietary Options -->
                 {% with options=page.dietary_options.all %}

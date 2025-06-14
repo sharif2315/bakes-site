@@ -7,9 +7,9 @@ from django.shortcuts import render
 @require_POST
 def add_to_cart(request, product_id):
     cart = request.session.get("cart", {})
-
+    quantity = int(request.POST.get("quantity", 1))
     product_id_str = str(product_id)
-    cart[product_id_str] = cart.get(product_id_str, 0) + 1
+    cart[product_id_str] = cart.get(product_id_str, 0) + quantity
 
     # clear cart - TESTING ONLY
     # request.session["cart"] = {}
