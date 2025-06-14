@@ -1,170 +1,114 @@
-<div x-data="{ slideOverOpen: false }"
-    class="relative z-50 w-auto h-auto">
+{% extends "components/_slide_over.html" %}
 
-    <!-- Cart Button -->
-    <button class="hover:cursor-pointer" @click="slideOverOpen=true">
-        <div id="cart-count" class="relative w-8 h-8">
-            
-            <!-- Cart Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="#000000"><path fill="#000000" d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path></svg>
-            
-            <!-- Number of Cart Items -->
-            <span class="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full">
-                {{ cart_total }}
-            </span>
-        </div>
-    </button>
-
-    <!-- Cart Slide Over-->
-    <template x-teleport="body">
-        <div 
-            x-show="slideOverOpen"
-            @keydown.window.escape="slideOverOpen=false"
-            class="relative z-[99]">
-            <div x-show="slideOverOpen" x-transition.opacity.duration.600ms @click="slideOverOpen = false" class="fixed inset-0 bg-black/50"></div>
-            <div class="fixed inset-0 overflow-hidden">
-                <div class="absolute inset-0 overflow-hidden">
-                    <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
-                        <div 
-                            x-show="slideOverOpen" 
-                            @click.away="slideOverOpen = false"
-                            x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" 
-                            x-transition:enter-start="translate-x-full" 
-                            x-transition:enter-end="translate-x-0" 
-                            x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" 
-                            x-transition:leave-start="translate-x-0" 
-                            x-transition:leave-end="translate-x-full" 
-                            class="w-screen max-w-md">
-                            
+{% block slide_over_trigger_btn %}
+<div id="cart-count" class="relative w-8 h-8">
+    
+    <!-- Cart Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="#000000"><path fill="#000000" d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path></svg>
+    
+    <!-- Number of Cart Items -->
+    <span class="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full">
+        {{ cart_total }}
+    </span>
+</div>
+{% endblock slide_over_trigger_btn %}
 
 
-                            <div class="flex flex-col h-full py-5 overflow-y-scroll bg-white border-l shadow-lg border-neutral-100/70">
-                                
-                                <!-- Title and Close Button-->
-                                <div class="px-4 sm:px-5">
-                                    
-                                    <div class="flex items-start justify-between pb-1">
-                                        <!-- Title -->
-                                        <h2 class="text-base font-semibold leading-6 text-gray-900" id="slide-over-title">Shopping cart</h2>
-
-                                        <!-- Close Button-->
-                                        <div class="flex items-center h-auto ml-3">
-                                            <button @click="slideOverOpen=false" class="absolute top-0 right-0 z-30 flex items-center justify-center px-3 py-2 mt-4 mr-5 space-x-1 text-xs font-medium uppercase rounded-md text-neutral-600 hover:bg-neutral-100 hover:cursor-pointer">
-                                                
-                                                <!-- Close Icon -->
-                                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                                </svg>
-
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
+{% block title %}
+<h2 class="text-base font-semibold leading-6 text-gray-900" id="slide-over-title">Shopping cart</h2>
+{% endblock title %}
 
 
-                                <div class="pointer-events-auto w-screen max-w-md h-full">
-                                    <div class="flex h-full flex-col justify-between overflow-y-auto">
-                                        
-                                        <!-- Cart Items Listing -->
-                                        <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+{% block content %}
+<div class="pointer-events-auto w-screen max-w-md h-full">
+    <div class="flex h-full flex-col justify-between overflow-y-auto">
+        
+        <!-- Cart Items Listing -->
+        <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
 
-                                            <div class="mt-8">
-                                                <div class="flow-root">
-                                                    <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                                    
-                                                    <!-- Product 1 -->
-                                                    <li class="flex py-6">
-                                                        <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                        <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="size-full object-cover" />
-                                                        </div>
-
-                                                        <div class="ml-4 flex flex-1 flex-col">
-                                                        <div>
-                                                            <div class="flex justify-between text-base font-medium text-gray-900">
-                                                            <h3>
-                                                                <a href="#">Throwback Hip Bag</a>
-                                                            </h3>
-                                                            <p class="ml-4">$90.00</p>
-                                                            </div>
-                                                            <p class="mt-1 text-sm text-gray-500">Salmon</p>
-                                                        </div>
-                                                        <div class="flex flex-1 items-end justify-between text-sm">
-                                                            <p class="text-gray-500">Qty 1</p>
-
-                                                            <div class="flex">
-                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <!-- Product 2 -->
-                                                    <li class="flex py-6">
-                                                        <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                        <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-02.jpg" alt="Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch." class="size-full object-cover" />
-                                                        </div>
-
-                                                        <div class="ml-4 flex flex-1 flex-col">
-                                                        <div>
-                                                            <div class="flex justify-between text-base font-medium text-gray-900">
-                                                            <h3>
-                                                                <a href="#">Medium Stuff Satchel</a>
-                                                            </h3>
-                                                            <p class="ml-4">$32.00</p>
-                                                            </div>
-                                                            <p class="mt-1 text-sm text-gray-500">Blue</p>
-                                                        </div>
-                                                        <div class="flex flex-1 items-end justify-between text-sm">
-                                                            <p class="text-gray-500">Qty 1</p>
-
-                                                            <div class="flex">
-                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                    </li>
-
-                                                    <!-- More products... -->
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Subtotal and Checkout Button Section -->
-                                        <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
-                                            <div class="flex justify-between text-base font-medium text-gray-900">
-                                            <p>Subtotal</p>
-                                            <p>$262.00</p>
-                                            </div>
-                                            <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-                                            <div class="mt-6">
-                                            <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">Checkout</a>
-                                            </div>
-                                            <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-                                            <p>
-                                                or
-                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                                Continue Shopping
-                                                <span aria-hidden="true"> &rarr;</span>
-                                                </button>
-                                            </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-
-
+            <div class="mt-8">
+                <div class="flow-root">
+                    <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    
+                    <!-- Product 1 -->
+                    <li class="flex py-6">
+                        <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="size-full object-cover" />
                         </div>
-                    </div>
+
+                        <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                            <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                                <a href="#">Throwback Hip Bag</a>
+                            </h3>
+                            <p class="ml-4">$90.00</p>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">Salmon</p>
+                        </div>
+                        <div class="flex flex-1 items-end justify-between text-sm">
+                            <p class="text-gray-500">Qty 1</p>
+
+                            <div class="flex">
+                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                            </div>
+                        </div>
+                        </div>
+                    </li>
+
+                    <!-- Product 2 -->
+                    <li class="flex py-6">
+                        <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-02.jpg" alt="Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch." class="size-full object-cover" />
+                        </div>
+
+                        <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                            <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                                <a href="#">Medium Stuff Satchel</a>
+                            </h3>
+                            <p class="ml-4">$32.00</p>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">Blue</p>
+                        </div>
+                        <div class="flex flex-1 items-end justify-between text-sm">
+                            <p class="text-gray-500">Qty 1</p>
+
+                            <div class="flex">
+                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                            </div>
+                        </div>
+                        </div>
+                    </li>
+
+                    <!-- More products... -->
+                    </ul>
                 </div>
             </div>
         </div>
-    </template>
-</div>
 
+        <!-- Subtotal and Checkout Button Section -->
+        <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+            <div class="flex justify-between text-base font-medium text-gray-900">
+            <p>Subtotal</p>
+            <p>$262.00</p>
+            </div>
+            <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+            <div class="mt-6">
+            <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">Checkout</a>
+            </div>
+            <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+            <p>
+                or
+                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                Continue Shopping
+                <span aria-hidden="true"> &rarr;</span>
+                </button>
+            </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
