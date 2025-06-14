@@ -141,6 +141,13 @@ AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
 AWS_S3_FILE_OVERWRITE = config("AWS_S3_FILE_OVERWRITE", cast=bool, default=False)
 AWS_QUERYSTRING_AUTH = config("AWS_QUERYSTRING_AUTH", cast=bool, default=False)
 
+AWS_DEFAULT_ACL = None
+
+# Optional: Adjust expiry time (in seconds)
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",  # or any caching policy you want
+}
+
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 
