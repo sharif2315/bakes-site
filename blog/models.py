@@ -18,10 +18,9 @@ rt_features_with_image = rt_features + ['image']
 class RecipeIndex(Page):
     max_count = 1
     template = "recipes/recipes_index.html"
-    # subpage_types = ['blog.RecipePage']
+    subpage_types = ['blog.RecipePage']
     parent_page_types = ['home.HomePage']
 
-    subtitle = models.CharField(max_length=100, blank=True)
     description = RichTextField(
         blank=True,
         features=rt_features,
@@ -34,7 +33,6 @@ class RecipeIndex(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('subtitle'),
         FieldPanel('description'),
         FieldPanel('featured_recipe'),
     ]
@@ -65,10 +63,6 @@ class RecipePage(Page):
     subpage_types = []  # No subpages allowed
     template = "recipes/recipe_post.html"
 
-    summary = models.CharField(
-        max_length=255, 
-        blank=True, 
-    )
     main_image = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True,
         on_delete=models.SET_NULL, related_name='+'
@@ -129,7 +123,6 @@ class RecipePage(Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [   
-                FieldPanel('summary'),
                 FieldRowPanel([
                     FieldPanel('category'),
                    FieldPanel('date_posted'),
