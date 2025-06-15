@@ -4,8 +4,7 @@ from products.models import Product
 def cart_total(request):
     cart = request.session.get("cart", {})
     cart_total = sum(cart.values())
-
-    # print('cart total from CP', cart_total)
+    
     return {
         "cart_total": cart_total
     }
@@ -28,7 +27,6 @@ def cart_items(request):
         price = product.price
         total = price * quantity
         total_price += total
-
         first_image = product.product_images.first()
 
         items.append({
@@ -42,9 +40,6 @@ def cart_items(request):
             "image": first_image.image if first_image else None,
 
         })
-
-    
-    # print("cart_items", items)
 
     return {
         "cart_items": items,
