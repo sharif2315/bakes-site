@@ -1,0 +1,97 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div id="cart-items" hx-swap-oob="true" class="pointer-events-auto w-screen max-w-md h-full">
+    <div class="flex h-full flex-col justify-between overflow-y-auto">
+        
+        <!-- Cart Items Listing -->
+        <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+
+            <div class="mt-8">
+                <div class="flow-root">
+                    <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    
+                    <!-- Product 1 -->
+                    {% for item in cart_items %}
+                    
+                    <li class="flex py-6">
+                        <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
+                            
+                            {% image item.image fill-100x100 as product_image %}
+                            <img 
+                                src="{{ product_image.url }}"
+                                alt="#" 
+                                class="size-full object-cover" 
+                            />
+
+                        </div>
+
+                        <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                            <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                                <a href="{{ item.url }}">{{ item.title }}</a>
+                            </h3>
+                            <p class="ml-4">£{{ item.price }}</p>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">{{ item.category }}</p>
+                        </div>
+                        <div class="flex flex-1 items-end justify-between text-sm">
+                            <p class="text-gray-500">Qty {{ item.quantity }}</p>
+
+                            <div class="flex">
+                                <!-- Delete Item -->
+                                <form
+                                    hx-delete="{% url 'remove_from_cart' product_id=item.id %}"
+                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                    hx-swap="none"
+                                >
+                                    {% csrf_token %}
+
+                                    <button class="hover:cursor-pointer hover:text-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                                    </button>
+                                </form>
+
+                                    
+
+                            </div>
+                        </div>
+                        </div>
+                    </li>
+
+                    {% endfor %}
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subtotal and Checkout Button Section -->
+        <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+
+            <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>Subtotal</p>
+                <p>${{ cart_total_price }}</p>
+            </div>
+
+            <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+
+            <div class="mt-6">
+                <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-gray-900 hover:bg-gray-700 transition duration-300 px-6 py-3 text-base font-medium text-white shadow-xs">Checkout</a>
+            </div>
+
+            <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                <p>
+                    or
+                    <button type="button" class="font-medium text-gray-600 hover:text-gray-500">
+                    Continue Shopping
+                    <span aria-hidden="true"> &rarr;</span>
+                    </button>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>

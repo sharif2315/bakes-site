@@ -40,6 +40,9 @@ def cart_items(request):
             "image": first_image.image if first_image else None,
 
         })
+    
+    # TESTING - clears cart
+    # request.session["cart"] = {}
 
     return {
         "cart_items": items,
