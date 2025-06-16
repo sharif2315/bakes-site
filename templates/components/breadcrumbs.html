@@ -4,8 +4,12 @@
             <span class="text-gray-500">{% include 'icons/breadcrumb.html' %}</span>
         {% endif %}
         {% if crumb.url %}
-            <a href="{{ crumb.url }}" class="hover:text-gray-900 transition duration-300">
-                <p>{{ crumb.title }}</p>
+            <a href="{{ crumb.url }}" class="hover:text-gray-900 transition duration-300 flex items-center gap-1">
+                {% if forloop.first %}
+                    {% include 'icons/home.html' %}
+                {% else %}
+                    <p>{{ crumb.title }}</p>
+                {% endif %}
             </a>
         {% else %}
             <p class="text-gray-900">{{ crumb.title }}</p>
