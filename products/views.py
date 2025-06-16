@@ -13,7 +13,7 @@ def add_to_cart(request, product_id):
     request.session["cart"] = cart
 
     # Return just the updated cart count in cart template partial
-    return render(request, "products/cart.html", {"cart_total": sum(cart.values())})
+    return render(request, "products/cart/cart.html", {"cart_total": sum(cart.values())})
 
 
 @require_http_methods(["DELETE"])
@@ -27,4 +27,4 @@ def remove_from_cart(request, product_id):
     request.session["cart"] = cart
 
     context = build_cart_context(cart)
-    return render(request, "products/cart.html", context)
+    return render(request, "products/cart/cart.html", context)
