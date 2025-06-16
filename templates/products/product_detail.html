@@ -61,7 +61,8 @@
                         hx-target="#cart-count"
                         hx-swap="outerHTML"
                         class="space-y-6"
-                        x-data="{ qty: 1 }" 
+                        x-data="{ qty: 1 }"
+                        x-init="document.addEventListener('htmx:afterRequest', () => { qty = 1 })"
                     >
                         {% csrf_token %}
 
