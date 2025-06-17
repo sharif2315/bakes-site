@@ -32,6 +32,14 @@
         <div class="shadow-md">
             <div class="flex justify-between items-center px-4 py-4 bg-white opacity-90 max-w-7xl mx-auto">
                 
+                <div class="flex sm:hidden gap-6">    
+                    <!-- Nav Mobile Slide over -->
+                    <div class="sm:hidden hover:cursor-pointer flex items-center">
+                        {% include 'home/partials/nav_slide_over.html' with slide_direction="left" %}
+                    </div>
+                </div>
+
+                
                 <a href="/" class="hover:cursor-pointer hover:text-gray-700 tracking-wide">
                     <div>Richmond Bakes</div>
                 </a>
@@ -60,16 +68,10 @@
 
                 </ul>
 
-                <div class="flex sm:hidden gap-6">
-                    <!-- Cart-->
-                    {% include 'products/cart/cart.html' %} 
-                    
-                    <!-- Nav Mobile Slide over -->
-                    <div class="sm:hidden hover:cursor-pointer flex items-center">
-                        {% include 'home/partials/nav_slide_over.html' with slide_direction="left" %}
-                    </div>
+                <!-- Cart-->
+                <div class="block sm:hidden">
+                    {% include 'products/cart/cart.html' %}
                 </div>
-
 
             </div>
         </div>
