@@ -1,14 +1,14 @@
 from .base import *
 
-DEBUG = False
+# DEBUG = False
 
 try:
     from .local import *
 except ImportError:
     pass
 
-DJANGO_VITE = {
-    "default": {
-        "dev_mode": DEBUG  # or just False
-    }
-}
+# DJANGO_VITE = {
+#     "default": {
+#         "dev_mode": DEBUG  # or just False
+#     }
+# }

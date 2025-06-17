@@ -1,6 +1,17 @@
 import os
-from decouple import config
+from decouple import config, Csv
 from storages.backends.s3boto3 import S3Boto3Storage
+
+
+DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = config('SECRET_KEY')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": DEBUG
+    }
+}
 
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
