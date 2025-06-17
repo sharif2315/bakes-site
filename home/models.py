@@ -22,7 +22,7 @@ class SvgIcon(models.Model):
 
 
 class SocialMediaLink(models.Model):
-    name = models.CharField(max_length=100)
+    # name = models.CharField(max_length=100)
     url = models.URLField()
     icon = models.ForeignKey(
         SvgIcon,
@@ -33,7 +33,12 @@ class SocialMediaLink(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.icon.name
+    
+    class Meta:
+        verbose_name = "Social Media Link"
+        verbose_name_plural = "Social Media Links"
+
 
 class AboutFeatureBlock(StructBlock):
     svg_icon = SnippetChooserBlock(SvgIcon, required=False)

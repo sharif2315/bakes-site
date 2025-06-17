@@ -9,7 +9,7 @@ class TagSnippetViewSet(SnippetViewSet):
     icon = "doc-empty"
     add_to_admin_menu = True
     menu_label = "SVG Icons"
-    menu_order = 200
+    menu_order = 230
     list_display = ["name", "icon"]
     search_fields = ["name",]
     panels = [
@@ -23,7 +23,7 @@ class ContactSubmissionViewSet(SnippetViewSet):
     icon = "mail"
     add_to_admin_menu = True
     menu_label = "Contact Submissions"
-    menu_order = 300
+    menu_order = 250
     list_display = ["first_name", "last_name", "email", "submitted_at"]
     search_fields = ["first_name", "last_name", "email"]
     panels = [
@@ -46,11 +46,13 @@ class SocialMediaLinkViewSet(SnippetViewSet):
     icon = "media"
     add_to_admin_menu = True
     menu_label = "Social Links"
-    menu_order = 300
-    ist_display = ["name", "url", "icon"]
-    search_fields = ["name", "url", "icon"]
+    menu_order = 240
+    list_display = [
+        "icon", 
+        "url"
+        ]
+    search_fields = ["url", "icon"]
     panels = [
-        FieldPanel("name"),
         FieldPanel("url"),
         FieldPanel("icon"),
     ]
