@@ -10,12 +10,30 @@
 
 
 {% block title %}
-    <h2 class="text-2xl font-semibold leading-6 text-gray-900" id="slide-over-title">Richmond Bakes</h2>
+<a href="{{ home_page.url }}">Richmond Bakes</a>
 {% endblock title %}
 
 
 {% block content %}
-<div class="px-4 sm:px-5">
-    <p>Nav links go here!</p>
+<div class="mt-12 px-4 sm:px-5">
+
+    <ul class="flex flex-col gap-10 tracking-wide pl-2 text-3xl font-semibold text-gray-500">
+        
+        {% if product_listing %}
+        <li class="flex items-center hover:text-gray-700">
+            <a href="{{ product_listing.url }}">{{ product_listing.title }}</a>
+        </li>
+        {% endif %}
+
+        {% if recipe_index %}
+        <li class="flex items-center hover:text-gray-700">
+            <a href="{{ recipe_index.url }}">{{ recipe_index.title }}</a>
+        </li>
+        {% endif %}
+        
+        <li class="flex items-center hover:text-gray-700"><a href="/#about">About</a></li>
+        <li class="flex items-center hover:text-gray-700"><a href="/#contact">Contact</a></li>
+    </ul>
+
 </div>
 {% endblock content %}
