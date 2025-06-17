@@ -1,12 +1,12 @@
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
-from .models import SvgIcon, ContactSubmission
+from .models import SvgIcon, ContactSubmission, SocialMediaLink
 
 @register_snippet
 class TagSnippetViewSet(SnippetViewSet):
     model = SvgIcon
-    # icon = "tag"
+    icon = "doc-empty"
     add_to_admin_menu = True
     menu_label = "SVG Icons"
     menu_order = 200
@@ -38,3 +38,19 @@ class ContactSubmissionViewSet(SnippetViewSet):
     #     return self.model.objects.order_by("-submitted_at")
 
         # Disable add, edit, and delete
+
+
+@register_snippet
+class SocialMediaLinkViewSet(SnippetViewSet):
+    model = SocialMediaLink
+    icon = "media"
+    add_to_admin_menu = True
+    menu_label = "Social Links"
+    menu_order = 300
+    ist_display = ["name", "url", "icon"]
+    search_fields = ["name", "url", "icon"]
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("url"),
+        FieldPanel("icon"),
+    ]

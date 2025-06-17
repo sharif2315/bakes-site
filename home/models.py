@@ -5,7 +5,7 @@ from wagtail.models import Page, Orderable
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock, ChoiceBlock
+from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 from modelcluster.fields import ParentalKey
 
@@ -20,6 +20,20 @@ class SvgIcon(models.Model):
     def __str__(self):
         return self.name
 
+
+class SocialMediaLink(models.Model):
+    name = models.CharField(max_length=100)
+    url = models.URLField()
+    icon = models.ForeignKey(
+        SvgIcon,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="social_links"
+    )
+
+    def __str__(self):
+        return self.name
 
 class AboutFeatureBlock(StructBlock):
     svg_icon = SnippetChooserBlock(SvgIcon, required=False)
