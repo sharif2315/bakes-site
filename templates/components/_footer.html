@@ -2,17 +2,32 @@
 
     <hr class="text-gray-300">
     
-    <div class="flex flex-col gap-6 md:gap-0 md:flex-row md:justify-between md:items-center md:px-10 lg:px-8 pt-4 _outline-2 outline-green-500">
+    <div class="flex flex-col gap-6 md:gap-0 md:flex-row md:justify-between md:items-center md:px-10 lg:px-8 pt-4">
 
         <div class="flex justify-between items-start">
-            <div class="space-y-3 md:space-y-4 _outline-2 outline-blue-500">
-                <h2 class="text-xl font-bold tracking-wide">Richmond Bakes</h2>
+            <div class="space-y-3 md:space-y-4">
+                <h2 class="text-xl font-bold tracking-wide">{{ home_page.title }}</h2>
                 
                 <ul class="flex gap-5 text-sm font-semibold">
-                    <li>Products</li>
-                    <li>Recipes</li>
-                    <li>About</li>
-                    <li>Contact</li>
+                    {% if product_listing %}
+                    <li>
+                        <a href="{{ product_listing.url }}">{{ product_listing.title }}</a>
+                    </li>
+                    {% endif %}
+
+                    {% if recipe_index %}
+                    <li>
+                        <a href="{{ recipe_index.url }}">{{ recipe_index.title }}</a>
+                    </li>
+                    {% endif %}
+
+                    <li>
+                        <a href="/#about">About</a>
+                    </li>
+
+                    <li>
+                        <a href="/#contact">Contact</a>
+                    </li>
                 </ul>
             </div>
 
@@ -28,11 +43,11 @@
 
         <div class="flex items-center">
 
-            <ul class="flex justify-end items-center gap-3 md:p-6 _outline-2 outline-red-500">
+            <ul class="flex justify-end items-center gap-3 md:p-6">
                 {% for link in social_links %}
                 <li class="rounded-full bg-black p-2 hover:bg-gray-600">
                     <a href="{{ link.url }}">
-                        <div class="text-white h-5 w-5 flex _justify-center items-center">
+                        <div class="text-white h-5 w-5 flex items-center">
                             {{ link.icon.icon|safe }}
                         </div>
                     </a>

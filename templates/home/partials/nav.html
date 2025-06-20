@@ -1,30 +1,4 @@
-<!-- Overlay -->
-<div
-    id="overlay"
-    onclick="closeNav()"
-    class="fixed inset-0 bg-slate-800 opacity-50 sm:opacity-0 transition-opacity duration-500 invisible z-40"
->
-</div>
-
-
 <div class="relative">
-
-    <!-- Side Nav -->
-    <div id="mySidenav" class="sm:hidden fixed top-0 left-0 h-full w-64 bg-gray-900 text-white pt-16 transition-transform duration-500 -translate-x-full z-50">
-        <a href="javascript:void(0)" onclick="closeNav()" class="absolute top-4 right-6 text-3xl text-gray-400 hover:text-white transition duration-300">&times;</a>
-        
-        {% if product_listing %}
-        <a href="{{ product_listing.url }}" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">{{ product_listing.title }}</a>
-        {% endif %}
-
-        {% if recipe_index %}
-        <a href="{{ recipe_index.url }}" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">{{ recipe_index.title }}</a>
-        {% endif %}
-        
-        <a href="#" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">About</a>
-        <a href="#" class="block px-8 py-3 text-xl text-gray-400 hover:text-white transition duration-300">Contact</a>
-    </div>
-
 
     <div id="main" class="transition-all duration-500">
 
