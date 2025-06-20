@@ -3,9 +3,6 @@
 <!-- HERO SECTION -->
 {% if page.hero_image %}
     {% image page.hero_image original as hero_image %}
-    {% comment %} <img src="{{ hero_image.url }}" alt="{{ page.hero_image.title }}"> {% endcomment %}
-    {% comment %} <p>{{ hero_image.url }}</p> {% endcomment %}
-
 
     <div class="relative h-screen flex justify-center items-center">
         <!-- Background Image -->
@@ -18,16 +15,14 @@
         <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
     
         <!-- Hero Text -->
-        <div class="relative z-20 flex flex-col gap-3 justify-center items-center px-14 text-white">
-            <h1 class="text-7xl">{{ page.hero_title }}</h1>
-            <p class="text-xl">{{ page.hero_description }}</p>
+        <div class="relative z-20 flex flex-col gap-6 justify-start items-start px-14 text-white">
+            <h1 class="text-7xl _outline-2 outline-red-500">{{ page.hero_title }}</h1>
+            <p class="text-2xl lg:text-3xl tracking-wide _outline-2 outline-red-500">{{ page.hero_description }}</p>
         </div>
     </div>
 
 
 {% elif page.hero_image_url %}
-    {% comment %} <img src="{{ page.hero_image_url }}" alt="Hero image from URL"> {% endcomment %}
-    {% comment %} <p>{{ page.hero_image_url }}</p> {% endcomment %}
     <div class="relative h-screen flex justify-center items-center">
         <!-- Background Image -->
         <div
