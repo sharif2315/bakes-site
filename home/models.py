@@ -20,9 +20,11 @@ class SvgIcon(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "SVG Icon"
+        verbose_name_plural = "SVG Icons"
 
 class SocialMediaLink(models.Model):
-    # name = models.CharField(max_length=100)
     url = models.URLField()
     icon = models.ForeignKey(
         SvgIcon,

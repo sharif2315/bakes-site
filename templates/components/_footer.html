@@ -1,0 +1,56 @@
+<div class="max-w-7xl mx-auto px-6">
+
+    <hr class="text-gray-300">
+    
+    <div class="flex flex-col gap-6 md:gap-0 md:flex-row md:justify-between md:items-center md:px-10 lg:px-8 pt-4 _outline-2 outline-green-500">
+
+        <div class="flex justify-between items-start">
+            <div class="space-y-3 md:space-y-4 _outline-2 outline-blue-500">
+                <h2 class="text-xl font-bold tracking-wide">Richmond Bakes</h2>
+                
+                <ul class="flex gap-5 text-sm font-semibold">
+                    <li>Products</li>
+                    <li>Recipes</li>
+                    <li>About</li>
+                    <li>Contact</li>
+                </ul>
+            </div>
+
+            <a href="" class="md:hidden flex gap-3 items-center">
+                <p class="text-sm font-bold tracking-wide">Back To Top</p>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </div>
+            </a>
+        </div>
+
+        <hr class="text-gray-300">
+
+        <div class="flex items-center">
+
+            <ul class="flex justify-end items-center gap-3 md:p-6 _outline-2 outline-red-500">
+                {% for link in social_links %}
+                <li class="rounded-full bg-black p-2 hover:bg-gray-600">
+                    <a href="{{ link.url }}">
+                        <div class="text-white h-5 w-5 flex _justify-center items-center">
+                            {{ link.icon.icon|safe }}
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+    
+            <a href="" class="hidden md:flex gap-3 items-center">
+                <p class="text-sm font-bold tracking-wide">Back To Top</p>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon lucide-arrow-up"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                </div>
+            </a>
+        </div>
+
+
+    </div>
+    
+
+</div>

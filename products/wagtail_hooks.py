@@ -5,7 +5,7 @@ from wagtail.snippets.views.snippets import SnippetViewSet
 from .models import DietaryOption, Category
 
 @register_snippet
-class TagSnippetViewSet(SnippetViewSet):
+class DietaryOptionSnippetViewSet(SnippetViewSet):
     model = DietaryOption
     add_to_admin_menu = True
     menu_label = "Dietary Options"

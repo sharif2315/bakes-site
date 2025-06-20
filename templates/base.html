@@ -40,19 +40,18 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
+        {% comment %} {% wagtailuserbar %} {% endcomment %}
 
         {% include 'home/partials/nav.html' %}
 
         {# Main content block #}        
-        {% block content %}{% endblock %}
-
-        {# Global javascript #}
-        <!--TODO: delete and replace with pines slideover -->
-        {% comment %} <script type="text/javascript" src="{% static 'js/nav.js' %}"></script> {% endcomment %}
-
+        {% block content %}{% endblock %}        
+        
+        {% include 'components/_footer.html' %}
+        
         {% include '_messages.html'  %}
-
+        
+        {# Global javascript #}
         {% block extra_js %}
         {% endblock %}
 

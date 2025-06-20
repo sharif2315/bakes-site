@@ -1,7 +1,7 @@
 # home/context_processors.py
 from blog.models import RecipeIndex
 from products.models import ProductListing
-from home.models import HomePage
+from home.models import HomePage, SocialMediaLink
 
 
 def custom_context(request):
@@ -25,3 +25,7 @@ def custom_context(request):
             'url': home_page.url,
         } if home_page else None,
     }
+
+def get_social_links(request):
+    social_links = SocialMediaLink.objects.all()
+    return { 'social_links': social_links }
