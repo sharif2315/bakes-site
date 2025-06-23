@@ -16,6 +16,8 @@ urlpatterns = [
 
     # Product urls for cart
     path("", include("products.urls")),
+    # Orders urls
+    path("", include("orders.urls")),
 ]
 
 
