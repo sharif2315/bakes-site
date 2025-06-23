@@ -42,6 +42,7 @@
     <body class="{% block body_class %}{% endblock %}">
         {% comment %} {% wagtailuserbar %} {% endcomment %}
 
+        {% include 'home/partials/_banner.html' %}
         {% include 'home/partials/nav.html' %}
 
         {# Main content block #}        

@@ -1,7 +1,7 @@
 # home/context_processors.py
 from blog.models import RecipeIndex
 from products.models import ProductListing
-from home.models import HomePage, SocialMediaLink
+from home.models import HomePage, SocialMediaLink, ContactMethod
 
 
 def custom_context(request):
@@ -29,3 +29,7 @@ def custom_context(request):
 def get_social_links(request):
     social_links = SocialMediaLink.objects.all()
     return { 'social_links': social_links }
+
+def get_contact_info(request):
+    contact_methods = ContactMethod.objects.all()
+    return { 'contact_methods': contact_methods }

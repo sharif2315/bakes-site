@@ -80,6 +80,7 @@ TEMPLATES = [
 
                 "home.context_processors.custom_context",
                 "home.context_processors.get_social_links",
+                "home.context_processors.get_contact_info",
                 "products.context_processors.cart_items",
             ],
         },
