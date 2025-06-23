@@ -12,7 +12,11 @@ fields for Order:
 - address, drop off location? station?
 - delivery option
 = requested delivery date
-- delivery charge - £5 ??? settings page for admin to set this?
 
 - total price
+
+Settings:
+- delivery charge
+- email to, email from? or keep in settings via env vars?
+
 """

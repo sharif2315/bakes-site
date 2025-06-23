@@ -1,85 +1,210 @@
-{% extends "base_inner.html" %} 
-{% load wagtailcore_tags wagtailimages_tags %}
-
+{% extends "base_inner.html" %} {% load wagtailcore_tags wagtailimages_tags %}
 {% block inner_content %}
 <div class="grid sm:grid-cols-2 gap-3">
-  <div>
+
+  <div class="sm:order-1">
     <h1 class="text-2xl">Checkout Page</h1>
   </div>
 
-  <div class="space-y-6">
-    <h1 class="text-2xl">Contact Info</h1>
 
+
+
+  <div class="space-y-8">
+    <!-- contact info section -->
     <div class="space-y-3">
+      <h2 class="text-2xl">Contact Info</h2>
+
+      <!-- first name, last name, email and phone inputs-->
+      <div class="space-y-3">
+        <!-- First Name & Last Name Container -->
         <div class="flex gap-3">
-            <!-- First Name Input with Label Group -->
-            <div>
-                <!-- First Name Label -->
-              <label for="first-name" class="block text-sm/6 font-medium text-gray-900">First Name</label>
-                
-              <!-- First Name Input -->
-              <div class="mt-2">
-                <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                  <input
-                    type="text"
-                    name="first-name"
-                    id="first-name"
-                    class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                    placeholder="John"
-                  />
-                </div>
+          <!-- First Name Input with Label Group -->
+          <div>
+            <!-- First Name Label -->
+            <label
+              for="first-name"
+              class="block text-sm/6 font-medium text-gray-900"
+              >First Name</label
+            >
+
+            <!-- First Name Input -->
+            <div class="mt-2">
+              <div
+                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+              >
+                <input
+                  type="text"
+                  name="first-name"
+                  id="first-name"
+                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  placeholder="John"
+                />
               </div>
             </div>
-        
-            <!-- Last Name Input with Label Group -->
-            <div>
-                <!-- Last Name Label -->
-              <label for="last-name" class="block text-sm/6 font-medium text-gray-900">Last Name</label>
-                
-              <!-- Last Name Input -->
-              <div class="mt-2">
-                <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                    placeholder="Doe"
-                  />
-                </div>
-              </div>
-            </div>
-        </div>
-    
-        <!-- Address Input with Label Group -->
-        <div>
+          </div>
+
+          <!-- Last Name Input with Label Group -->
+          <div>
             <!-- Last Name Label -->
-            <label for="price" class="block text-sm/6 font-medium text-gray-900">Address</label>
-            
+            <label
+              for="last-name"
+              class="block text-sm/6 font-medium text-gray-900"
+              >Last Name</label
+            >
+
             <!-- Last Name Input -->
             <div class="mt-2">
-            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+              <div
+                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+              >
                 <input
-                type="text"
-                name="last-name"
-                id="last-name"
-                class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                placeholder="123 Fake Street"
+                  type="text"
+                  name="last-name"
+                  id="last-name"
+                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  placeholder="Doe"
                 />
+              </div>
             </div>
-            </div>
+          </div>
         </div>
 
-        
-        <!-- Phone number -->
-        <!-- Email -->
-        <!-- ReCapcha -->
+        <!-- Email Input with Label Group -->
+        <div>
+          <!-- Last Name Label -->
+          <label for="price" class="block text-sm/6 font-medium text-gray-900"
+            >Email</label
+          >
+
+          <!-- Email Input -->
+          <div class="mt-2">
+            <div
+              class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+            >
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                placeholder="john@mail.com"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone Number Input with Label Group -->
+        <div>
+          <!-- Phone Number Label -->
+          <label for="price" class="block text-sm/6 font-medium text-gray-900"
+            >Phone</label
+          >
+
+          <!-- Phone Number Input -->
+          <div class="mt-2">
+            <div
+              class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+            >
+              <input
+                type="number"
+                name="phone"
+                id="last-name"
+                class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                placeholder="07512345678"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
 
+    <!-- Address Section -->
+    <div class="space-y-3">
+      <h2 class="text-2xl">Address</h2>
+
+      <!-- Address fields inputs -->
+      <div class="space-y-3">
+  
+        <!-- Street Name with Label Group -->
+        <div>
+          <!-- Last Name Label -->
+          <label for="street-name" class="block text-sm/6 font-medium text-gray-900">Street Name</label>
+  
+          <!-- Street Name Input -->
+          <div class="mt-2">
+            <div
+              class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+            >
+              <input
+                type="text"
+                name="street-name"
+                id="street-name"
+                class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                placeholder="123 Fake Street"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Town/City & Postcode Container -->
+        <div class="flex gap-3">
+          <!-- Town/City Input with Label Group -->
+          <div>
+            <!-- Town Label -->
+            <label
+              for="first-name"
+              class="block text-sm/6 font-medium text-gray-900">Town or City</label>
+
+            <!-- Town/City & Postcode Input -->
+            <div class="mt-2">
+              <div
+                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+              >
+                <input
+                  type="text"
+                  name="town-city"
+                  id="town-city"
+                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  placeholder="London"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Postcode Input with Label Group -->
+          <div>
+            <!-- Last Name Label -->
+            <label
+              for="last-name"
+              class="block text-sm/6 font-medium text-gray-900"
+              >Postcode</label
+            >
+
+            <!-- Postcode Input -->
+            <div class="mt-2">
+              <div
+                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+              >
+                <input
+                  type="text"
+                  name="postcode"
+                  id="postcode"
+                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  placeholder="W12 6HE"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
 
   </div>
 
 </div>
+<!-- TODO: ReCaptcha -->
 {% endblock inner_content %}
