@@ -10,8 +10,11 @@ fields for Order:
 - phone
 - email
 - address, drop off location? station?
-- delivery option
+
+
+- delivery option - pickup or delivery? depends on admins selection dropdown or single value
 = requested delivery date
+- Additional Requirements?
 
 - total price
 
