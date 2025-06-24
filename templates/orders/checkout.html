@@ -7,7 +7,7 @@
 </div>
 
 <!-- Order Summary and Checkout Form -->
-<div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200">
+<div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200 justify-center">
 
   <!-- Order Summary -->
   <div class="md:order-1 space-y-3">
@@ -18,7 +18,7 @@
       <ul>
         {% for i in "1234"|make_list %}
         <li>
-          <div class="flex border-l border-r border-t  {% if forloop.first %} rounded-t-sm {% elif forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
+          <div class="flex border-l border-r border-t {% if forloop.first %} rounded-t-sm {% elif forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
 
             <!-- product image -->
             <div class="p-3">
@@ -532,5 +532,8 @@
   </div>
 
 </div>
+
+
+
 <!-- TODO: ReCaptcha -->
 {% endblock inner_content %}
