@@ -1,7 +1,15 @@
 {% extends "base_inner.html" %} {% load wagtailcore_tags wagtailimages_tags %}
 {% block inner_content %}
+
+<div>
+  <h1 class="text-3xl font-bold mb-3">Checkout</h1>
+  <p class="text-gray-600 mb-4">Please review your order and fill in your details below.</p>
+</div>
+
+<!-- Order Summary and Checkout Form -->
 <div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200">
 
+  <!-- Order Summary -->
   <div class="md:order-1 space-y-3">
     <h1 class="text-2xl">Order Summary</h1>
 
@@ -10,7 +18,7 @@
       <ul>
         {% for i in "1234"|make_list %}
         <li>
-          <div class="flex border border-gray-200 bg-white">
+          <div class="flex border-l border-r border-t  {% if forloop.first %} rounded-t-sm {% elif forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
 
             <!-- product image -->
             <div class="p-3">
@@ -22,7 +30,7 @@
             </div>
 
             <!-- product: name, price, delete btn, qty btn -->
-             <div class="flex flex-col justify-between space-y-8 text-sm _outline outline-green-500 w-full px-4 py-3">
+             <div class="flex flex-col justify-between space-y-8 text-sm w-full px-4 py-3">
 
                 <!-- product: name, delete btn -->
                 <div class="flex justify-between items-center">
@@ -89,7 +97,7 @@
           <hr>
         </div>
 
-        <button class="w-full bg-black text-white tracking-wide font-semibold py-2.5 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 transition-colors duration-200">
+        <button class="w-full bg-black text-white tracking-wide font-semibold py-2.5 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 transition-colors duration-200 hover:cursor-pointer">
           Place Order
         </button>
 
@@ -99,7 +107,7 @@
   </div>
 
   <!-- Contact Info, Address, Delivery Details -->
-  <div class="space-y-10">
+  <div class="space-y-10 max-w-sm">
 
     <!-- contact info section -->
     <div class="space-y-3">
@@ -109,22 +117,16 @@
       <div class="space-y-3">
         <!-- First Name & Last Name Container -->
 
-        <div class="flex gap-3 justify-between">
+        <div class="flex gap-3 _justify-between">
          
         <!-- First Name Input with Label Group -->
           <div>
             <!-- First Name Label -->
-            <label
-              for="first-name"
-              class="block text-sm/6 font-medium text-gray-900"
-              >First Name</label
-            >
+            <label for="first-name" class="block text-sm/6 font-medium text-gray-900">First Name</label>
 
             <!-- First Name Input -->
             <div class="mt-2">
-              <div
-                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
-              >
+              <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                 <input
                   type="text"
                   name="first-name"
@@ -139,17 +141,11 @@
           <!-- Last Name Input with Label Group -->
           <div>
             <!-- Last Name Label -->
-            <label
-              for="last-name"
-              class="block text-sm/6 font-medium text-gray-900"
-              >Last Name</label
-            >
+            <label for="last-name" class="block text-sm/6 font-medium text-gray-900">Last Name</label>
 
             <!-- Last Name Input -->
             <div class="mt-2">
-              <div
-                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
-              >
+              <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                 <input
                   type="text"
                   name="last-name"
