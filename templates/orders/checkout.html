@@ -1,13 +1,105 @@
 {% extends "base_inner.html" %} {% load wagtailcore_tags wagtailimages_tags %}
 {% block inner_content %}
-<div class="grid sm:grid-cols-2 gap-3">
+<div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200">
 
-  <div class="sm:order-1">
-    <h1 class="text-2xl">Checkout Page</h1>
+  <div class="md:order-1 space-y-3">
+    <h1 class="text-2xl">Order Summary</h1>
+
+    <div>
+
+      <ul>
+        {% for i in "1234"|make_list %}
+        <li>
+          <div class="flex border border-gray-200 bg-white">
+
+            <!-- product image -->
+            <div class="p-3">
+              <img
+                src="https://tailwindcss.com/plus-assets/img/ecommerce-images/checkout-page-02-product-01.jpg"
+                alt="Product Image"
+                class="w-full max-w-28 h-auto object-cover rounded-sm"
+              />
+            </div>
+
+            <!-- product: name, price, delete btn, qty btn -->
+             <div class="flex flex-col justify-between space-y-8 text-sm _outline outline-green-500 w-full px-4 py-3">
+
+                <!-- product: name, delete btn -->
+                <div class="flex justify-between items-center">
+                  <p>Basic T Shirt</p>
+                  <button class="hover:cursor-pointer text-gray-500 hover:text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                  </button>
+                </div>
+      
+                <!-- product: price, qty btn -->
+                <div class="flex justify-between items-center _outline outline-red-500">
+                  <p>£15.99</p>
+
+                  <div>
+                    <!-- Delivery Option Input -->
+                    <div class="mt-2">
+                      <div
+                        class="flex items-center rounded-md bg-white px-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+                      >
+                        <select
+                          name="qty"
+                          id="qty"
+                          class="block min-w-0 grow py-2 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                        >
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+             </div>
+
+          </div>
+
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="text-sm flex flex-col gap-3 mt-4 px-2">
+
+        <div class="flex justify-between items-center mt-4">
+          <p class="text-gray-600">Subtotal</p>
+          <p class="text-gray-900">£15.99</p>
+        </div>
+
+        <div class="flex justify-between items-center mt-2">
+          <p class="text-gray-600">Delivery</p>
+          <p class="text-gray-900">Free</p>
+        </div>
+
+        <div class="text-gray-200">
+          <hr>
+        </div>
+        
+        <div class="flex justify-between items-center mt-2">
+          <p class="text-gray-600">Total</p>
+          <p class="text-gray-900">£15.99</p>
+        </div>
+
+        <div class="text-gray-200">
+          <hr>
+        </div>
+
+        <button class="w-full bg-black text-white tracking-wide font-semibold py-2.5 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 transition-colors duration-200">
+          Place Order
+        </button>
+
+      </div>
+
+    </div>
   </div>
 
-
-  <div class="space-y-8">
+  <!-- Contact Info, Address, Delivery Details -->
+  <div class="space-y-10">
 
     <!-- contact info section -->
     <div class="space-y-3">
@@ -16,8 +108,10 @@
       <!-- first name, last name, email and phone inputs-->
       <div class="space-y-3">
         <!-- First Name & Last Name Container -->
+
         <div class="flex gap-3 justify-between">
-          <!-- First Name Input with Label Group -->
+         
+        <!-- First Name Input with Label Group -->
           <div>
             <!-- First Name Label -->
             <label
@@ -35,7 +129,7 @@
                   type="text"
                   name="first-name"
                   id="first-name"
-                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  class="block min-w-0 grow py-1.5 _pr-3 _pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                   placeholder="John"
                 />
               </div>
@@ -60,7 +154,7 @@
                   type="text"
                   name="last-name"
                   id="last-name"
-                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  class="block min-w-0 grow py-1.5 _pr-3 _pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                   placeholder="Doe"
                 />
               </div>
@@ -117,9 +211,12 @@
 
     </div>
 
+    <div class="text-gray-200">
+      <hr>
+    </div>
 
     <!-- Address Section -->
-    <div class="space-y-3">
+    <div class="space-y-3 _outline outline-red-500">
       <h2 class="text-2xl">Address</h2>
 
       <!-- Address fields inputs -->
@@ -147,7 +244,7 @@
         </div>
 
         <!-- Town/City & Postcode Container -->
-        <div class="flex gap-3">
+        <div class="flex gap-3 justify-between">
           <!-- Town/City Input with Label Group -->
           <div>
             <!-- Town Label -->
@@ -164,7 +261,7 @@
                   type="text"
                   name="town-city"
                   id="town-city"
-                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  class="block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                   placeholder="London"
                 />
               </div>
@@ -189,7 +286,7 @@
                   type="text"
                   name="postcode"
                   id="postcode"
-                  class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                  class="block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                   placeholder="W12 6HE"
                 />
               </div>
@@ -202,16 +299,17 @@
 
     </div>
 
-
-
+    <div class="text-gray-200">
+      <hr>
+    </div>
 
     <!-- DELIVERY DETAILS -->
-    <div class="space-y-3">
+    <div class="space-y-3 _outline outline-red-500">
       <h2 class="text-2xl">Delivery</h2>
 
       <!-- Delivery Input fields -->
       <div>
-  
+
         <!-- Delivery Option & Req Date Container -->
         <div class="flex gap-3 justify-between">
           <!-- Delivery Option Input with Label Group -->
@@ -219,7 +317,7 @@
             <!-- Delivery Option Label -->
             <label
               for="delivery-option"
-              class="block text-sm/6 font-medium text-gray-900">Delivery Option</label>
+              class="block text-sm/6 font-medium text-gray-900">Delivery Method</label>
 
             <!-- Delivery Option Input -->
             <div class="mt-2">
@@ -348,7 +446,7 @@
                   " x-cloak>
                   <div>
                       <div class="w-full mb-5">
-                          <div class="relative w-[17rem]">
+                          <div class="relative w-[15rem]">
                               <input x-ref="datePickerInput" type="text" @click="datePickerOpen=!datePickerOpen" x-model="datePickerValue" x-on:keydown.escape="datePickerOpen=false" class="flex w-full h-9 px-3 py-2 text-sm bg-white border rounded-md text-neutral-600 border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Select date" readonly />
                               <div @click="datePickerOpen=!datePickerOpen; if(datePickerOpen){ $refs.datePickerInput.focus() }" class="absolute top-0 right-0 px-3 py-2 cursor-pointer text-neutral-400 hover:text-neutral-500">
                                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
