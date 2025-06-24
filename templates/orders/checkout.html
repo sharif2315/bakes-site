@@ -16,16 +16,18 @@
     <div>
 
       <ul>
-        {% for i in "1234"|make_list %}
+        {% comment %} {% for i in "1234"|make_list %}  {% endcomment %}
+        {% for item in cart_items %}
         <li>
-          <div class="flex border-l border-r border-t {% if forloop.first %} rounded-t-sm {% elif forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
+          <div class="flex border-l border-r border-t {% if forloop.first %} rounded-t-sm {% endif %} {% if forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
 
             <!-- product image -->
             <div class="p-3">
+              {% image item.image fill-200x200 as product_image %}
               <img
-                src="https://tailwindcss.com/plus-assets/img/ecommerce-images/checkout-page-02-product-01.jpg"
+                src="{{ product_image.url }}"
                 alt="Product Image"
-                class="w-full max-w-28 h-auto object-cover rounded-sm"
+                class="w-full h-auto object-cover rounded-sm"
               />
             </div>
 
@@ -34,7 +36,7 @@
 
                 <!-- product: name, delete btn -->
                 <div class="flex justify-between items-center">
-                  <p>Basic T Shirt</p>
+                  <p>{{ item.title }}</p>
                   <button class="hover:cursor-pointer text-gray-500 hover:text-red-600">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                   </button>
@@ -42,7 +44,7 @@
       
                 <!-- product: price, qty btn -->
                 <div class="flex justify-between items-center _outline outline-red-500">
-                  <p>£15.99</p>
+                  <p>£{{ item.price }}</p>
 
                   <div>
                     <!-- Delivery Option Input -->
@@ -55,6 +57,7 @@
                           id="qty"
                           class="block min-w-0 grow py-2 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                         >
+                          <option value="{{ item.quantity }}">{{ item.quantity }}</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -76,7 +79,7 @@
 
         <div class="flex justify-between items-center mt-4">
           <p class="text-gray-600">Subtotal</p>
-          <p class="text-gray-900">£15.99</p>
+          <p class="text-gray-900">£{{ cart_total_price }}</p>
         </div>
 
         <div class="flex justify-between items-center mt-2">
@@ -90,7 +93,7 @@
         
         <div class="flex justify-between items-center mt-2">
           <p class="text-gray-600">Total</p>
-          <p class="text-gray-900">£15.99</p>
+          <p class="text-gray-900">£{{ cart_total_price }}</p>
         </div>
 
         <div class="text-gray-200">
