@@ -37,15 +37,14 @@ def remove_item_from_cart_slideover(request, product_id):
 @require_http_methods(["DELETE"])
 def remove_item_from_checkout(request, product_id):
     cart = request.session.get("cart", {})
-    product_id_str = str(product_id)
 
-    if product_id_str in cart:
-        del cart[product_id_str]
-
+    # Remove item
+    cart.pop(str(product_id), None)
     request.session["cart"] = cart
+
     context = build_cart_context(cart)
 
-    return render(request, "orders/checkout/_order_summary.html", context)
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
 
 
 """
