@@ -26,7 +26,7 @@ def build_cart_context(cart):
             "id": product.id,
             "title": product.title,
             "category": product.category,
-            "price": product.price,
+            "price": total, # product.price,
             "quantity": quantity,
             "total": total,
             "url": product.url,
