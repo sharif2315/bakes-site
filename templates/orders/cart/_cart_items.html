@@ -42,7 +42,7 @@
                             <div class="flex">
                                 <!-- Delete Item -->
                                 <form
-                                    hx-delete="{% url 'remove_from_cart' product_id=item.id %}"
+                                    hx-delete="{% url 'remove_item_from_cart_slideover' product_id=item.id %}"
                                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                                     hx-swap="none"
                                 >

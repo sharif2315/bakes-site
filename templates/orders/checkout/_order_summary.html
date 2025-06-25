@@ -1,8 +1,11 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<div id="order-summary-container" class="md:order-1 space-y-3">
 
+<div id="order-summary-container" class="md:order-1 space-y-3">
+    
     <h1 class="text-2xl">Order Summary</h1>
+    
+    {% if cart_items %}
 
     <div>
         <ul>
@@ -25,14 +28,25 @@
 
                     <!-- product: name, delete btn -->
                     <div class="flex justify-between items-center">
-                    <p>{{ item.title }}</p>
-                    <button class="hover:cursor-pointer text-gray-500 hover:text-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                    </button>
+                        <p>{{ item.title }}</p>
+                    
+                        <!-- Delete Item Form -->
+                        <form
+                            hx-delete="{% url 'remove_item_from_checkout' product_id=item.id %}"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                            hx-swap="outerHTML"
+                            hx-target="#order-summary-container"
+                        >
+
+                            <button id="remove-item-btn-{{ item.id }}" class="hover:cursor-pointer text-gray-500 hover:text-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                            </button>
+                        </form>
+
                     </div>
         
                     <!-- product: price, qty btn -->
-                    <div class="flex justify-between items-center _outline outline-red-500">
+                    <div class="flex justify-between items-center">
                     <p>£{{ item.price }}</p>
 
                     <div>
@@ -47,7 +61,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                     </div>
                     
                     </div>
@@ -59,36 +73,41 @@
             {% endfor %}
         </ul>
 
-        <div class="text-sm flex flex-col gap-3 mt-4 px-2">
+        <div id="cart-totals-block" class="text-sm flex flex-col gap-3 mt-4 px-2">
 
             <div class="flex justify-between items-center mt-4">
-            <p class="text-gray-600">Subtotal</p>
-            <p class="text-gray-900">£{{ cart_total_price }}</p>
+                <p class="text-gray-600">Subtotal</p>
+                <p class="text-gray-900">£{{ cart_total_price }}</p>
             </div>
 
             <div class="flex justify-between items-center mt-2">
-            <p class="text-gray-600">Delivery</p>
-            <p class="text-gray-900">Free</p>
+                <p class="text-gray-600">Delivery</p>
+                <p class="text-gray-900">Free</p>
             </div>
 
             <div class="text-gray-200">
-            <hr>
+                <hr>
             </div>
             
             <div class="flex justify-between items-center mt-2">
-            <p class="text-gray-600">Total</p>
-            <p class="text-gray-900">£{{ cart_total_price }}</p>
+                <p class="text-gray-600">Total</p>
+                <p class="text-gray-900">£{{ cart_total_price }}</p>
             </div>
 
             <div class="text-gray-200">
-            <hr>
+                <hr>
             </div>
 
             <button class="w-full bg-black text-white tracking-wide font-semibold py-2.5 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 transition-colors duration-200 hover:cursor-pointer">
-            Place Order
+                Place Order
             </button>
 
         </div>
-    </div>
 
+
+    </div>
+  
+    {% else %}
+        <div class="text-gray-500 text-sm italic">Your cart is empty.</div>
+    {% endif %}
 </div>
