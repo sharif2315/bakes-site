@@ -1,7 +1,7 @@
 from django.views.decorators.http import require_POST, require_http_methods
 from django.shortcuts import render
 from utils.products import build_cart_context
-
+from django.http import HttpResponseBadRequest
 
 def checkout(request):
     return render(request, 'orders/checkout/checkout.html', {'custom_page_title': 'Checkout' })
@@ -45,6 +45,29 @@ def remove_item_from_checkout(request, product_id):
     context = build_cart_context(cart)
 
     return render(request, "orders/cart/_cart_update_fragments.html", context)
+
+
+@require_POST
+def update_item_quantity(request, product_id):
+    action = request.POST.get("action")
+    cart = request.session.get("cart", {})
+    product_id_str = str(product_id)
+
+    current_qty = cart.get(product_id_str, 1)
+
+    if action == "increment":
+        new_qty = current_qty + 1
+    elif action == "decrement":
+        new_qty = max(1, current_qty - 1)  # Prevent going below 1
+    else:
+        return HttpResponseBadRequest("Invalid action")
+
+    cart[product_id_str] = new_qty
+    request.session["cart"] = cart
+
+    context = build_cart_context(cart)
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
+
 
 
 """

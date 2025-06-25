@@ -45,23 +45,50 @@
         
                     <!-- product: price, qty btn -->
                     <div class="flex justify-between items-center">
-                    <p>£{{ item.price }}</p>
+                        <p>£{{ item.price }}</p>
 
-                    <div>
-                        <!-- Delivery Option Input -->
-                        <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white px-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                                <select name="qty" id="qty" class="block min-w-0 grow py-2 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6">
-                                <option value="{{ item.quantity }}">{{ item.quantity }}</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                </select>
-                            </div>
-                        </div>
+                        <!-- Quantity Input -->
+                        <div class="flex justify-center items-center text-lg rounded border border-slate-400 max-w-[8rem]">
+                            
+                            <!-- Minus Icon -->
+                            <form 
+                                hx-post="{% url 'update_item_quantity' product_id=item.id %}" 
+                                hx-include="[name=action]"
+                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-swap="outerHTML"
+                            >
+                                <input type="hidden" name="action" value="decrement">
 
-                    </div>
-                    
+                                <button type="submit" type="button" class="py-2 px-3 text-slate-700 hover:cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
+                                </button>
+                            </form> 
+
+                            <input 
+                                type="number" 
+                                class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none py-1 text-sm" 
+                                min="1"
+                                value="{{ item.quantity }}"
+                                name="quantity"
+                                disabled
+                            >
+                            
+                            <!-- Add Icon -->
+                            <form
+                                hx-post="{% url 'update_item_quantity' product_id=item.id %}" 
+                                hx-include="[name=action]"
+                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-swap="outerHTML"                            
+                            >
+                                <input type="hidden" name="action" value="increment">
+
+                                <button type="submit" type="button" class="py-2 px-3 text-slate-700 hover:cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                                </button>
+                            </form>
+                            
+                        </div>                        
+
                     </div>
                 </div>
 
