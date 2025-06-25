@@ -1,10 +1,26 @@
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST, require_http_methods
-from django.shortcuts import render
-from utils.products import build_cart_context
 from django.http import HttpResponseBadRequest
 
+from home.models import HomePage
+from utils.products import build_cart_context
+
+
 def checkout(request):
-    return render(request, 'orders/checkout/checkout.html', {'custom_page_title': 'Checkout' })
+    home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
+    cart = request.session.get("cart", {})
+    
+    if not cart:
+        return redirect(home_page_url)
+    else:
+        context = {
+            'custom_page_title': 'Checkout',
+            'breadcrumbs': [
+                { 'title': 'Home', 'url': home_page_url },
+                { 'title': 'Checkout' }
+            ],
+        }
+        return render(request, 'orders/checkout/checkout.html', context)
 
 
 @require_POST
@@ -31,7 +47,8 @@ def remove_item_from_cart_slideover(request, product_id):
     request.session["cart"] = cart
 
     context = build_cart_context(cart)
-    return render(request, "orders/cart/cart.html", context)
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
+    # return render(request, "orders/cart/cart.html", context)
 
 
 @require_http_methods(["DELETE"])
