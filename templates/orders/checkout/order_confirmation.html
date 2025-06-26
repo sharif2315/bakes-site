@@ -1,0 +1,61 @@
+{% extends "base_inner.html" %}
+{% block inner_content %}
+
+<!-- Order confirmation details -->
+<div class="space-y-10 max-w-xl">
+    
+    <div class="space-y-2">
+        <p class="text-gray-600 text-sm font-semibold">Order successful</p>
+        <h1 class="text-4xl font-bold">Thanks for ordering</h1>
+        <p class="text-gray-500 mb-4">We appreciate your order, we’re currently processing it. So hang tight and we’ll send you confirmation very soon!</p>
+    </div>
+        
+    {% for entry in '012'|make_list %}
+    <div class="space-y-8">
+        <hr class="text-gray-200">
+
+        <!-- Item - image, name, price, quantity -->
+        <div class="flex gap-6">
+            <div class="max-w-32 max-h-32 overflow-hidden rounded-sm">
+                <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/confirmation-page-06-product-01.jpg" alt="">
+            </div>
+            <div class="flex justify-between text-sm w-full text-gray-700">
+                <div class="space-y-3">
+                    <p>Basic Tee</p>
+                    <p>Qty: 1</p>
+                </div>
+                <p>£36.00</p>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+    <!-- Order charges-->
+    <div class="space-y-8 max-w-xl">
+
+        <hr class="text-gray-200">
+
+        <div class="space-y-6">
+            <div class="flex justify-between text-sm text-gray-700">
+                <p>Subtotal</p>
+                <p>£84.60</p>
+            </div>           
+            <div class="flex justify-between text-sm text-gray-700">
+                <p>Delivery</p>
+                <p>£4.99</p>
+            </div>
+        </div>
+
+        <hr class="text-gray-200">
+
+        <div class="flex justify-between text-sm text-gray-900">
+            <p>Total</p>
+            <p>£78.99</p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock inner_content %}

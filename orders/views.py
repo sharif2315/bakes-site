@@ -23,6 +23,23 @@ def checkout(request):
         return render(request, 'orders/checkout/checkout.html', context)
 
 
+def order_confirmation(request):
+    home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
+    cart = request.session.get("cart", {})
+
+    # if not cart:
+    #     return redirect(home_page_url)
+    # else:
+    
+    context = {
+        'custom_page_title': 'Order Confirmation',
+        'breadcrumbs': [
+            { 'title': 'Home', 'url': home_page_url },
+            { 'title': 'Order Confirmation' }
+        ],
+    }
+    return render(request, 'orders/checkout/order_confirmation.html', context)
+
 @require_POST
 def add_to_cart(request, product_id):
     cart = request.session.get("cart", {})
@@ -84,25 +101,3 @@ def update_item_quantity(request, product_id):
     context = build_cart_context(cart)
     return render(request, "orders/cart/_cart_update_fragments.html", context)
 
-
-
-"""
-fields for Order:
-
-- first name, last name
-- phone
-- email
-- address, drop off location? station?
-
-
-- delivery option - pickup or delivery? depends on admins selection dropdown or single value
-= requested delivery date
-- Additional Requirements?
-
-- total price
-
-Settings:
-- delivery charge
-- email to, email from? or keep in settings via env vars?
-
-"""
