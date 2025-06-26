@@ -1,6 +1,7 @@
 {% extends "components/_slide_over.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
+{% block id %}cart-slide-over{% endblock id %}
 
 {% block slide_over_trigger_btn %}
     {% include "orders/cart/_cart_count.html" %}

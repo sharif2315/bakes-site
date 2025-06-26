@@ -55,14 +55,28 @@
                 </div>
 
                 <!-- Quantity & Add to Cart Button -->
-                    <form 
+                    <form
                         method="POST"
                         hx-post="{% url 'add_to_cart' page.id %}" 
-                        hx-target="#cart-count"
-                        hx-swap="outerHTML"
+                        hx-swap="none"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                         class="space-y-6"
                         x-data="{ qty: 1 }"
-                        x-init="document.addEventListener('htmx:afterRequest', () => { qty = 1 })"
+                        x-init="
+                            document.addEventListener('htmx:afterRequest', () => { 
+                                qty = 1;
+
+                                requestAnimationFrame(() => {
+                                    const container = document.querySelector('#cart-slide-over');
+                                    const triggerButton = container?.querySelector('#trigger-button');
+                                    if (triggerButton) {
+                                        triggerButton.click();
+                                    }
+                                });                                
+
+                            })
+                        "
+
                     >
                         {% csrf_token %}
 
@@ -97,7 +111,7 @@
 
                         <!-- Submit Button -->
                         <button type="submit" class="w-full bg-gray-900 hover:cursor-pointer hover:bg-gray-700 transition duration-300 text-white px-16 py-3 rounded-md text-sm font-semibold tracking-wide text-nowrap">
-                            Add to Cart
+                            Add to Basket
                         </button>
                     </form>
                     

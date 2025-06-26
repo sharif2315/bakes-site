@@ -31,9 +31,10 @@ def add_to_cart(request, product_id):
     cart[product_id_str] = cart.get(product_id_str, 0) + quantity
 
     request.session["cart"] = cart
+    context = { "cart_total": sum(cart.values()) }
 
     # Return just the updated cart count in cart template partial
-    return render(request, "orders/cart/cart.html", {"cart_total": sum(cart.values())})
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
 
 
 @require_http_methods(["DELETE"])
@@ -48,7 +49,6 @@ def remove_item_from_cart_slideover(request, product_id):
 
     context = build_cart_context(cart)
     return render(request, "orders/cart/_cart_update_fragments.html", context)
-    # return render(request, "orders/cart/cart.html", context)
 
 
 @require_http_methods(["DELETE"])
@@ -60,7 +60,6 @@ def remove_item_from_checkout(request, product_id):
     request.session["cart"] = cart
 
     context = build_cart_context(cart)
-
     return render(request, "orders/cart/_cart_update_fragments.html", context)
 
 

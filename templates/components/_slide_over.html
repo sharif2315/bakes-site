@@ -1,8 +1,8 @@
-<div x-data="{ slideOverOpen: false }"
+<div id="{% block id %}{% endblock id %}" x-data="{ slideOverOpen: false }"
     class="relative z-50 w-auto h-auto">
 
     <!-- Cart Button -->
-    <button class="hover:cursor-pointer flex" @click="slideOverOpen=true">
+    <button id="trigger-button" class="hover:cursor-pointer flex" @click="slideOverOpen=true">
         {% block slide_over_trigger_btn %}
         {% endblock slide_over_trigger_btn %}
     </button>
