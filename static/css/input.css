@@ -30,48 +30,34 @@
 
 /* Checkout Form Fields */
 
-#order-detail-page label {
+#order-form label {
     @apply block text-sm/6 font-medium text-gray-900;
 }
 
 /* form field Labels */
-#order-detail-page 
-    #id_first_name, 
-    #id_last_name, 
-    #id_email, 
-    #id_phone,  
-    #id_postcode, 
-    #id_town, 
-    #id_street {
-        @apply block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
+#order-form #id_first_name,
+#id_last_name,
+#id_email,
+#id_phone,
+#id_street,
+#id_town,
+#id_postcode,
+#id_delivery_method,
+#id_additional_requirements {
+    @apply block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
 }
 
 /* Text input */
-#order-detail-page #id_requested_delivery_date {
+#order-form #id_requested_delivery_date {
     @apply flex w-full h-9 px-3 py-2 text-sm bg-white border rounded-md text-neutral-600 border-neutral-300  placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 /* Textarea input */
-#order-detail-page #id_additional_requirements {
-    @apply block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
+#order-form #id_additional_requirements {
+    @apply pr-3 pl-1;
 }
 
 /* select input */
-#order-detail-page #id_delivery_method {
-    @apply block min-w-0 grow py-2 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
+#order-form #id_delivery_method {
+    @apply py-2 pr-3 pl-1;
 }
-
-/* Text input */
-/* #order-detail-page #id_postcode {
-    @apply block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
-} */
-
-/* Text input */
-/* #order-detail-page #id_town {
-    @apply block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
-} */
-
-/* Text input */
-/* #order-detail-page #id_street {
-    @apply block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
-} */

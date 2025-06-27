@@ -19,19 +19,22 @@ class DeliveryDetailForm(forms.ModelForm):
         model = DeliveryDetail
         fields = ['delivery_method', 'requested_delivery_date', 'additional_requirements']
         widgets = {
-            'requested_delivery_date': forms.TextInput(attrs={
-                'type': 'text',
-                'x-ref': 'datePickerInput',
-                '@click': 'datePickerOpen=!datePickerOpen',
-                'x-model': 'datePickerValue',
-                'x-on:keydown.escape': 'datePickerOpen=false',
-                'readonly': 'readonly', 
-
-            }),
-            'additional_requirements': forms.Textarea(attrs={
-                'rows': 2, 
-                'placeholder': 'Any extra details ...'
-            }),
+            'requested_delivery_date': forms.TextInput(
+                attrs={
+                    'type': 'text',
+                    'x-ref': 'datePickerInput',
+                    '@click': 'datePickerOpen=!datePickerOpen',
+                    'x-model': 'datePickerValue',
+                    'x-on:keydown.escape': 'datePickerOpen=false',
+                    'readonly': 'readonly', 
+                }
+            ),
+            'additional_requirements': forms.Textarea(
+                attrs={
+                    'rows': 2, 
+                    'placeholder': 'Any extra details ...'
+                }
+            ),
         }
 
 

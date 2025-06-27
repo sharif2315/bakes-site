@@ -10,13 +10,13 @@ from .forms import OrderForm, AddressForm, DeliveryDetailForm
 
 
 def checkout(request):
-    # TODO: Add redirect if no cart items
-    # if not cart:
-    #     return redirect(home_page_url)
-
     home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
     cart = request.session.get('cart', {})
     # context = build_cart_context(cart)
+
+    if not cart:
+        return redirect(home_page_url)
+
     context = {
         'custom_page_title': 'Checkout',
         'breadcrumbs': [
@@ -25,13 +25,12 @@ def checkout(request):
         ],
     }
 
-    if not cart:
-        return redirect('cart')  # or show error
-
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
         address_form = AddressForm(request.POST)
         delivery_form = DeliveryDetailForm(request.POST)
+
+        context.update(build_cart_context(cart)) 
 
         if order_form.is_valid() and address_form.is_valid() and delivery_form.is_valid():
             address = address_form.save()
@@ -54,7 +53,8 @@ def checkout(request):
             # Clear cart
             request.session['cart'] = {}
 
-            return redirect('order_confirmation', order_ref=order.order_ref)
+            return redirect('order_confirmation')
+            # return redirect('order_confirmation', order_ref=order.order_ref)
     else:
         order_form = OrderForm()
         address_form = AddressForm()
