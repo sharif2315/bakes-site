@@ -2,6 +2,8 @@ import uuid
 from datetime import timedelta
 from django.db import models
 from django.utils import timezone
+from products.models import Product
+
 
 class Address(models.Model):
     street = models.CharField(max_length=100)
@@ -23,7 +25,6 @@ class DeliveryDetail(models.Model):
     additional_requirements = models.TextField(blank=True, null=True)
 
 
-
 class Order(models.Model):
     order_ref = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=30)
@@ -42,11 +43,21 @@ class Order(models.Model):
         for a limited time after the order is placed.
         """
         max_age_hours = 48
-        
+
         if self.created_at < timezone.now() - timedelta(hours=max_age_hours):
             return False
         return True
 
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Copy of product price at time of order
+
+    def get_total(self):
+        return self.quantity * self.price
+    
 
 """
 1.Add an expiration or max-age (optional)

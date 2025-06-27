@@ -2,25 +2,71 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponseBadRequest
 
-from home.models import HomePage
 from utils.products import build_cart_context
+from home.models import HomePage
+from products.models import Product
+from .models import OrderItem
+from .forms import OrderForm, AddressForm, DeliveryDetailForm
 
 
 def checkout(request):
+    # TODO: Add redirect if no cart items
+    # if not cart:
+    #     return redirect(home_page_url)
+
     home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
-    cart = request.session.get("cart", {})
-    
+    cart = request.session.get('cart', {})
+    # context = build_cart_context(cart)
+    context = {
+        'custom_page_title': 'Checkout',
+        'breadcrumbs': [
+            { 'title': 'Home', 'url': home_page_url },
+            { 'title': 'Checkout' }
+        ],
+    }
+
     if not cart:
-        return redirect(home_page_url)
+        return redirect('cart')  # or show error
+
+    if request.method == 'POST':
+        order_form = OrderForm(request.POST)
+        address_form = AddressForm(request.POST)
+        delivery_form = DeliveryDetailForm(request.POST)
+
+        if order_form.is_valid() and address_form.is_valid() and delivery_form.is_valid():
+            address = address_form.save()
+            delivery_detail = delivery_form.save()
+
+            order = order_form.save(commit=False)
+            order.address = address
+            order.delivery_detail = delivery_detail
+            order.save()
+
+            # Add Order Items
+            for item in context['cart_items']:
+                OrderItem.objects.create(
+                    order=order,
+                    product=Product.objects.get(id=item['id']),
+                    quantity=item['quantity'],
+                    price=item['price'] / item['quantity']  # unit price
+                )
+
+            # Clear cart
+            request.session['cart'] = {}
+
+            return redirect('order_confirmation', order_ref=order.order_ref)
     else:
-        context = {
-            'custom_page_title': 'Checkout',
-            'breadcrumbs': [
-                { 'title': 'Home', 'url': home_page_url },
-                { 'title': 'Checkout' }
-            ],
-        }
-        return render(request, 'orders/checkout/checkout.html', context)
+        order_form = OrderForm()
+        address_form = AddressForm()
+        delivery_form = DeliveryDetailForm()
+
+    context.update({
+        'order_form': order_form,
+        'address_form': address_form,
+        'delivery_form': delivery_form,
+    })
+
+    return render(request, 'orders/checkout/checkout.html', context)
 
 
 def order_confirmation(request):
