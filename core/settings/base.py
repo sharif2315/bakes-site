@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Third-party apps
     "blog",
     "products",
+    "orders",
 
     "django_browser_reload",
     "django_vite",

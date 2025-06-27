@@ -1,3 +1,60 @@
+import uuid
+from datetime import timedelta
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
+class Address(models.Model):
+    street = models.CharField(max_length=100)
+    town = models.CharField(max_length=20)
+    postcode = models.CharField(max_length=10)
+
+
+class DeliveryDetail(models.Model):
+    delivery_method_choices = [
+        ('pickup', 'Pickup'),
+        ('delivery', 'Delivery'),
+    ]
+    delivery_method = models.CharField(
+        max_length=10,
+        choices=delivery_method_choices,
+        default='delivery',
+    )
+    requested_delivery_date = models.DateField()
+    additional_requirements = models.TextField(blank=True, null=True)
+
+
+
+class Order(models.Model):
+    order_ref = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+    phone = models.CharField(max_length=15)
+    address = models.ForeignKey('Address', on_delete=models.CASCADE)
+    delivery_detail = models.ForeignKey('DeliveryDetail', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def check_order_validity(self):
+        """
+        Check if the order is still valid based on its creation time.
+        This can be used to ensure that the order confirmation page is only accessible
+        for a limited time after the order is placed.
+        """
+        max_age_hours = 48
+        
+        if self.created_at < timezone.now() - timedelta(hours=max_age_hours):
+            return False
+        return True
+
+
+"""
+1.Add an expiration or max-age (optional)
+If the order confirmation page is only meant to be viewed for a short period (e.g. 24 or 48h),
+you can add a check to ensure that the order is still valid when the user tries to access it. This can be done by checking the `created_at` timestamp of the order.
+
+if order.created_at < timezone.now() - timedelta(hours=48):
+    raise Http404()
+
+2. Dont display sensitive information - address, phone, email
+"""
