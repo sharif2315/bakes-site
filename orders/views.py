@@ -26,20 +26,26 @@ def checkout(request):
     }
 
     if request.method == 'POST':
+        delivery_method = request.POST.get('delivery_method')
+
         order_form = OrderForm(request.POST)
-        address_form = AddressForm(request.POST)
+        # address_form = AddressForm(request.POST)
+        address_form = AddressForm(request.POST, delivery_method=delivery_method)
         delivery_form = DeliveryDetailForm(request.POST)
 
         context.update(build_cart_context(cart)) 
 
         if order_form.is_valid() and address_form.is_valid() and delivery_form.is_valid():
             print("All forms are valid")
-            address = address_form.save()
+            # address = address_form.save()
+            address = address_form.save() if delivery_method != 'pickup' else None
             delivery_detail = delivery_form.save()
 
             order = order_form.save(commit=False)
-            order.address = address
             order.delivery_detail = delivery_detail
+            # order.address = address
+            if address:
+                order.address = address
             order.save()
 
             # Add Order Items
@@ -59,6 +65,14 @@ def checkout(request):
             # return redirect('order_confirmation', order_ref=order.order_ref)
         else:            
             context['form_errors'] = True
+            if order_form.errors:
+                print("order form errors:", order_form.errors)
+            
+            if address_form.errors:
+                print("Address Form errors:", address_form.errors)
+            
+            if delivery_form.errors:
+                print("Delivery Form errors:", delivery_form.errors)
     else:
         order_form = OrderForm()
         address_form = AddressForm()

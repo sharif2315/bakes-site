@@ -17,5 +17,41 @@
 
 </div>
 
+{% block extra_js %}
+<!-- Script is used to make address fields optional based on the selected delivery method -->
+<script>
+    function formHandler() {
+        return {
+            deliveryMethod: '{{ delivery_form.delivery_method.value|default:"delivery" }}',
+            get isDelivery() {
+                return this.deliveryMethod === 'delivery';
+            },
+            updateAddressFieldState() {
+                ['street', 'town', 'postcode'].forEach(name => {
+                    const el = document.getElementById(`id_${name}`);
+                    if (el) {
+                        el.required = this.isDelivery;
+                        el.disabled = !this.isDelivery;
+                    }
+                });
+            },
+            init() {
+                // Update on initial loadå
+                this.updateAddressFieldState();
+
+                // Watch for changes in delivery method
+                const deliveryField = document.getElementById('id_delivery_method');
+                if (deliveryField) {
+                    deliveryField.addEventListener('change', (e) => {
+                        this.deliveryMethod = e.target.value;
+                        this.updateAddressFieldState();
+                    });
+                }
+            }
+        }
+    }
+</script>
+{% endblock %}
+
 <!-- TODO: ReCaptcha -->
 {% endblock inner_content %}

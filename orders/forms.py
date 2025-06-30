@@ -1,9 +1,28 @@
 # forms.py
 from django import forms
-from .models import Order, Address, DeliveryDetail
+from .models import Order, Address, DeliveryDetail, StoreSettings
 
 
 class AddressForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.delivery_method = kwargs.pop('delivery_method', None)
+        super().__init__(*args, **kwargs)
+        # If pickup, make address fields not required
+
+        if self.delivery_method == 'pickup':
+            for field_name in ['street', 'town', 'postcode']:
+                self.fields[field_name].required = False        
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if self.delivery_method == 'pickup':
+            # Skip validation errors for address fields
+            for field in ['street', 'town', 'postcode']:
+                self._errors.pop(field, None)
+                cleaned_data[field] = ''
+        return cleaned_data
+        
     class Meta:
         model = Address
         fields = ['street', 'town', 'postcode']
@@ -59,6 +78,20 @@ class DeliveryDetailForm(forms.ModelForm):
             },
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # You can fetch this from cache or DB
+        settings = StoreSettings.objects.first()
+
+        choices = []
+        if settings.allow_delivery:
+            choices.append(('delivery', 'Delivery'))
+        if settings.allow_pickup:
+            choices.append(('pickup', 'Pickup'))
+
+        self.fields['delivery_method'].choices = choices
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -87,6 +120,6 @@ class OrderForm(forms.ModelForm):
         phone = cleaned_data.get('phone')
 
         if not email and not phone:
-            raise forms.ValidationError(
-                "Please provide at least an email address or a phone number."
-            )        
+            self.add_error('email', 'Please enter an email or phone.')
+            self.add_error('phone', 'Please enter an email or phone.')
+            raise forms.ValidationError("Please provide at least an email address or a phone number.")        

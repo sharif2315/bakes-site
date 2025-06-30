@@ -5,6 +5,31 @@ from django.utils import timezone
 from products.models import Product
 
 
+    # TODO: return error if both delivery and pickup are disabled
+    # def save(self):
+    #     if not self.allow_delivery and not self.allow_pickup:
+    #         raise models.ValidationError("At least one of delivery or pickup must be enabled.")
+
+    # TODO: if Pickup, order delivery_charge should be 0.00
+    # TODO: Max row count for StoreSettings should be 1
+
+class StoreSettings(models.Model):
+    allow_delivery = models.BooleanField(default=True)
+    allow_pickup = models.BooleanField(default=True)
+    delivery_charge = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=5.00,
+        help_text="Charge for delivery service",
+    )
+
+    def __str__(self):
+        return "Store Settings"
+
+    class Meta:
+        verbose_name = "Store Settings"
+        verbose_name_plural = "Store Settings"
+
 class Address(models.Model):
     street = models.CharField(max_length=100)
     town = models.CharField(max_length=20)
@@ -31,7 +56,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=30)
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=15, blank=True)
-    address = models.ForeignKey('Address', on_delete=models.CASCADE)
+    address = models.ForeignKey('Address', on_delete=models.CASCADE, blank=True, null=True)
     delivery_detail = models.ForeignKey('DeliveryDetail', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
