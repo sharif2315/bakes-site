@@ -80,3 +80,6 @@ class StoreSettingsSnippetViewSet(SnippetViewSet):
         FieldPanel("allow_pickup"),
         FieldPanel("delivery_charge"),
     ]
+    # 🔒 Prevent creating more than one
+    def has_add_permission(self, request):
+        return not StoreSettings.objects.exists()

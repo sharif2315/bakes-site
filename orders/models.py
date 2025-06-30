@@ -2,16 +2,11 @@ import uuid
 from datetime import timedelta
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from products.models import Product
 
 
-    # TODO: return error if both delivery and pickup are disabled
-    # def save(self):
-    #     if not self.allow_delivery and not self.allow_pickup:
-    #         raise models.ValidationError("At least one of delivery or pickup must be enabled.")
-
-    # TODO: if Pickup, order delivery_charge should be 0.00
-    # TODO: Max row count for StoreSettings should be 1
+# TODO: if Pickup, order delivery_charge should be 0.00
 
 class StoreSettings(models.Model):
     allow_delivery = models.BooleanField(default=True)
@@ -22,6 +17,11 @@ class StoreSettings(models.Model):
         default=5.00,
         help_text="Charge for delivery service",
     )
+    
+    def save(self, *args, **kwargs):
+        if not self.pk and StoreSettings.objects.exists():
+            raise ValidationError("Only one StoreSettings instance allowed.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return "Store Settings"
