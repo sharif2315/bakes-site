@@ -5,11 +5,20 @@
     <div id="address-form" class="space-y-3">
         <h2 class="text-2xl">Contact Info</h2>
 
+        {% if order_form.non_field_errors %}
+            <div class="form-errors space-y-2">
+                {% for error in order_form.non_field_errors %}
+                    <p class="form-field-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
         <!-- first name, last name, email and phone inputs-->
         <div class="space-y-3">
         
             <!-- First Name & Last Name Container -->
-            <div class="flex gap-3 _justify-between">
+            <div class="flex gap-3">
                 
                 <!-- First Name Input with Label Group -->
                 <div>
@@ -18,10 +27,16 @@
 
                     <!-- First Name Input -->
                     <div class="mt-2">
-                        <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                        <div class="{% if order_form.first_name.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                         {{ order_form.first_name }}
                         </div>
                     </div>
+
+                    <!-- First Name Errors -->
+                    {% for error in order_form.first_name.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}        
+
                 </div>
 
                 <!-- Last Name Input with Label Group -->
@@ -31,32 +46,33 @@
 
                     <!-- Last Name Input -->
                     <div class="mt-2">
-                        <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                        <div class="{% if order_form.last_name.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                         {{ order_form.last_name }}
                         </div>
                     </div>
+                    <!-- Last Name Errors -->
+                    {% for error in order_form.last_name.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}             
                 </div>
             </div>
 
             <!-- Email Input with Label Group -->
             <div>
-                <!-- Last Name Label -->
+                <!-- Email Input Label -->
                 {{ order_form.email.label_tag }}
 
                 <!-- Email Input -->
                 <div class="mt-2">
-                <div
-                    class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
-                >
-                    <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                    placeholder="john@mail.com"
-                    />
+                    <div class="{% if order_form.email.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                        {{ order_form.email }}
+                    </div>
                 </div>
-                </div>
+
+                <!-- Email Errors -->
+                {% for error in order_form.email.errors %}
+                    <p class="form-field-error">{{ error }}</p>
+                {% endfor %}              
             </div>
 
             <!-- Phone Number Input with Label Group -->
@@ -66,18 +82,16 @@
 
                 <!-- Phone Number Input -->
                 <div class="mt-2">
-                <div
-                    class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
-                >
-                    <input
-                    type="number"
-                    name="phone"
-                    id="last-name"
-                    class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                    placeholder="07512345678"
-                    />
+                    <div class="{% if order_form.phone.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                        {{ order_form.phone }}
+                    </div>
                 </div>
-                </div>
+
+                <!-- Phone Errors -->
+                {% for error in order_form.phone.errors %}
+                    <p class="form-field-error">{{ error }}</p>
+                {% endfor %}        
+          
             </div>
         
         </div>
@@ -87,54 +101,72 @@
     <hr class="text-gray-200">
 
     <!-- Address Section -->
-    <div class="space-y-3 _outline outline-red-500">
+    <div class="space-y-3">
         <h2 class="text-2xl">Address</h2>
 
         <!-- Address fields inputs -->
         <div class="space-y-3">
 
-        <!-- Street Name with Label Group -->
-        <div>
-            <!-- Street Label -->
-            {{ address_form.street.label_tag }}
-
-            <!-- Street Name Input -->
-            <div class="mt-2">
-                <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                    {{ address_form.street }}
-                </div>
-            </div>
-        </div>
-
-        <!-- Town/City & Postcode Container -->
-        <div class="flex gap-3 justify-between">
-            <!-- Town/City Input with Label Group -->
+            <!-- Street Name with Label Group -->
             <div>
-                <!-- Town Label -->
-                {{ address_form.town.label_tag }}
+                <!-- Street Label -->
+                {{ address_form.street.label_tag }}
 
-                <!-- Town/City & Postcode Input -->
+                <!-- Street Name Input -->
                 <div class="mt-2">
-                    <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                        {{ address_form.town }}
+                    <div class="{% if address_form.street.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                        {{ address_form.street }}
                     </div>
                 </div>
+
+                <!-- Street Name Errors -->
+                {% for error in address_form.street.errors %}
+                    <p class="form-field-error">{{ error }}</p>
+                {% endfor %}        
+
             </div>
 
-            <!-- Postcode Input with Label Group -->
-            <div>
-                <!-- Last Name Label -->
-                {{ address_form.postcode.label_tag }}
 
-                <!-- Postcode Input -->
-                <div class="mt-2">
-                    <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                        {{ address_form.postcode }}
+            <!-- Town/City & Postcode Container -->
+            <div class="flex gap-3 justify-between">
+                <!-- Town/City Input with Label Group -->
+                <div>
+                    <!-- Town Label -->
+                    {{ address_form.town.label_tag }}
+
+                    <!-- Town/City & Postcode Input -->
+                    <div class="mt-2">
+                        <div class="{% if address_form.town.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                            {{ address_form.town }}
+                        </div>
                     </div>
-                </div>
-            </div>
 
-        </div>
+                    <!-- Town/City Errors -->
+                    {% for error in address_form.town.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}        
+
+                </div>
+
+                <!-- Postcode Input with Label Group -->
+                <div>
+                    <!-- Last Name Label -->
+                    {{ address_form.postcode.label_tag }}
+
+                    <!-- Postcode Input -->
+                    <div class="mt-2">
+                        <div class="{% if address_form.postcode.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                            {{ address_form.postcode }}
+                        </div>
+                    </div>
+                    
+                    <!-- Postcode Errors -->
+                    {% for error in address_form.postcode.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}                        
+                </div>
+
+            </div>
 
 
         </div>
@@ -164,6 +196,12 @@
                             {{ delivery_form.delivery_method }}
                         </div>
                     </div>
+
+                    <!-- Delivery Option Errors -->
+                    {% for error in address_form.delivery_method.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}        
+   
                 </div>
 
                 <!-- Req Date Input with Label Group -->
@@ -330,6 +368,12 @@
                         </div>
 
                     </div>
+                    
+                    <!-- Req Date Errors -->
+                    {% for error in delivery_form.requested_delivery_date.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}        
+
                 </div>
             </div>
 

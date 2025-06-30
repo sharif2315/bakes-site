@@ -12,6 +12,20 @@ class AddressForm(forms.ModelForm):
             'town': forms.TextInput(attrs={'placeholder': 'London'}),
             'postcode': forms.TextInput(attrs={'placeholder': 'W12 6JE'}),
         }
+        error_messages = {
+            'street': {
+                'required': 'Street address is required.',
+                'max_length': 'Street address cannot exceed 100 characters.',
+            },
+            'town': {
+                'required': 'Town/City is required.',
+                'max_length': 'Town/City cannot exceed 20 characters.',
+            },
+            'postcode': {
+                'required': 'Postcode is required.',
+                'max_length': 'Postcode cannot exceed 10 characters.',
+            },
+        }
 
 
 class DeliveryDetailForm(forms.ModelForm):
@@ -36,6 +50,14 @@ class DeliveryDetailForm(forms.ModelForm):
                 }
             ),
         }
+        error_messages = {
+            'delivery_method': {
+                'required': 'Delivery method is required.',
+            },
+            'requested_delivery_date': {
+                'required': 'Requested delivery date is required.',
+            },
+        }
 
 
 class OrderForm(forms.ModelForm):
@@ -48,3 +70,23 @@ class OrderForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder': 'john@mail.com'}),
             'phone': forms.TextInput(attrs={'placeholder': '07512345678'}),
         }
+        error_messages = {
+            'first_name': {
+                'required': 'First name is required.',
+                'max_length': 'First name cannot exceed 30 characters.',
+            },
+            'last_name': {
+                'required': 'Last name is required.',
+                'max_length': 'Last name cannot exceed 30 characters.',
+            },
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        phone = cleaned_data.get('phone')
+
+        if not email and not phone:
+            raise forms.ValidationError(
+                "Please provide at least an email address or a phone number."
+            )        

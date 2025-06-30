@@ -33,6 +33,7 @@ def checkout(request):
         context.update(build_cart_context(cart)) 
 
         if order_form.is_valid() and address_form.is_valid() and delivery_form.is_valid():
+            print("All forms are valid")
             address = address_form.save()
             delivery_detail = delivery_form.save()
 
@@ -54,7 +55,10 @@ def checkout(request):
             request.session['cart'] = {}
 
             return redirect('order_confirmation')
+            # TODO: Redirect to order confirmation page with order reference
             # return redirect('order_confirmation', order_ref=order.order_ref)
+        else:            
+            context['form_errors'] = True
     else:
         order_form = OrderForm()
         address_form = AddressForm()
