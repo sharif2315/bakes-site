@@ -112,3 +112,7 @@ class Product(Page):
         context = super().get_context(request)
         context['breadcrumbs'] = get_breadcrumbs(self)
         return context
+
+    @property
+    def first_image(self):
+        return self.product_images.first().image if self.product_images.exists() else None

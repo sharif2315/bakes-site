@@ -1,4 +1,6 @@
 {% extends "base_inner.html" %}
+{% load wagtailimages_tags %}
+
 {% block inner_content %}
 
 <!-- Order confirmation details -->
@@ -11,29 +13,32 @@
     </div>
 
     <!-- Delivery / Pickup Address -->
+     {% if order.address %}
      <div class="text-sm">
         <h2 class="text-lg font-semibold mb-2">Delivery Address</h2>
-        <p class="text-gray-700">Sharif Ahmed</p>
-        <p class="text-gray-700">123 Baker Street</p>
-        <p class="text-gray-700">London, UK</p>
-        <p class="text-gray-700">E1 6AN</p>
+        <p class="text-gray-700">{{ order.first_name }} {{ order.last_name }}</p>
+        <p class="text-gray-700">{{ order.address.street }}</p>
+        <p class="text-gray-700">{{ order.address.town }}</p>
+        <p class="text-gray-700">{{ order.address.postcode }}</p>
      </div>
+     {% endif %}
         
-    {% for entry in '012'|make_list %}
+    {% for item in order.items.all %}
     <div class="space-y-8">
         <hr class="text-gray-200">
 
         <!-- Item - image, name, price, quantity -->
         <div class="flex gap-6">
+            {% image item.product.first_image fill-300x300 as product_img %}
             <div class="max-w-32 max-h-32 overflow-hidden rounded-sm">
-                <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/confirmation-page-06-product-01.jpg" alt="">
+                <img src="{{ product_img.url }}" alt="">
             </div>
             <div class="flex justify-between text-sm w-full text-gray-700">
                 <div class="space-y-3">
-                    <p>Basic Tee</p>
-                    <p>Qty: 1</p>
+                    <p>{{ item.product.title }}</p>
+                    <p>Qty: {{ item.quantity }}</p>
                 </div>
-                <p>£36.00</p>
+                <p>£{{ item.get_total }}</p>
             </div>
         </div>
 
@@ -48,11 +53,11 @@
         <div class="space-y-6">
             <div class="flex justify-between text-sm text-gray-700">
                 <p>Subtotal</p>
-                <p>£84.60</p>
+                <p>£{{ order.subtotal }}</p>
             </div>           
             <div class="flex justify-between text-sm text-gray-700">
                 <p>Delivery</p>
-                <p>£4.99</p>
+                <p>£{{ order.delivery_charge }}</p>
             </div>
         </div>
 
@@ -60,7 +65,7 @@
 
         <div class="flex justify-between text-sm text-gray-900">
             <p>Total</p>
-            <p>£78.99</p>
+            <p>£{{ order.total }}</p>
         </div>
 
     </div>

@@ -58,8 +58,12 @@ class Order(models.Model):
     phone = models.CharField(max_length=15, blank=True)
     address = models.ForeignKey('Address', on_delete=models.CASCADE, blank=True, null=True)
     delivery_detail = models.ForeignKey('DeliveryDetail', on_delete=models.CASCADE)
+    delivery_charge = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'order for {self.first_name} {self.last_name} on {self.created_at}'
     
     def check_order_validity(self):
         """
@@ -72,6 +76,15 @@ class Order(models.Model):
         if self.created_at < timezone.now() - timedelta(hours=max_age_hours):
             return False
         return True
+
+    @property
+    def subtotal(self):
+        return sum(item.price * item.quantity for item in self.items.all())
+
+    @property
+    def total(self):
+        return self.subtotal + self.delivery_charge    
+
 
 
 class OrderItem(models.Model):

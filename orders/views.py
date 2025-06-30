@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponseBadRequest
@@ -5,7 +6,7 @@ from django.http import HttpResponseBadRequest
 from utils.products import build_cart_context
 from home.models import HomePage
 from products.models import Product
-from .models import OrderItem
+from .models import OrderItem, Order, StoreSettings
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
 
 
@@ -41,6 +42,12 @@ def checkout(request):
 
             order = order_form.save(commit=False)
             order.delivery_detail = delivery_detail
+            
+            if delivery_method == 'delivery':
+                order.delivery_charge = StoreSettings.objects.first().delivery_charge  # or a fixed value
+            else:
+                order.delivery_charge = Decimal('0.00')
+
             if address:
                 order.address = address
             order.save()
@@ -84,13 +91,16 @@ def checkout(request):
     return render(request, 'orders/checkout/checkout.html', context)
 
 
-def order_confirmation(request):
+def order_confirmation(request, order_ref):
     home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
-    cart = request.session.get("cart", {})
+    # cart = request.session.get("cart", {})
 
-    # if not cart:
-    #     return redirect(home_page_url)
-    # else:
+    order = Order.objects.get(order_ref=order_ref)
+
+    for item in order.items.all():
+        item.total_price = item.price * item.quantity
+        item.first_image = item.product.product_images.first()
+        print('first image url', item.first_image)
     
     context = {
         'custom_page_title': 'Order Confirmation',
@@ -98,6 +108,7 @@ def order_confirmation(request):
             { 'title': 'Home', 'url': home_page_url },
             { 'title': 'Order Confirmation' }
         ],
+        'order': order,
     }
     return render(request, 'orders/checkout/order_confirmation.html', context)
 
