@@ -1,68 +1,65 @@
 <!-- CONTACT SECTION -->
 <div id="contact"
-    class="grid lg:grid-cols-2 gap-20 lg:gap-0 lg:mb-20 py-10 max-w-md sm:max-w-full px-4 sm:px-0 mx-auto font-light">
+    class="grid lg:grid-cols-2 gap-20 lg:gap-0 lg:mb-20 py-10 max-w-md sm:max-w-7xl px-4 sm:px-0 mx-auto font-light">
 
-    <!-- {/*( Phone, Email, Address) & Opening Hours */} -->
-    <div class="grid gap-10 lg:gap-6 justify-center h-full rounded-md tracking-wide">
+    <!-- Phone, Email, Address & Opening Hours -->
+    <div class="flex flex-col gap-8 lg:gap-12 _lg:gap-6 justify-start mx-auto h-full rounded-md tracking-wide">
 
         <h2 class="text-3xl">{{ page.contact_title }}</h2>
 
-        <div class="grid gap-3">
-
-            {% if page.contact_methods.all %}
-                {% for entry in page.contact_methods.all %}
-                <div class="flex gap-4 items-center">
-                    {% if entry.svg_icon %}
-                    <div class="w-6 h-6">
-                        {{ entry.svg_icon.icon|safe }}
-                    </div>
-                    {% endif %}
-
-                    {% if entry.contact_type == 'phone' %}
-                    <a href="tel:{{ entry.contact_text|cut:' ' }}" class="hover:cursor-pointer">
-                        <p>{{ entry.contact_text }}</p>
-                    </a>
-                    {% elif entry.contact_type == 'email' %}
-                    <a href="mailto:{{ entry.contact_text }}" class="hover:cursor-pointer">
-                        <p>{{ entry.contact_text }}</p>
-                    </a>
-                    {% elif entry.contact_type == 'address' %}
-                    <a href="https://www.google.com/maps/search/{{ entry.contact_text|urlencode }}" target="_blank" class="hover:cursor-pointer">
-                        <p>{{ entry.contact_text }}</p>
-                    </a>
-                    {% else %}
-                    <p>{{ entry.contact_text }}</p>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            {% endif %}
-
-        </div>
-
-
-        <!-- Opening Hours  -->
-        <div class="w-56 flex flex-col justify-end">
-            <div>
-                <h2 class="mb-2 text-lg">Opening Hours</h2>
-
-                <div>
-                    {% if page.opening_hours.all %}
-                        <ul>
-                            {% for entry in page.opening_hours.all %}
+        <div class="flex flex-col gap-10 justify-between">
+            <!-- Phone, Email, Address -->
+            <div class="space-y-4">
     
-    
-                                <p class="flex justify-between gap-3">
-                                    <span>{{ entry.day }}:</span>
-                                    <span>{{ entry.hours }}</span>
-                                </p>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+                
+                {% if page.contact_methods.all %}
+                    {% for entry in page.contact_methods.all %}
+                    <a 
+                        href="{{ entry.get_url }}" target="_blank" 
+                        class="flex gap-4 items-center hover:cursor-pointer">
 
-                </div>
+                        {% if entry.svg_icon %}
+                        <div class="w-6 h-6">
+                            {{ entry.svg_icon.icon|safe }}
+                        </div>
+                        {% endif %}
 
+                        {% if entry.get_url %}
+                        <p>{{ entry.contact_text }}</p>
+
+                        {% else %}
+                        <p>{{ entry.contact_text }}</p>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                {% endif %}    
             </div>
-
+    
+    
+            <!-- Opening Hours  -->
+            <div class="w-56 flex flex-col justify-end">
+                <div>
+                    <h2 class="mb-2 text-lg">Opening Hours</h2>
+    
+                    <div>
+                        {% if page.opening_hours.all %}
+                            <ul class="space-y-2">
+                                {% for entry in page.opening_hours.all %}
+        
+        
+                                    <li class="flex justify-between gap-3">
+                                        <p>{{ entry.day }}:</p>
+                                        <p>{{ entry.hours }}</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+    
+                    </div>
+    
+                </div>
+    
+            </div>
         </div>
 
     </div>
@@ -74,58 +71,43 @@
 
             <h2 class="text-3xl text-center lg:text-left">Send us a Message</h2>
 
-            <form action="" method="POST">
+            <form action="" method="POST" class="contact-form">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
                 <div class="grid gap-x-8 gap-y-6 sm:grid-cols-2 text-gray-900 ">
 
                     <div>
                         <label class="block text-sm leading-6">First name</label>
-                        <div class="mt-2.5">
-                            <input 
-                                type="text" 
-                                name="first_name" 
-                                id="first-name"
-                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" 
-                            />
+                        <div class="mt-2.5 form-field-outer">
+                            <input type="text" name="first_name" id="first-name" placeholder="John" />
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-sm leading-6">Last name</label>
-                        <div class="mt-2.5">
-                            <input 
-                                type="text" 
-                                name="last_name" 
-                                id="last-name"                                
-                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" 
-                            />
+                        <div class="mt-2.5 form-field-outer">
+                            <input type="text" name="last_name" id="last-name" placeholder="Doe" />
                         </div>
                     </div>
 
                     <div class="sm:col-span-2">
                         <label class="block text-sm leading-6">Email</label>
-                        <div class="mt-2.5">
-                            <input type="email" name="email" id="email" autoComplete="email"
-                                class="block w-full border-1 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md" />
+                        <div class="mt-2.5 form-field-outer">
+                            <input type="email" name="email" id="email" autoComplete="email" placeholder="john.doe@mail.com" />
                         </div>
                     </div>
 
                     <div class="sm:col-span-2">
                         <label class="block text-sm leading-6">Message</label>
-                        <div class="mt-2.5">
-                            <textarea name="message" id="message" rows={3}
-                                class="block w-full border-1 px-3.5 py-2 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 rounded-md"></textarea>
+                        <div class="mt-2.5 form-field-outer">
+                            <textarea name="message" id="message" rows={3} placeholder="Enter your message ..."></textarea>
                         </div>
                     </div>
 
                 </div>
 
                 <div class="mt-10">
-                    <button type="submit"
-                        class="block w-full px-3.5 py-2.5 text-center text-md font-semibold shadow-sm focus-visible:outline focus-visible:outline-offset-2 rounded-md border bg-black hover:bg-slate-800 hover:cursor-pointer text-white tracking-wide">
-                        Send Message
-                    </button>
+                    <button type="submit" class="submit-btn">Send Message</button>
                 </div>
 
             </form>

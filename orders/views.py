@@ -105,7 +105,6 @@ def order_confirmation(request, order_ref):
     for item in order.items.all():
         item.total_price = item.price * item.quantity
         item.first_image = item.product.product_images.first()
-        print('first image url', item.first_image)
     
     context = {
         'custom_page_title': 'Order Confirmation',

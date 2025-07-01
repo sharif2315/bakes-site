@@ -66,6 +66,15 @@ class ContactSubmission(models.Model):
         return f"{self.first_name} {self.last_name} - {self.submitted_at:%Y-%m-%d}"
 
 
+    def get_url(self):
+        if self.contact_type == 'phone':
+            return f"tel:{self.contact_text.replace(' ', '')}"
+        elif self.contact_type == 'email':
+            return f"mailto:{self.contact_text}"
+        elif self.contact_type == 'address':
+            return f"https://www.google.com/maps/search/{urlencode({'': self.contact_text})[1:]}"
+        return None
+
 class ContactMethod(Orderable):
     CONTACT_TYPE_CHOICES = [
         ('phone', 'Phone'),

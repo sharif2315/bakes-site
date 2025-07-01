@@ -69,3 +69,15 @@
 .form-field-error-outline {
     @apply ring ring-red-500 bg-red-300/10 focus-within:ring-2 focus-within:ring-red-500 focus-within:ring-offset-2;
 }
+
+.contact-form input, textarea {
+    @apply block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
+}
+
+.contact-form .form-field-outer {
+    @apply flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-400 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600;
+}
+
+.contact-form .submit-btn {
+    @apply block w-full px-3.5 py-2.5 text-center font-semibold shadow-sm focus-visible:outline focus-visible:outline-offset-2 rounded-md border bg-black hover:bg-slate-800 hover:cursor-pointer text-white tracking-wide;
+}
