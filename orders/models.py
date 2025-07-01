@@ -63,7 +63,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'order for {self.first_name} {self.last_name} on {self.created_at}'
+        return f'Order for {self.first_name} {self.last_name} on {self.created_at}'
     
     def check_order_validity(self):
         """

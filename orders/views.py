@@ -63,10 +63,7 @@ def checkout(request):
 
             # Clear cart
             request.session['cart'] = {}
-
-            return redirect('order_confirmation')
-            # TODO: Redirect to order confirmation page with order reference
-            # return redirect('order_confirmation', order_ref=order.order_ref)
+            return redirect('order_confirmation', order_ref=order.order_ref)
         else:            
             context['form_errors'] = True
             if order_form.errors:
@@ -102,6 +99,10 @@ def order_confirmation(request, order_ref):
         item.first_image = item.product.product_images.first()
         print('first image url', item.first_image)
     
+    # masked_postcode = mask_string(order.address.postcode)
+    # masked_street = mask_string(order.address.street, 0)
+    # masked_town = mask_string(order.address.town, 0)
+    
     context = {
         'custom_page_title': 'Order Confirmation',
         'breadcrumbs': [
@@ -109,6 +110,9 @@ def order_confirmation(request, order_ref):
             { 'title': 'Order Confirmation' }
         ],
         'order': order,
+        # 'street': masked_street,
+        # 'town': masked_town,
+        # 'postcode': masked_postcode,
     }
     return render(request, 'orders/checkout/order_confirmation.html', context)
 
