@@ -1,22 +1,23 @@
 # forms.py
 from django import forms
 from .models import Order, Address, DeliveryDetail, StoreSettings
+from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_DELIVERY
 
 
 class AddressForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.delivery_method = kwargs.pop('delivery_method', None)
         super().__init__(*args, **kwargs)
-        # If pickup, make address fields not required
+        # If collection, make address fields not required
 
-        if self.delivery_method == 'pickup':
+        if self.delivery_method == 'collection':
             for field_name in ['street', 'town', 'postcode']:
                 self.fields[field_name].required = False        
 
     def clean(self):
         cleaned_data = super().clean()
 
-        if self.delivery_method == 'pickup':
+        if self.delivery_method == 'collection':
             # Skip validation errors for address fields
             for field in ['street', 'town', 'postcode']:
                 self._errors.pop(field, None)
@@ -86,9 +87,9 @@ class DeliveryDetailForm(forms.ModelForm):
 
         choices = []
         if settings.allow_delivery:
-            choices.append(('delivery', 'Delivery'))
-        if settings.allow_pickup:
-            choices.append(('pickup', 'Pickup'))
+            choices.append((DELIVERY_METHOD_DELIVERY, 'Delivery'))
+        if settings.allow_collection:
+            choices.append((DELIVERY_METHOD_COLLECTION, 'Collection'))
 
         self.fields['delivery_method'].choices = choices
 

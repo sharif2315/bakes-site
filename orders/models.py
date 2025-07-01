@@ -4,13 +4,13 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from products.models import Product
+from .constants import DELIVERY_METHOD_CHOICES, DELIVERY_METHOD_DELIVERY
 
-
-# TODO: if Pickup, order delivery_charge should be 0.00
+# TODO: if Collection, order delivery_charge should be 0.00
 
 class StoreSettings(models.Model):
     allow_delivery = models.BooleanField(default=True)
-    allow_pickup = models.BooleanField(default=True)
+    allow_collection = models.BooleanField(default=True)
     delivery_charge = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -37,14 +37,10 @@ class Address(models.Model):
 
 
 class DeliveryDetail(models.Model):
-    delivery_method_choices = [
-        ('pickup', 'Pickup'),
-        ('delivery', 'Delivery'),
-    ]
     delivery_method = models.CharField(
         max_length=10,
-        choices=delivery_method_choices,
-        default='delivery',
+        choices=DELIVERY_METHOD_CHOICES,
+        # default='delivery',
     )
     requested_delivery_date = models.DateField()
     additional_requirements = models.TextField(blank=True, null=True)
@@ -64,6 +60,9 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Order for {self.first_name} {self.last_name} on {self.created_at}'
+    
+    def is_delivery(self):
+        return self.delivery_detail.delivery_method == DELIVERY_METHOD_DELIVERY
     
     def check_order_validity(self):
         """

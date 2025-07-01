@@ -21,8 +21,16 @@
 <!-- Script is used to make address fields optional based on the selected delivery method -->
 <script>
     function formHandler() {
+        const allowedMethods = {{ allowed_methods|safe }};
+        let initialMethod = '{{ delivery_form.delivery_method.value|default_if_none:"" }}';
+
+        // If the initial method is not allowed, pick the first allowed one
+        if (!allowedMethods.includes(initialMethod)) {
+            initialMethod = allowedMethods.length > 0 ? allowedMethods[0] : '';
+        }
+
         return {
-            deliveryMethod: '{{ delivery_form.delivery_method.value|default:"delivery" }}',
+            deliveryMethod: initialMethod,
             get isDelivery() {
                 return this.deliveryMethod === 'delivery';
             },
@@ -36,10 +44,8 @@
                 });
             },
             init() {
-                // Update on initial loadå
                 this.updateAddressFieldState();
 
-                // Watch for changes in delivery method
                 const deliveryField = document.getElementById('id_delivery_method');
                 if (deliveryField) {
                     deliveryField.addEventListener('change', (e) => {
@@ -51,6 +57,7 @@
         }
     }
 </script>
+
 {% endblock %}
 
 <!-- TODO: ReCaptcha -->

@@ -8,7 +8,7 @@ from home.models import HomePage
 from products.models import Product
 from .models import OrderItem, Order, StoreSettings
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
-
+from .constants import DELIVERY_METHOD_COLLECTION
 
 def checkout(request):
     home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
@@ -37,7 +37,7 @@ def checkout(request):
 
         if order_form.is_valid() and address_form.is_valid() and delivery_form.is_valid():
             # print("All forms are valid")
-            address = address_form.save() if delivery_method != 'pickup' else None
+            address = address_form.save() if delivery_method != DELIVERY_METHOD_COLLECTION else None
             delivery_detail = delivery_form.save()
 
             order = order_form.save(commit=False)
@@ -75,11 +75,20 @@ def checkout(request):
             if delivery_form.errors:
                 print("Delivery Form errors:", delivery_form.errors)
     else:
+        settings = StoreSettings.objects.first()
+        allowed_methods = []
+
+        if settings.allow_delivery:
+            allowed_methods.append('delivery')
+        if settings.allow_collection:
+            allowed_methods.append('collection') 
+        
         order_form = OrderForm()
         address_form = AddressForm()
         delivery_form = DeliveryDetailForm()
 
     context.update({
+        'allowed_methods': allowed_methods,
         'order_form': order_form,
         'address_form': address_form,
         'delivery_form': delivery_form,
@@ -89,9 +98,8 @@ def checkout(request):
 
 
 def order_confirmation(request, order_ref):
-    home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
-    # cart = request.session.get("cart", {})
-
+    # home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
+    
     order = Order.objects.get(order_ref=order_ref)
 
     for item in order.items.all():
@@ -99,20 +107,13 @@ def order_confirmation(request, order_ref):
         item.first_image = item.product.product_images.first()
         print('first image url', item.first_image)
     
-    # masked_postcode = mask_string(order.address.postcode)
-    # masked_street = mask_string(order.address.street, 0)
-    # masked_town = mask_string(order.address.town, 0)
-    
     context = {
         'custom_page_title': 'Order Confirmation',
-        'breadcrumbs': [
-            { 'title': 'Home', 'url': home_page_url },
-            { 'title': 'Order Confirmation' }
-        ],
+        # 'breadcrumbs': [
+        #     { 'title': 'Home', 'url': home_page_url },
+        #     { 'title': 'Order Confirmation' }
+        # ],
         'order': order,
-        # 'street': masked_street,
-        # 'town': masked_town,
-        # 'postcode': masked_postcode,
     }
     return render(request, 'orders/checkout/order_confirmation.html', context)
 

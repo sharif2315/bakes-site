@@ -9,18 +9,26 @@
     <div class="space-y-2">
         <p class="text-gray-600 text-sm font-semibold">Order successful</p>
         <h1 class="text-4xl font-bold">Thanks for ordering</h1>
-        <p class="text-gray-500 mb-4">We appreciate your order, we’re currently processing it. So hang tight and we’ll send you confirmation very soon!</p>
+        <div>
+            <p class="text-gray-500">Your order has been received and is now being processed.</p>
+            <p class="text-gray-500">We'll be in touch with the next steps.</p>
+        </div>
     </div>
 
-    <!-- Delivery / Pickup Address -->
+    <!-- Delivery / Collection Address -->
+
     <div class="space-y-1">        
         <h2 class="font-semibold">Receive By</h2>
-        {% if order.address %}
-            <p>Delivery</p>
-        {% else %}
-            <p>Collection</p>
-        {% endif %}
+            <p class="text-gray-500">{{ order.delivery_detail.get_delivery_method_display }}</p>
      </div>
+
+    {% if order.delivery_detail.additional_requirements %}
+    <div class="space-y-1">        
+        <h2 class="font-semibold">Additional Requirements</h2>
+            <p class="text-gray-500">{{ order.delivery_detail.additional_requirements }}</p>
+     </div>
+    {% endif %}
+
      
         
     {% for item in order.items.all %}
@@ -38,7 +46,7 @@
                     <p>{{ item.product.title }}</p>
                     <p>Qty: {{ item.quantity }}</p>
                 </div>
-                <p>£{{ item.get_total }}</p>
+                <p class="text-black">£{{ item.get_total }}</p>
             </div>
         </div>
 
@@ -53,12 +61,12 @@
         <div class="space-y-6">
             <div class="flex justify-between text-sm text-gray-700">
                 <p>Subtotal</p>
-                <p>£{{ order.subtotal }}</p>
+                <p class="text-black">£{{ order.subtotal }}</p>
             </div>
             {% if order.address %}
             <div class="flex justify-between text-sm text-gray-700">
                 <p>Delivery</p>
-                <p>£{{ order.delivery_charge }}</p>
+                <p class="text-black">£{{ order.delivery_charge }}</p>
             </div>
             {% endif %}
         </div>
@@ -67,7 +75,7 @@
 
         <div class="flex justify-between text-sm text-gray-900">
             <p>Total</p>
-            <p>£{{ order.total }}</p>
+            <p class="text-black">£{{ order.total }}</p>
         </div>
 
     </div>

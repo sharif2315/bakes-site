@@ -104,82 +104,6 @@
 
     </div>
 
-    <hr x-show="isDelivery" x-cloak class="text-gray-200">
-
-    <!-- Address Section -->
-    <div x-show="isDelivery" x-cloak class="space-y-3">
-        <h2 class="text-2xl">Address</h2>
-
-        <!-- Address fields inputs -->
-        <div class="space-y-3">
-
-            <!-- Street Name with Label Group -->
-            <div>
-                <!-- Street Label -->
-                {{ address_form.street.label_tag }}
-
-                <!-- Street Name Input -->
-                <div class="mt-2">
-                    <div class="{% if address_form.street.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                        {{ address_form.street }}
-                    </div>
-                </div>
-
-                <!-- Street Name Errors -->
-                {% for error in address_form.street.errors %}
-                    <p class="form-field-error">{{ error }}</p>
-                {% endfor %}        
-
-            </div>
-
-
-            <!-- Town/City & Postcode Container -->
-            <div class="flex gap-3 justify-between">
-                <!-- Town/City Input with Label Group -->
-                <div>
-                    <!-- Town Label -->
-                    {{ address_form.town.label_tag }}
-
-                    <!-- Town/City & Postcode Input -->
-                    <div class="mt-2">
-                        <div class="{% if address_form.town.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                            {{ address_form.town }}
-                        </div>
-                    </div>
-
-                    <!-- Town/City Errors -->
-                    {% for error in address_form.town.errors %}
-                        <p class="form-field-error">{{ error }}</p>
-                    {% endfor %}        
-
-                </div>
-
-                <!-- Postcode Input with Label Group -->
-                <div>
-                    <!-- Last Name Label -->
-                    {{ address_form.postcode.label_tag }}
-
-                    <!-- Postcode Input -->
-                    <div class="mt-2">
-                        <div class="{% if address_form.postcode.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                            {{ address_form.postcode }}
-                        </div>
-                    </div>
-                    
-                    <!-- Postcode Errors -->
-                    {% for error in address_form.postcode.errors %}
-                        <p class="form-field-error">{{ error }}</p>
-                    {% endfor %}                        
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
     <hr class="text-gray-200">
 
     <!-- DELIVERY DETAILS -->
@@ -399,6 +323,82 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+
+    </div>
+
+
+    <hr x-show="isDelivery" x-cloak class="text-gray-200">
+
+    <!-- Address Section -->
+    <div x-show="isDelivery" x-cloak class="space-y-3">
+        <h2 class="text-2xl">Address</h2>
+
+        <!-- Address fields inputs -->
+        <div class="space-y-3">
+
+            <!-- Street Name with Label Group -->
+            <div>
+                <!-- Street Label -->
+                {{ address_form.street.label_tag }}
+
+                <!-- Street Name Input -->
+                <div class="mt-2">
+                    <div class="{% if address_form.street.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                        {{ address_form.street }}
+                    </div>
+                </div>
+
+                <!-- Street Name Errors -->
+                {% for error in address_form.street.errors %}
+                    <p class="form-field-error">{{ error }}</p>
+                {% endfor %}        
+
+            </div>
+
+
+            <!-- Town/City & Postcode Container -->
+            <div class="flex gap-3 justify-between">
+                <!-- Town/City Input with Label Group -->
+                <div>
+                    <!-- Town Label -->
+                    {{ address_form.town.label_tag }}
+
+                    <!-- Town/City & Postcode Input -->
+                    <div class="mt-2">
+                        <div class="{% if address_form.town.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                            {{ address_form.town }}
+                        </div>
+                    </div>
+
+                    <!-- Town/City Errors -->
+                    {% for error in address_form.town.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}        
+
+                </div>
+
+                <!-- Postcode Input with Label Group -->
+                <div>
+                    <!-- Last Name Label -->
+                    {{ address_form.postcode.label_tag }}
+
+                    <!-- Postcode Input -->
+                    <div class="mt-2">
+                        <div class="{% if address_form.postcode.errors %} form-field-error-outline {% endif %} flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                            {{ address_form.postcode }}
+                        </div>
+                    </div>
+                    
+                    <!-- Postcode Errors -->
+                    {% for error in address_form.postcode.errors %}
+                        <p class="form-field-error">{{ error }}</p>
+                    {% endfor %}                        
+                </div>
+
+            </div>
+
 
         </div>
 

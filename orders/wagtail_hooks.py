@@ -71,13 +71,13 @@ class StoreSettingsSnippetViewSet(SnippetViewSet):
     menu_label = "Store Settings"
     list_display = [
         "allow_delivery",
-        "allow_pickup",
+        "allow_collection",
         "delivery_charge",
         ]
-    search_fields = ["allow_delivery", "allow_pickup", "delivery_charge"]
+    search_fields = ["allow_delivery", "allow_collection", "delivery_charge"]
     panels = [
         FieldPanel("allow_delivery"),
-        FieldPanel("allow_pickup"),
+        FieldPanel("allow_collection"),
         FieldPanel("delivery_charge"),
     ]
     # 🔒 Prevent creating more than one
