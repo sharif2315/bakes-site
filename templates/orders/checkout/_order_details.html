@@ -19,6 +19,12 @@
             </div>
         {% endif %}
 
+        {% if order_form.captcha.errors %}
+        <div>{{ order_form.captcha.errors }}</div>
+        {% endif %}
+
+        {{ form.non_field_errors }}
+
 
         <!-- first name, last name, email and phone inputs-->
         <div class="space-y-3">
@@ -403,5 +409,18 @@
         </div>
 
     </div>
+
+    <div class="space-y-3">        
+        <!-- captcha Errors -->
+        {% for error in order_form.captcha.errors %}
+            <p class="text-red-600 text-sm">{{ error }}</p>
+        {% endfor %}  
+        
+        <!-- captcha field -->
+        <div class="{% if order_form.captcha.errors %} w-fit ring-2 ring-red-500 bg-red-300/10 {% endif %}">
+            {{ order_form.captcha }}
+        </div>
+    </div>
+
 
 </div>

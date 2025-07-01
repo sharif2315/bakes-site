@@ -1,4 +1,4 @@
-<div class="grid gap-6 justify-center m-5 my-24 max-w-md sm:max-w-7xl mx-auto sm:px-10">
+<div class="grid gap-8 justify-center m-5 my-24 max-w-md sm:max-w-7xl mx-auto sm:px-10 md:px-0">
     <h1 class='text-3xl'>{{ page.gallery_title }}</h1>
 
     <div x-data="{
@@ -31,7 +31,7 @@
         @keyup.left.window="imageGalleryPrev();"
         class="w-full h-full select-none">
         <div class="max-w-6xl mx-auto duration-1000 delay-300 opacity-0 select-none ease animate-fade-in-view" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
-            <ul x-ref="gallery" id="gallery" class="grid grid-cols-2 gap-5 lg:grid-cols-4">
+            <ul x-ref="gallery" id="gallery" class="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 <template x-for="(image, index) in imageGallery">
                     <li><img x-on:click="imageGalleryOpen" :src="image.url" :alt="image.alt" :data-index="index+1" class="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]"></li>
                 </template>

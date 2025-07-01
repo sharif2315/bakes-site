@@ -87,8 +87,11 @@ def checkout(request):
         address_form = AddressForm()
         delivery_form = DeliveryDetailForm()
 
+        context.update({
+            'allowed_methods': allowed_methods,
+        })
+
     context.update({
-        'allowed_methods': allowed_methods,
         'order_form': order_form,
         'address_form': address_form,
         'delivery_form': delivery_form,

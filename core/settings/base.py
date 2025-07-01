@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_browser_reload",
     "django_vite",
     "storages",
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
@@ -196,3 +197,7 @@ if config("EMAIL_HOST_USER", default=None):
     EMAIL_HOST_USER = config("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
+
+# Recaptcha Settings
+RECAPTCHA_PUBLIC_KEY = config("RECAPTCHA_PUBLIC_KEY") # site key
+RECAPTCHA_PRIVATE_KEY = config("RECAPTCHA_PRIVATE_KEY") # secret key

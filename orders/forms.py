@@ -1,5 +1,6 @@
-# forms.py
+from django.conf import settings
 from django import forms
+from django_recaptcha.fields import ReCaptchaField
 from .models import Order, Address, DeliveryDetail, StoreSettings
 from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_DELIVERY
 
@@ -95,6 +96,7 @@ class DeliveryDetailForm(forms.ModelForm):
 
 
 class OrderForm(forms.ModelForm):
+
     class Meta:
         model = Order
         fields = ['first_name', 'last_name', 'email', 'phone']
@@ -124,3 +126,8 @@ class OrderForm(forms.ModelForm):
             self.add_error('email', 'Please enter an email or phone.')
             self.add_error('phone', 'Please enter an email or phone.')
             raise forms.ValidationError("Please provide at least an email address or a phone number.")        
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if getattr(settings, "RECAPTCHA_PUBLIC_KEY", None) and getattr(settings, "RECAPTCHA_PRIVATE_KEY", None):
+            self.fields['captcha'] = ReCaptchaField()
