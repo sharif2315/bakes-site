@@ -8,6 +8,8 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 from modelcluster.fields import ParentalKey
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 from utils.email import send_contact_email
 from .forms import ContactForm
@@ -210,6 +212,20 @@ class HomePage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         context['form'] = ContactForm()
+
+        gallery_images = self.gallery_images.all()
+
+        # Build a list of dicts with the info Alpine needs
+        gallery_data = [
+            {
+                'url': img.image.file.url,   # wagtailimages.Image field -> file.url for image URL
+                'alt': img.image.title if hasattr(img.image, 'title') else ''
+            }
+            for img in gallery_images
+        ]
+        
+        # JSON encode it with safe handling of dates, etc.
+        context['gallery_json'] = json.dumps(gallery_data, cls=DjangoJSONEncoder)
 
         about_sections = []
 
