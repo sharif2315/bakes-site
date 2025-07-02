@@ -1,64 +1,66 @@
 {% extends "base_inner.html" %}
 {% block inner_content %}
 
-<div>
-  <h1 class="text-3xl font-bold mb-3">Checkout</h1>
-  <p class="text-gray-600 mb-4">Please review your order and fill in your details below.</p>
-</div>
+    <div>
+    <h1 class="text-3xl font-bold mb-3">Checkout</h1>
+    <p class="text-gray-600 mb-4">Please review your order and fill in your details below.</p>
+    </div>
 
-<!-- Order Summary and Checkout Form -->
-<div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200 justify-center">
+    <!-- Order Summary and Checkout Form -->
+    <div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200 justify-center">
 
-  <!-- Order Summary -->
-  {% include 'orders/checkout/_order_summary.html' %}
+    <!-- Order Summary -->
+    {% include 'orders/checkout/_order_summary.html' %}
 
-  <!-- Order Details -->
-    {% include 'orders/checkout/_order_details.html' %}
+    <!-- Order Details -->
+        {% include 'orders/checkout/_order_details.html' %}
 
-</div>
+    </div>
 
-{% block extra_js %}
-<!-- Script is used to make address fields optional based on the selected delivery method -->
-<script>
-    function formHandler() {
-        const allowedMethods = {{ allowed_methods|safe }};
-        let initialMethod = '{{ delivery_form.delivery_method.value|default_if_none:"" }}';
+    {% block extra_js %}
+        <!-- Script is used to make address fields optional based on the selected delivery method -->
+        <script>
+            function formHandler() {
+                const allowedMethods = {{ allowed_methods|safe }};
+                let initialMethod = '{{ delivery_form.delivery_method.value|default_if_none:"" }}';
 
-        // If the initial method is not allowed, pick the first allowed one
-        if (!allowedMethods.includes(initialMethod)) {
-            initialMethod = allowedMethods.length > 0 ? allowedMethods[0] : '';
-        }
+                // If the initial method is not allowed, pick the first allowed one
+                if (!allowedMethods.includes(initialMethod)) {
+                    initialMethod = allowedMethods.length > 0 ? allowedMethods[0] : '';
+                }
 
-        return {
-            deliveryMethod: initialMethod,
-            get isDelivery() {
-                return this.deliveryMethod === 'delivery';
-            },
-            updateAddressFieldState() {
-                ['street', 'town', 'postcode'].forEach(name => {
-                    const el = document.getElementById(`id_${name}`);
-                    if (el) {
-                        el.required = this.isDelivery;
-                        el.disabled = !this.isDelivery;
-                    }
-                });
-            },
-            init() {
-                this.updateAddressFieldState();
-
-                const deliveryField = document.getElementById('id_delivery_method');
-                if (deliveryField) {
-                    deliveryField.addEventListener('change', (e) => {
-                        this.deliveryMethod = e.target.value;
+                return {
+                    deliveryMethod: initialMethod,
+                    get isDelivery() {
+                        return this.deliveryMethod === 'delivery';
+                    },
+                    updateAddressFieldState() {
+                        ['street', 'town', 'postcode'].forEach(name => {
+                            const el = document.getElementById(`id_${name}`);
+                            if (el) {
+                                el.required = this.isDelivery;
+                                el.disabled = !this.isDelivery;
+                            }
+                        });
+                    },
+                    init() {
                         this.updateAddressFieldState();
-                    });
+
+                        const deliveryFields = document.querySelectorAll('input[name="delivery_method"]');
+                        deliveryFields.forEach((radio) => {
+                            if (radio.checked) {
+                                this.deliveryMethod = radio.value;
+                            }
+                            radio.addEventListener('change', (e) => {
+                                this.deliveryMethod = e.target.value;
+                                this.updateAddressFieldState();
+                            });
+                        });
+                    }
                 }
             }
-        }
-    }
-</script>
+        </script>
 
-{% endblock %}
+    {% endblock extra_js %}
 
-<!-- TODO: ReCaptcha -->
 {% endblock inner_content %}

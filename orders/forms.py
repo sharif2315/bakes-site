@@ -54,6 +54,7 @@ class DeliveryDetailForm(forms.ModelForm):
         model = DeliveryDetail
         fields = ['delivery_method', 'requested_delivery_date', 'additional_requirements']
         widgets = {
+            'delivery_method': forms.RadioSelect(),
             'requested_delivery_date': forms.TextInput(
                 attrs={
                     'type': 'text',
