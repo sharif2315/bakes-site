@@ -94,7 +94,10 @@ class DeliveryDetailForm(forms.ModelForm):
             choices.append((DELIVERY_METHOD_COLLECTION, 'Collection'))
 
         self.fields['delivery_method'].choices = choices
-
+        
+        # ✅ Set default if only one option
+        if len(choices) == 1:
+            self.fields['delivery_method'].initial = choices[0][0]
 
 class OrderForm(forms.ModelForm):
 
