@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST, require_http_methods
-
+from django.http import HttpResponseBadRequest
 
 from utils.products import build_cart_context
 from home.models import HomePage
