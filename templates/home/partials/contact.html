@@ -104,8 +104,16 @@
                         </div>
                     </div>
 
-                    <div>
-                        {{ form.captcha }}
+                    <div class="space-y-3">
+                        <!-- Captcha Errors -->
+                        {% for error in form.captcha.errors %}
+                            <p class="error-msg-text">{{ error }}</p>
+                        {% endfor %}                       
+                        
+                        <!-- Captcha field -->
+                        <div class="{% if form.captcha.errors %} captcha-error-field-outer {% endif %}">
+                            {{ form.captcha }}
+                    </div>
                     </div>
 
                 </div>

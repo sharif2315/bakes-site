@@ -47,17 +47,14 @@
     @apply block min-w-0 grow py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6;
 }
 
-/* Text input */
 #order-form #id_requested_delivery_date {
     @apply flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md text-neutral-600 border-neutral-300 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
-/* Textarea input */
 #order-form #id_additional_requirements {
     @apply pr-3 pl-1;
 }
 
-/* select input */
 #order-form #id_delivery_method {
     @apply py-2 pr-3 pl-1;
 }
@@ -80,4 +77,12 @@
 
 .contact-form .submit-btn {
     @apply block w-full px-3.5 py-2.5 text-center font-semibold shadow-sm focus-visible:outline focus-visible:outline-offset-2 rounded-md border bg-black hover:bg-slate-800 hover:cursor-pointer text-white tracking-wide;
+}
+
+.error-msg-text {
+    @apply text-red-600 text-sm;
+}
+
+.captcha-error-field-outer {
+    @apply w-fit ring ring-red-500 bg-red-300/10 rounded-sm;
 }

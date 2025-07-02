@@ -2,7 +2,7 @@
     id="order-form" 
     method="POST" 
     action="{% url 'checkout' %}" 
-    class="space-y-10 max-w-sm" 
+    class="space-y-10 max-w-md" 
     x-data="formHandler()" x-init="init()"
 >
     {% csrf_token %}
@@ -14,14 +14,15 @@
         {% if order_form.non_field_errors %}
             <div class="form-errors space-y-2">
                 {% for error in order_form.non_field_errors %}
-                    <p class="form-field-error">{{ error }}</p>
+                    {% include 'components/error_message.html' with message=error %}
                 {% endfor %}
             </div>
         {% endif %}
 
+        <!-- captcha Errors -->
         {% if order_form.captcha.errors %}
-        <div>{{ order_form.captcha.errors }}</div>
-        {% endif %}
+            {% include 'components/error_message.html' with message="Please complete the CAPTCHA to verify you are human" %}
+        {% endif %}  
 
         {{ form.non_field_errors }}
 
@@ -413,14 +414,20 @@
     <div class="space-y-3">        
         <!-- captcha Errors -->
         {% for error in order_form.captcha.errors %}
-            <p class="text-red-600 text-sm">{{ error }}</p>
-        {% endfor %}  
+            <p class="error-msg-text">{{ error }}</p>
+        {% endfor %}   
+
         
         <!-- captcha field -->
-        <div class="{% if order_form.captcha.errors %} w-fit ring-2 ring-red-500 bg-red-300/10 {% endif %}">
+        <div class="{% if order_form.captcha.errors %} captcha-error-field-outer {% endif %}">
             {{ order_form.captcha }}
         </div>
     </div>
+
+    <!-- Submit button for mobile screen -->
+    <button type="submit" form="order-form" class="sm:hidden w-full bg-black text-white tracking-wide font-semibold py-2.5 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 transition-colors duration-200 hover:cursor-pointer">
+        Place Order
+    </button>
 
 
 </div>

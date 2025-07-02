@@ -13,4 +13,9 @@ class ContactForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if getattr(settings, "RECAPTCHA_PUBLIC_KEY", None) and getattr(settings, "RECAPTCHA_PRIVATE_KEY", None):
-            self.fields['captcha'] = ReCaptchaField()
+            self.fields['captcha'] = ReCaptchaField(
+                error_messages={
+                    'required': 'Please complete the CAPTCHA.',
+                    'invalid-input-response': 'CAPTCHA validation failed. Please try again.',
+                }
+            )

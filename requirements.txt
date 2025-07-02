@@ -5,4 +5,5 @@ psycopg2-binary==2.9.10
 python-decouple==3.8
 django-browser-reload==1.18.0
 boto3==1.38.36
+django-recaptcha==4.1.0
 django-storages==1.14.6
