@@ -8,6 +8,96 @@
         <div class="richtext">{{ page.description | richtext }}</div>
     </div>
 
+    <div class="flex gap-8 items-center mb-10">
+        <!-- Search Input-->
+        <label for="Search" class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-gray-700">Search</span>
+    
+            <div class="relative border border-gray-300 max-w-sm rounded-sm">
+                <input
+                type="text"
+                id="Search"
+                class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
+                />
+    
+                <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                <button
+                    type="button"
+                    aria-label="Submit"
+                    class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100"
+                >
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                    >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                    />
+                    </svg>
+                </button>
+                </span>
+            </div>
+        </label>
+        
+        <!-- Dietary Filters -->
+        <div class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-gray-700">Dietary</span>
+
+            <div 
+                x-data="multiSelect({
+                    initialOptions: [
+                        { label: 'Vegetarian', value: 'vegetarian' },
+                        { label: 'Gluten Free', value: 'gluten free' },
+                        { label: 'Dairy Free', value: 'dairy free' },
+                    ]
+                })"
+                class="relative w-40"
+            >
+                <!-- Trigger button -->
+                <button 
+                    @click="open = !open" 
+                    class="w-full flex justify-between items-center px-4 py-2.5 border border-gray-300 rounded-sm bg-white text-sm text-gray-700 focus:outline-none"
+                >
+                    <span x-text="selectedLabels.length ? selectedLabels.join(', ') : 'Select options'"></span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+        
+                <!-- Dropdown -->
+                <div 
+                    x-show="open" 
+                    @click.outside="open = false" 
+                    class="absolute mt-1 py-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto"
+                    x-transition
+                >
+                    <template x-for="(option, index) in options" :key="index">
+                        <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+                            <input 
+                                type="checkbox" 
+                                class="mr-2 rounded border-gray-300" 
+                                :value="option.value" 
+                                @change="toggleOption(option.value)"
+                                :checked="selected.includes(option.value)"
+                            >
+                            <span x-text="option.label" class="text-sm text-gray-700"></span>
+                        </label>
+                    </template>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
     <!-- Blogposts  -->
     <div class="mb-20">
     
@@ -55,3 +145,28 @@
     </div>
 
 {% endblock inner_content %}
+
+
+{% block extra_js %}
+<script>
+    function multiSelect({ initialOptions = [], initialSelected = [] }) {
+        return {
+            open: false,
+            options: initialOptions,
+            selected: initialSelected,
+            get selectedLabels() {
+                return this.options
+                    .filter(o => this.selected.includes(o.value))
+                    .map(o => o.label);
+            },
+            toggleOption(value) {
+                if (this.selected.includes(value)) {
+                    this.selected = this.selected.filter(v => v !== value);
+                } else {
+                    this.selected.push(value);
+                }
+            }
+        };
+    }
+</script>
+{% endblock %}    

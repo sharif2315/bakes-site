@@ -1,0 +1,34 @@
+<div x-data="multiSelect({ initialOptions: {{ options|safe }}, initialSelected: {{ selected|default:'[]'|safe }} })" class="relative w-40">
+    <button 
+        @click="open = !open" 
+        type="button"
+        class="w-full flex justify-between items-center px-4 py-2.5 border border-gray-300 rounded-sm bg-white text-sm text-gray-700 focus:outline-none"
+    >
+        <span x-text="selectedLabels.length ? selectedLabels.join(', ') : '{{ placeholder|default:'Select options' }}'"></span>
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+        </svg>
+    </button>
+
+    <div 
+        x-show="open" 
+        @click.outside="open = false" 
+        class="absolute mt-1 py-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto"
+        x-transition
+    >
+        <template x-for="(option, index) in options" :key="index">
+            <label class="flex items-center px-4 py-2 hover:bg-gray-50 cursor-pointer">
+                <input 
+                    type="checkbox" 
+                    class="mr-2 rounded border-gray-300" 
+                    :value="option.value" 
+                    @change="toggleOption(option.value)"
+                    :checked="selected.includes(option.value)"
+                >
+                <span x-text="option.label" class="text-sm text-gray-700"></span>
+            </label>
+        </template>
+    </div>
+
+    <input type="hidden" :name="name" :value="selected.join(',')" />
+</div>
