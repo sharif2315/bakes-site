@@ -9,7 +9,7 @@
     </div>
 
     <!-- Search Filters Section -->
-    <form method="get" class="flex gap-8 items-center mb-4">
+    <form method="get" class="flex gap-8 items-start mb-4">
         
         <!-- Search Input Group -->
         <div class="relative border border-gray-300 max-w-sm rounded-sm">
@@ -125,7 +125,14 @@ function multiSelect({ name = '', initialOptions = [], initialSelected = [] }) {
             this.$nextTick(() => {
                 this.form.submit();
             });
+        },
+        removeOption(value) {
+            this.selected = this.selected.filter(v => v !== value);
+            this.$nextTick(() => {
+                this.form.submit();
+            });
         }
+
     };
 }
 </script>

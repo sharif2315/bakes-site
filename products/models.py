@@ -33,9 +33,10 @@ class ProductListing(Page):
         context = super().get_context(request)
 
         # Product FTS Search
-        query = request.GET.get("q")
-        dietary_slugs = request.GET.get("dietary", "").split(",")
-        category_slugs = request.GET.get("categories", "").split(",")
+        query = request.GET.get("q")        
+        dietary_slugs = [slug for slug in request.GET.get("dietary", "").split(",") if slug]
+        category_slugs = [slug for slug in request.GET.get("categories", "").split(",") if slug]
+
         products = Product.objects.live().order_by("-first_published_at")
 
         # Full-text search
