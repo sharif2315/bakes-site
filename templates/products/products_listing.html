@@ -8,24 +8,26 @@
         <div class="richtext">{{ page.description | richtext }}</div>
     </div>
 
+    <!-- Search Filters Section -->
+    <div class="flex gap-8 items-center mb-4">
 
-    <div class="flex gap-8 items-center mb-10">
-        <!-- Search Input Group -->
-        <div class="relative border border-gray-300 max-w-sm rounded-sm">
-            <!-- Search Input -->
+        <!-- NEW => Search Input Group -->
+        <form method="get" class="relative border border-gray-300 max-w-sm rounded-sm">
             <input
                 type="text"
-                id="Search"
+                name="q"
+                value="{{ request.GET.q }}"
                 placeholder="Search"
                 class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
             />
-
             <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
                 </button>
             </span>
-        </div>
+        </form>
         
         <!-- Dietary Filters -->
         {% include "components/multiselect_dropdown.html" with options=dietary_options selected=selected_dietary name="dietary" placeholder="Dietary" %}            
@@ -33,6 +35,13 @@
         <!-- Category Filters -->
         {% include "components/multiselect_dropdown.html" with options=category_options selected=selected_categories name="categories" placeholder="Categories" %}
     </div>
+
+
+    {% if q %}
+    <p class="text-lg text-gray-800 mb-6">
+        Found {{ products.count }} result{{ products.count|pluralize }} for "<strong>{{ q }}</strong>"
+    </p>
+    {% endif %}    
 
 
     <!-- Blogposts  -->

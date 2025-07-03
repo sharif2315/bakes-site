@@ -1,12 +1,13 @@
 from django.db import models
 from django import forms
 from django.utils.text import slugify
+from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.contrib.postgres.indexes import GinIndex
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
-
 
 from utils.breadcrumbs import get_breadcrumbs
 
@@ -31,7 +32,23 @@ class ProductListing(Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        context['products'] = Product.objects.live().order_by('-first_published_at')
+        # context['products'] = Product.objects.live().order_by('-first_published_at')
+
+        # Product FTS Search
+        query = request.GET.get("q")
+        products = Product.objects.live()
+
+        if query:
+            products = products.annotate(
+                search=SearchVector("title", "description", config="english")
+            ).filter(
+                search=SearchQuery(query, config="english")
+            )
+
+        context["products"] = products.order_by("-first_published_at")
+        context["q"] = query or ""
+
+
         context['breadcrumbs'] = get_breadcrumbs(self)
 
         # Fetch and map dietary options from DB
@@ -113,6 +130,7 @@ class DietaryOption(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+
 class Product(Page):
     parent_page_types = ['products.ProductListing']
     subpage_types = []
@@ -139,6 +157,11 @@ class Product(Page):
         FieldPanel("dietary_options", widget=forms.CheckboxSelectMultiple),
         InlinePanel('product_images', label="Product Images", min_num=1, max_num=3),
     ]
+
+    # class Meta:
+    #     indexes = [
+    #         GinIndex(fields=["title", "description"]),
+    #     ]
 
     def __str__(self):
         return self.title
