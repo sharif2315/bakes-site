@@ -1,0 +1,31 @@
+<!-- filter_accordion.html -->
+<div x-data="{ isOpen: true }">
+    <div class="cursor-pointer group">
+        <button 
+            @click="isOpen = !isOpen" 
+            class="flex items-center justify-between w-full p-4 text-left select-none group-hover:underline"
+        >
+            <span>{{ title }}</span>
+            <svg class="w-4 h-4 duration-200 ease-out" :class="{ 'rotate-180': isOpen }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
+            </svg>
+        </button>
+        <div x-show="isOpen" x-collapse x-cloak class="p-4 pt-0 opacity-70 space-y-3">
+            {% for option in options %}
+                <div class="flex items-center mb-4">
+                    <input
+                        type="checkbox"
+                        id="{{ name }}-{{ option.value }}"
+                        name="{{ name }}"
+                        value="{{ option.value }}"
+                        {% if option.value in selected %}checked{% endif %}
+                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-neutral-900 focus:ring-neutral-900"
+                    >
+                    <label for="{{ name }}-{{ option.value }}" class="ml-2 text-sm font-medium text-gray-900 capitalize">
+                        {{ option.label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

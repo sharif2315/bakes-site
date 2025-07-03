@@ -1,5 +1,5 @@
 {% extends "base_inner.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags %} <!-- TODO: remove unused Tags-->
 
 {% block inner_content %}
 
@@ -7,37 +7,6 @@
         <h1 class="text-4xl font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
         <div class="richtext">{{ page.description | richtext }}</div>
     </div>
-
-    <!-- Search Filters Section -->
-    <form method="get" class="flex gap-8 items-start mb-4">
-        
-        <!-- Search Input Group -->
-        <div class="relative border border-gray-300 max-w-sm rounded-sm">
-            <input
-                type="text"
-                name="q"
-                value="{{ request.GET.q }}"
-                placeholder="Search"
-                class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
-            />
-            <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </button>
-            </span>
-        </div>
-
-        
-        <!-- Dietary Filters -->
-        {% include "components/multiselect_dropdown.html" with options=dietary_options selected=selected_dietary name="dietary" placeholder="Dietary" %}            
-
-
-        <!-- Category Filters -->
-        {% include "components/multiselect_dropdown.html" with options=category_options selected=selected_categories name="categories" placeholder="Categories" %}
-
-    </form>
         
 
     <!-- Search Results Message -->
@@ -48,92 +17,45 @@
     {% endif %}    
 
 
-    <!-- Blogposts  -->
-    <div class="mb-20">
-    
-        <!-- grid -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-        
-            {% for product in products %}
+    <form method="get" class="flex gap-4 mb-10">
 
-            <!-- product card -->
-            <a href="{{ product.url }}" class="hover:opacity-75 transition duration-300">
-                <div class="text-neutral-700 mb-4 hover:cursor-pointer hover:opacity-75 transition-opacity duration-300">
+        <!-- Accordion Filters -->
+        <div class="pt-15 w-full max-w-[14rem]">
+            <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
 
-                    <!-- image -->
-                    {% with first_image=product.product_images.all|first %}
-                        {% if first_image %}
-                            {% image first_image.image fill-400x400 as product_image %}
-                            <img 
-                            class="w-full h-auto overflow-hidden rounded-md" 
-                            src="{{ product_image.url }}"
-                            alt="">
-                        {% endif %}
-                    {% endwith %}
+                {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
 
+                {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
 
-                    <!-- name, price -->
-                    <div class="grid gap-2 py-2">
-                        <h3 class="text-gray-600 font-bold tracking-wide">{{ product.title }}</h3>
-                        
-                        {% if product.category %}
-                            <p class="max-w-fit text-gray-500 font-semibold text-sm tracking-wide bg-gray-100 rounded-xl px-3 py-1">
-                                {{ product.category.name }}
-                            </p>
-                        {% endif %}
-                        
-                        <p class="text-lg font-bold">£{{ product.price }}</p>
-                    </div>
-                        
-                </div>
-            </a>
-            
-            {% endfor %}
-
+            </div>
         </div>
-        
-    </div>
+
+        <div class="space-y-5">
+            <!-- Search Input Group-->
+            <div class="relative border border-gray-300 max-w-2xs rounded-sm">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ request.GET.q }}"
+                    placeholder="Search"
+                    class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
+                />
+                <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                    <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </button>
+                </span>
+            </div>
+
+            <!-- Products Section  -->
+            {% include "products/products_grid.html" %}
+          
+        </div>
+
+    </form>
+
+
 
 {% endblock inner_content %}
-
-
-{% block extra_js %}
-<script>
-function multiSelect({ name = '', initialOptions = [], initialSelected = [] }) {
-    return {
-        name,
-        open: false,
-        form: null,
-        options: initialOptions,
-        selected: initialSelected,
-        init() {
-            this.form = this.$el.closest('form');
-        },
-        get selectedLabels() {
-            return this.options
-                .filter(o => this.selected.includes(o.value))
-                .map(o => o.label);
-        },
-        toggleOption(value) {
-            if (this.selected.includes(value)) {
-                this.selected = this.selected.filter(v => v !== value);
-            } else {
-                this.selected.push(value);
-            }
-
-            // Auto-submit the form
-            this.$nextTick(() => {
-                this.form.submit();
-            });
-        },
-        removeOption(value) {
-            this.selected = this.selected.filter(v => v !== value);
-            this.$nextTick(() => {
-                this.form.submit();
-            });
-        }
-
-    };
-}
-</script>
-{% endblock %}

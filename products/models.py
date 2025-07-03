@@ -34,8 +34,13 @@ class ProductListing(Page):
 
         # Product FTS Search
         query = request.GET.get("q")        
-        dietary_slugs = [slug for slug in request.GET.get("dietary", "").split(",") if slug]
-        category_slugs = [slug for slug in request.GET.get("categories", "").split(",") if slug]
+        # dietary_slugs = [slug for slug in request.GET.get("dietary", "").split(",") if slug]
+        # category_slugs = [slug for slug in request.GET.get("categories", "").split(",") if slug]
+
+        category_slugs = request.GET.getlist("category")
+        dietary_slugs = request.GET.getlist("dietary")
+
+
 
         products = Product.objects.live().order_by("-first_published_at")
 
