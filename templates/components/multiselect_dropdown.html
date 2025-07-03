@@ -1,4 +1,4 @@
-<div x-data="multiSelect({ initialOptions: {{ options|safe }}, initialSelected: {{ selected|default:'[]'|safe }} })" class="relative w-40">
+<div x-data="multiSelect({ initialOptions: {{ options }}, initialSelected: {{ selected|default:'[]' }} })" class="relative w-40">
     <button 
         @click="open = !open" 
         type="button"

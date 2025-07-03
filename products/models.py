@@ -1,10 +1,12 @@
 from django.db import models
 from django import forms
+from django.utils.text import slugify
 
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
+
 
 from utils.breadcrumbs import get_breadcrumbs
 
@@ -28,8 +30,29 @@ class ProductListing(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
+
         context['products'] = Product.objects.live().order_by('-first_published_at')
         context['breadcrumbs'] = get_breadcrumbs(self)
+
+        # Fetch and map dietary options from DB
+        context['dietary_options'] = [
+            {'label': option.name, 'value': option.name.lower()}
+            for option in DietaryOption.objects.all()
+        ]
+
+        # Fetch and map categories from DB
+        context['category_options'] = [
+            {'label': category.name, 'value': category.name.lower()}
+            for category in Category.objects.all()
+        ]
+
+        # Handle selected filters
+        dietary_param = request.GET.get('dietary', '')
+        categories_param = request.GET.get('categories', '')
+
+        context['selected_dietary'] = dietary_param.split(',') if dietary_param else []
+        context['selected_categories'] = categories_param.split(',') if categories_param else []
+
         return context
 
 
@@ -51,13 +74,20 @@ class ProductImage(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
     description = models.TextField(blank=True, help_text="Description of the product category")
 
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name_plural = "Product Categories"
+        verbose_name = "Product Category"
 
 
 class DietaryOption(models.Model):
@@ -71,12 +101,17 @@ class DietaryOption(models.Model):
         ("#99a1af", "Gray"),
     ]
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
     description = models.TextField(blank=True, help_text="Optional description of the dietary option (e.g. Vegan, Gluten-Free)")
     colour = models.CharField(max_length=20, choices=COLOUR_CHOICES, default="gray")
 
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 class Product(Page):
     parent_page_types = ['products.ProductListing']
