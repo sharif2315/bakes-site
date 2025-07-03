@@ -9,10 +9,10 @@
     </div>
 
     <!-- Search Filters Section -->
-    <div class="flex gap-8 items-center mb-4">
-
-        <!-- NEW => Search Input Group -->
-        <form method="get" class="relative border border-gray-300 max-w-sm rounded-sm">
+    <form method="get" class="flex gap-8 items-center mb-4">
+        
+        <!-- Search Input Group -->
+        <div class="relative border border-gray-300 max-w-sm rounded-sm">
             <input
                 type="text"
                 name="q"
@@ -27,16 +27,20 @@
                     </svg>
                 </button>
             </span>
-        </form>
+        </div>
+
         
         <!-- Dietary Filters -->
         {% include "components/multiselect_dropdown.html" with options=dietary_options selected=selected_dietary name="dietary" placeholder="Dietary" %}            
 
+
         <!-- Category Filters -->
         {% include "components/multiselect_dropdown.html" with options=category_options selected=selected_categories name="categories" placeholder="Categories" %}
-    </div>
 
+    </form>
+        
 
+    <!-- Search Results Message -->
     {% if q %}
     <p class="text-lg text-gray-800 mb-6">
         Found {{ products.count }} result{{ products.count|pluralize }} for "<strong>{{ q }}</strong>"
@@ -95,24 +99,34 @@
 
 {% block extra_js %}
 <script>
-    function multiSelect({ initialOptions = [], initialSelected = [] }) {
-        return {
-            open: false,
-            options: initialOptions,
-            selected: initialSelected,
-            get selectedLabels() {
-                return this.options
-                    .filter(o => this.selected.includes(o.value))
-                    .map(o => o.label);
-            },
-            toggleOption(value) {
-                if (this.selected.includes(value)) {
-                    this.selected = this.selected.filter(v => v !== value);
-                } else {
-                    this.selected.push(value);
-                }
+function multiSelect({ name = '', initialOptions = [], initialSelected = [] }) {
+    return {
+        name,
+        open: false,
+        form: null,
+        options: initialOptions,
+        selected: initialSelected,
+        init() {
+            this.form = this.$el.closest('form');
+        },
+        get selectedLabels() {
+            return this.options
+                .filter(o => this.selected.includes(o.value))
+                .map(o => o.label);
+        },
+        toggleOption(value) {
+            if (this.selected.includes(value)) {
+                this.selected = this.selected.filter(v => v !== value);
+            } else {
+                this.selected.push(value);
             }
-        };
-    }
+
+            // Auto-submit the form
+            this.$nextTick(() => {
+                this.form.submit();
+            });
+        }
+    };
+}
 </script>
-{% endblock %}    
+{% endblock %}

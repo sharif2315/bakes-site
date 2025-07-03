@@ -32,43 +32,40 @@ class ProductListing(Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        # context['products'] = Product.objects.live().order_by('-first_published_at')
-
         # Product FTS Search
         query = request.GET.get("q")
-        products = Product.objects.live()
+        dietary_slugs = request.GET.get("dietary", "").split(",")
+        category_slugs = request.GET.get("categories", "").split(",")
+        products = Product.objects.live().order_by("-first_published_at")
 
+        # Full-text search
         if query:
-            products = products.annotate(
-                search=SearchVector("title", "description", config="english")
-            ).filter(
-                search=SearchQuery(query, config="english")
-            )
+            vector = SearchVector("title", "description")
+            search_query = SearchQuery(query)
+            products = products.annotate(search=vector).filter(search=search_query)
 
-        context["products"] = products.order_by("-first_published_at")
-        context["q"] = query or ""
+        # Dietary filter (many-to-many)
+        if dietary_slugs and dietary_slugs != ['']:
+            products = products.filter(dietary_options__slug__in=dietary_slugs).distinct()
+
+        # Category filter (foreign key)
+        if category_slugs and category_slugs != ['']:
+            products = products.filter(category__slug__in=category_slugs)
 
 
         context['breadcrumbs'] = get_breadcrumbs(self)
 
-        # Fetch and map dietary options from DB
-        context['dietary_options'] = [
-            {'label': option.name, 'value': option.name.lower()}
-            for option in DietaryOption.objects.all()
+        context["products"] = products
+        context["q"] = query
+        context["selected_dietary"] = dietary_slugs
+        context["selected_categories"] = category_slugs
+
+        context["dietary_options"] = [
+            {"label": d.name, "value": d.slug} for d in DietaryOption.objects.all()
         ]
-
-        # Fetch and map categories from DB
-        context['category_options'] = [
-            {'label': category.name, 'value': category.name.lower()}
-            for category in Category.objects.all()
+        context["category_options"] = [
+            {"label": c.name, "value": c.slug} for c in Category.objects.all()
         ]
-
-        # Handle selected filters
-        dietary_param = request.GET.get('dietary', '')
-        categories_param = request.GET.get('categories', '')
-
-        context['selected_dietary'] = dietary_param.split(',') if dietary_param else []
-        context['selected_categories'] = categories_param.split(',') if categories_param else []
 
         return context
 
