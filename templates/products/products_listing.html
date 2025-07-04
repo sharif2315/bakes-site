@@ -9,18 +9,13 @@
     </div>
         
 
-    <!-- Search Results Message -->
-    {% if q %}
-    <p class="text-lg text-gray-800 mb-6">
-        Found {{ products.count }} result{{ products.count|pluralize }} for "<strong>{{ q }}</strong>"
-    </p>
-    {% endif %}    
+    
 
 
     <form method="get" class="flex gap-4 mb-10">
 
         <!-- Accordion Filters -->
-        <div class="pt-15 w-full max-w-[14rem]">
+        <div class="{% if q %} pt-28 {% else %} pt-15 {% endif %} w-full max-w-[14rem]">
             <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
 
                 {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
@@ -47,7 +42,15 @@
                         </svg>
                     </button>
                 </span>
+
             </div>
+
+            <!-- Search Results Message -->
+            {% if q %}
+            <p class="text-lg text-gray-800 mb-6">
+                Found {{ products.count }} result{{ products.count|pluralize }} for "<strong>{{ q }}</strong>"
+            </p>
+            {% endif %}                
 
             <!-- Products Section  -->
             {% include "products/products_grid.html" %}
