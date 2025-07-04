@@ -3,59 +3,75 @@
 
 {% block inner_content %}
 
-    <div class="mb-10 space-y-4">
-        <h1 class="text-4xl font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
-        <div class="richtext">{{ page.description | richtext }}</div>
+<div class="mb-10 space-y-4">
+    <h1 class="text-4xl font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
+    <div class="richtext">{{ page.description | richtext }}</div>
+</div>
+
+
+<form 
+    id="filters-form" 
+    class="flex gap-8 mb-10"
+    hx-get="{{ product_listing.url }}" 
+    hx-target="#products-grid" 
+    hx-push-url="true"
+    hx-swap="outerHTML"
+>
+
+    <!-- Accordion Filters -->
+    <div class="w-full max-w-[14rem]">
+        <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
+
+            {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
+            
+            {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
+
+        </div>
     </div>
 
+    <div class="space-y-5">
+        <!-- Search Input Group-->
+        <div class="relative border border-gray-300 w-sm rounded-sm">
+            <input
+                type="text"
+                name="q"
+                value="{{ request.GET.q }}"
+                placeholder="Search"
+                class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
+            />
+            <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </button>
+            </span>
 
-    <form 
-        id="filters-form" 
-        class="flex gap-4 mb-10"
-        hx-get="{{ product_listing.url }}" 
-        hx-target="#products-grid" 
-        hx-push-url="true"
-        hx-swap="outerHTML"
-    >
-
-        <!-- Accordion Filters -->
-        <div class="{% if q %} pt-28 {% else %} pt-15 {% endif %} w-full max-w-[14rem]">
-            <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
-
-                {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
-                
-                {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
-
-            </div>
         </div>
 
-        <div class="space-y-5">
-            <!-- Search Input Group-->
-            <div class="relative border border-gray-300 w-sm rounded-sm">
-                <input
-                    type="text"
-                    name="q"
-                    value="{{ request.GET.q }}"
-                    placeholder="Search"
-                    class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
-                />
-                <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                    <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-                    </button>
-                </span>
+        <!-- Products Section  -->
+        {% include "products/products_grid.html" %}
+        
+    </div>
 
-            </div>
-
-            <!-- Products Section  -->
-            {% include "products/products_grid.html" %}
-          
-        </div>
-
-    </form>
+</form>
 
 
 
 {% endblock inner_content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('#filters-form');
+    const searchInput = form.querySelector('input[name="q"]');
+
+    searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // stop native submit
+            htmx.trigger(form, 'submit'); // HTMX-triggered submit
+        }
+    });
+});
+</script>
+{% endblock extra_js %}

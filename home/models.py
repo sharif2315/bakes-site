@@ -9,6 +9,7 @@ from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 from modelcluster.fields import ParentalKey
 from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.http import urlencode
 import json
 
 from utils.email import send_contact_email
@@ -74,6 +75,7 @@ class ContactSubmission(models.Model):
         elif self.contact_type == 'email':
             return f"mailto:{self.contact_text}"
         elif self.contact_type == 'address':
+            # BUG: find import
             return f"https://www.google.com/maps/search/{urlencode({'': self.contact_text})[1:]}"
         return None
 
