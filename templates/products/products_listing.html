@@ -7,27 +7,31 @@
         <h1 class="text-4xl font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
         <div class="richtext">{{ page.description | richtext }}</div>
     </div>
-        
-
-    
 
 
-    <form method="get" class="flex gap-4 mb-10">
+    <form 
+        id="filters-form" 
+        class="flex gap-4 mb-10"
+        hx-get="{{ product_listing.url }}" 
+        hx-target="#products-grid" 
+        hx-push-url="true"
+        hx-swap="outerHTML"
+    >
 
         <!-- Accordion Filters -->
         <div class="{% if q %} pt-28 {% else %} pt-15 {% endif %} w-full max-w-[14rem]">
             <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
 
-                {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
-
                 {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
+                
+                {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
 
             </div>
         </div>
 
         <div class="space-y-5">
             <!-- Search Input Group-->
-            <div class="relative border border-gray-300 max-w-2xs rounded-sm">
+            <div class="relative border border-gray-300 w-sm rounded-sm">
                 <input
                     type="text"
                     name="q"
@@ -44,13 +48,6 @@
                 </span>
 
             </div>
-
-            <!-- Search Results Message -->
-            {% if q %}
-            <p class="text-lg text-gray-800 mb-6">
-                Found {{ products.count }} result{{ products.count|pluralize }} for "<strong>{{ q }}</strong>"
-            </p>
-            {% endif %}                
 
             <!-- Products Section  -->
             {% include "products/products_grid.html" %}

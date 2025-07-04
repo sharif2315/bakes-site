@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from django.shortcuts import render
 from django.utils.text import slugify
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.contrib.postgres.indexes import GinIndex
@@ -32,19 +33,12 @@ class ProductListing(Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        # Product FTS Search
         query = request.GET.get("q")        
-        # dietary_slugs = [slug for slug in request.GET.get("dietary", "").split(",") if slug]
-        # category_slugs = [slug for slug in request.GET.get("categories", "").split(",") if slug]
-
         category_slugs = request.GET.getlist("category")
         dietary_slugs = request.GET.getlist("dietary")
 
-
-
         products = Product.objects.live().order_by("-first_published_at")
 
-        # Full-text search
         if query:
             vector = SearchVector("title", "description")
             search_query = SearchQuery(query)
@@ -74,6 +68,15 @@ class ProductListing(Page):
         ]
 
         return context
+
+
+    def serve(self, request):
+        context = self.get_context(request)
+
+        if request.headers.get("HX-Request") == "true":
+            return render(request, "products/products_grid.html", context)
+
+        return render(request, "products/products_listing.html", context)
 
 
 class ProductImage(models.Model):
