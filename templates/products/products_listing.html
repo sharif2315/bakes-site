@@ -19,7 +19,7 @@
 >
 
     <!-- Accordion Filters -->
-    <div class="w-full max-w-[14rem]">
+    <div class="hidden sm:block w-full max-w-[12rem]">
         <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
 
             {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
@@ -30,23 +30,32 @@
     </div>
 
     <div class="space-y-5">
-        <!-- Search Input Group-->
-        <div class="relative border border-gray-300 w-sm rounded-sm">
-            <input
-                type="text"
-                name="q"
-                value="{{ request.GET.q }}"
-                placeholder="Search"
-                class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
-            />
-            <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </button>
-            </span>
+        <div class="flex sm:block gap-6 sm:gap-0">
+            <!-- Search Input Group-->
+            <div class="relative border border-gray-300 max-w-sm rounded-sm">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ request.GET.q }}"
+                    placeholder="Search"
+                    class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
+                />
+                <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                    <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </button>
+                </span>
+    
+            </div>
 
+            <!-- mobile filters button -->
+            <button type="button" class="sm:hidden border border-gray-300 rounded-sm px-4 py-2 text-gray-500 flex gap-2 justify-center items-center">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal w-4 h-4"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+                Filters
+            </button>
         </div>
 
         <!-- Products Section  -->
