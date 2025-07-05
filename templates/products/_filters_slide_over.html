@@ -1,0 +1,38 @@
+<!-- filters slide over-->
+{% extends "components/_slide_over.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block id %}filters-slide-over{% endblock id %}
+
+{% block slide_over_trigger_btn %}
+    <div class="border border-gray-300 rounded-sm px-4 py-2 text-gray-500 flex gap-2 justify-center items-center">               
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal w-4 h-4"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+        Filters
+    </div>
+{% endblock slide_over_trigger_btn %}
+
+
+{% block title %}
+    Filters
+{% endblock title %}
+
+
+{% block content %}
+<div class="relative w-full overflow-hidden text-sm font-normal bg-white divide-y divide-gray-200 rounded-md h-fit mt-5 max-w-sm mx-auto">
+
+    {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
+    
+    {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
+
+</div>
+
+<div class="p-4">
+    <button 
+        type="submit"
+        class="w-full bg-black text-white py-2 px-4 rounded text-sm font-semibold"
+    >
+        Apply Filters
+    </button>
+</div>
+
+{% endblock content %}
