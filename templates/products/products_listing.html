@@ -1,5 +1,5 @@
 {% extends "base_inner.html" %}
-{% load wagtailcore_tags wagtailimages_tags %} <!-- TODO: remove unused Tags-->
+{% load wagtailcore_tags %}
 
 {% block inner_content %}
 
@@ -10,12 +10,19 @@
 
 
 <form 
-    id="filters-form" 
+    x-data="{
+        filters: { category: {{ selected_categories|safe }}, dietary: {{ selected_dietary|safe }} },
+        submit() { $refs.form.requestSubmit(); }
+    }"
+    x-init="$watch('filters', () => submit(), { deep: true })"
+    x-ref="form"
+
     class="flex gap-8 mb-10"
     hx-get="{{ product_listing.url }}" 
     hx-target="#products-grid" 
     hx-push-url="true"
     hx-swap="outerHTML"
+
 >
 
     <!-- Accordion Filters -->
@@ -61,25 +68,14 @@
         
     </div>
 
+    <template x-for="cat in filters.category" :key="cat">
+        <input type="hidden" name="category" :value="cat">
+    </template>
+
+    <template x-for="diet in filters.dietary" :key="diet">
+        <input type="hidden" name="dietary" :value="diet">
+    </template>
+
 </form>
 
-
-
 {% endblock inner_content %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('#filters-form');
-    const searchInput = form.querySelector('input[name="q"]');
-
-    searchInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            e.preventDefault(); // stop native submit
-            htmx.trigger(form, 'submit'); // HTMX-triggered submit
-        }
-    });
-});
-</script>
-
-{% endblock extra_js %}
