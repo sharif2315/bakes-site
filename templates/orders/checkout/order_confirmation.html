@@ -17,10 +17,19 @@
 
     <!-- Delivery / Collection Address -->
 
-    <div class="space-y-1">        
-        <h2 class="font-semibold">Receive By</h2>
-            <p class="text-gray-500">{{ order.delivery_detail.get_delivery_method_display }}</p>
-     </div>
+    <div class="flex justify-between">
+
+        <div class="space-y-1">        
+            <h2 class="font-semibold">Name</h2>
+            <p class="text-gray-500">{{ order.first_name }} {{ order.last_name }}</p>
+        </div>
+
+        <div class="space-y-1">        
+            <h2 class="font-semibold">Receive By</h2>
+            <p class="text-gray-500 text-right">{{ order.delivery_detail.get_delivery_method_display }}</p>
+        </div>
+
+    </div>
 
     {% if order.delivery_detail.additional_requirements %}
     <div class="space-y-1">        
