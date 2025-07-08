@@ -21,6 +21,8 @@ class OrdersSnippetViewSet(SnippetViewSet):
         "delivery_detail",
         ]
     search_fields = ["name",]
+    # index_template_name = "wagtailsnippets/orders/order/index.html"
+    index_template_name = "orders/admin/orders.html"
     # panels = [
     #     FieldPanel("name"),
     #     FieldPanel("description"),
