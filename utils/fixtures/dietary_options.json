@@ -2,26 +2,51 @@
   {
     "model": "products.dietaryoption",
     "pk": 1,
-    "fields": { "name": "Vegan", "description": "", "colour": "#5ea500" }
+    "fields": {
+      "name": "Vegan",
+      "slug": "vegan",
+      "description": "",
+      "colour": "#5ea500"
+    }
   },
   {
     "model": "products.dietaryoption",
     "pk": 2,
-    "fields": { "name": "Vegetarian", "description": "", "colour": "#5ea500" }
+    "fields": {
+      "name": "Vegetarian",
+      "slug": "vegetarian",
+      "description": "",
+      "colour": "#5ea500"
+    }
   },
   {
     "model": "products.dietaryoption",
     "pk": 3,
-    "fields": { "name": "Halal", "description": "", "colour": "#c27aff" }
+    "fields": {
+      "name": "Halal",
+      "slug": "halal",
+      "description": "",
+      "colour": "#c27aff"
+    }
   },
   {
     "model": "products.dietaryoption",
     "pk": 4,
-    "fields": { "name": "Gluten Free", "description": "", "colour": "#51a2ff" }
+    "fields": {
+      "name": "Gluten Free",
+      "slug": "gluten-free",
+      "description": "",
+      "colour": "#51a2ff"
+    }
   },
   {
     "model": "products.dietaryoption",
     "pk": 5,
-    "fields": { "name": "Dairy Free", "description": "", "colour": "#ff8904" }
+    "fields": {
+      "name": "Dairy Free",
+      "slug": "dairy-free",
+      "description": "",
+      "colour": "#ff8904"
+    }
   }
 ]
