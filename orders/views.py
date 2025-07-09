@@ -1,5 +1,5 @@
 from decimal import Decimal
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponseBadRequest
 
@@ -187,5 +187,9 @@ def view_orders(request):
     template = "orders/admin/orders.html"
     return render(request, template, context)
 
-def view_order(request, order_id: int):
-    pass
+
+def view_order_detail(request, order_id: int):
+    order = get_object_or_404(Order, id=order_id)
+    context = { 'order': order }
+    return render(request, "orders/admin/order_detail.html", context)
+    

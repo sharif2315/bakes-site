@@ -34,7 +34,7 @@
                         </td>
                         <td>£{{ order.total }}</td>
                         <td>
-                            <a href="" class="button button-small button-secondary">View</a>
+                            <a href="{% url 'view_order_detail' order.id %}" class="button button-small button-secondary">View</a>
                         </td>
                     </tr>
                 {% empty %}

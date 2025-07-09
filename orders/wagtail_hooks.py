@@ -5,7 +5,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail import hooks
 
-from .views import view_orders
+from .views import view_orders, view_order_detail
 from .models import Address, DeliveryDetail, StoreSettings
 
 
@@ -13,6 +13,7 @@ from .models import Address, DeliveryDetail, StoreSettings
 def register_view_orders_url():
     return [
         path('orders/', view_orders, name="view_orders"),
+        path('orders/<int:order_id>/', view_order_detail, name="view_order_detail"),
     ]
 
 @hooks.register('register_admin_menu_item')

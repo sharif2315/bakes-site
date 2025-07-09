@@ -1,0 +1,17 @@
+{% extends "wagtailadmin/base.html" %}
+{% load django_vite wagtailadmin_tags %}
+
+{% block content %}
+    {% vite_hmr_client %}
+    {% vite_asset 'static/js/main.js' %}
+
+    {% include "wagtailadmin/shared/header.html" with title="Order Details" %}
+
+    <div class="nice-padding">
+        <p><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Phone:</strong> {{ order.phone }}</p>
+        <p><strong>Delivery Method:</strong> {{ order.delivery_detail.delivery_method }}</p>
+        <p><strong>Created:</strong> {{ order.created_at|date:"j M Y H:i" }}</p>
+    </div>
+{% endblock %}
