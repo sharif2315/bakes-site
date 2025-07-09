@@ -6,7 +6,7 @@ from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail import hooks
 
 from .views import view_orders, view_order_detail
-from .models import Address, DeliveryDetail, StoreSettings
+from .models import Address, DeliveryDetail, StoreSettings, Order, OrderItem
 
 
 @hooks.register('register_admin_urls')
@@ -18,7 +18,20 @@ def register_view_orders_url():
 
 @hooks.register('register_admin_menu_item')
 def register_view_orders_menu_item():
-    return MenuItem('Orders', reverse('view_orders'), icon_name='doc-full')
+    return MenuItem('View Orders', reverse('view_orders'), icon_name='doc-full')
+
+
+@register_snippet
+class OrderSnippetViewSet(SnippetViewSet):
+    model = Order
+    add_to_admin_menu = True
+    menu_label = "Orders"
+
+@register_snippet
+class OrderItemSnippetViewSet(SnippetViewSet):
+    model = OrderItem
+    add_to_admin_menu = True
+    menu_label = "Order Items"
 
 
 @register_snippet
