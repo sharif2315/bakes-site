@@ -29,7 +29,7 @@
                             <div class="flex gap-2 items-center">
                                 <div class="{% if order.is_delivery %}bg-green-500 {% else %} bg-blue-500 {% endif %} p-1 rounded-full">
                                 </div>
-                                {{ order.delivery_detail.delivery_method }}
+                                {{ order.delivery_detail.get_delivery_method_display }}
                             </div>
                         </td>
                         <td>£{{ order.total }}</td>

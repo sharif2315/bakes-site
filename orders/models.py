@@ -47,6 +47,16 @@ class DeliveryDetail(models.Model):
 
 
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("confirmed", "Confirmed"),
+        ("preparing", "Preparing"),
+        ("ready", "Ready for Pickup"),
+        ("dispatched", "Dispatched"),
+        ("delivered", "Delivered"),
+        ("cancelled", "Cancelled"),
+        ("refunded", "Refunded"),
+    ]    
     order_ref = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -55,6 +65,12 @@ class Order(models.Model):
     address = models.ForeignKey('Address', on_delete=models.CASCADE, blank=True, null=True)
     delivery_detail = models.ForeignKey('DeliveryDetail', on_delete=models.CASCADE)
     delivery_charge = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    deposit_paid = models.BooleanField(default=False)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="pending",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -96,6 +112,9 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Copy of product price at time of order
 
+    def __str__(self):
+        return f'{self.product.title} x {self.quantity} - (£{self.get_total()})'
+    
     def get_total(self):
         return self.quantity * self.price
     

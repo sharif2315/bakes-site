@@ -11,7 +11,7 @@
         <p><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</p>
         <p><strong>Email:</strong> {{ order.email }}</p>
         <p><strong>Phone:</strong> {{ order.phone }}</p>
-        <p><strong>Delivery Method:</strong> {{ order.delivery_detail.delivery_method }}</p>
+        <p><strong>Delivery Method:</strong> {{ order.delivery_detail.get_delivery_method_display }}</p>
         <p><strong>Created:</strong> {{ order.created_at|date:"j M Y H:i" }}</p>
     </div>
 {% endblock %}
