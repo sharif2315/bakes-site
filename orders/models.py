@@ -82,7 +82,11 @@ class Order(models.Model):
 
     @property
     def total(self):
-        return self.subtotal + self.delivery_charge    
+        return self.subtotal + self.delivery_charge
+    
+    @property
+    def contact(self):
+        return self.phone or self.email
 
 
 

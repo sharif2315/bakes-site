@@ -1,33 +1,23 @@
+from django.urls import path, reverse
+from wagtail.admin.menu import MenuItem
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
+from wagtail import hooks
 
-from .models import Order, Address, DeliveryDetail, StoreSettings, OrderItem
+from .views import view_orders
+from .models import Address, DeliveryDetail, StoreSettings
 
-@register_snippet
-class OrdersSnippetViewSet(SnippetViewSet):
-    model = Order
-    # icon = "cart"
-    add_to_admin_menu = True
-    menu_label = "Orders"
-    # menu_order = 200
-    list_display = [
-        "order_ref",
-        "first_name",
-        "last_name",
-        "email",
-        "phone",
-        "address",
-        "delivery_detail",
-        ]
-    search_fields = ["name",]
-    # index_template_name = "wagtailsnippets/orders/order/index.html"
-    index_template_name = "orders/admin/orders.html"
-    # panels = [
-    #     FieldPanel("name"),
-    #     FieldPanel("description"),
-    #     FieldPanel("colour"),
-    # ]
+
+@hooks.register('register_admin_urls')
+def register_view_orders_url():
+    return [
+        path('orders/', view_orders, name="view_orders"),
+    ]
+
+@hooks.register('register_admin_menu_item')
+def register_view_orders_menu_item():
+    return MenuItem('Orders', reverse('view_orders'), icon_name='doc-full')
 
 
 @register_snippet

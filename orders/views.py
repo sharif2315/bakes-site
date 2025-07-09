@@ -10,6 +10,7 @@ from .models import OrderItem, Order, StoreSettings
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
 from .constants import DELIVERY_METHOD_COLLECTION
 
+
 def checkout(request):
     home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
     cart = request.session.get('cart', {})
@@ -180,3 +181,11 @@ def update_item_quantity(request, product_id):
     context = build_cart_context(cart)
     return render(request, "orders/cart/_cart_update_fragments.html", context)
 
+
+def view_orders(request):
+    context = { 'orders': Order.objects.all() }
+    template = "orders/admin/orders.html"
+    return render(request, template, context)
+
+def view_order(request, order_id: int):
+    pass
