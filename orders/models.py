@@ -35,12 +35,16 @@ class Address(models.Model):
     town = models.CharField(max_length=20)
     postcode = models.CharField(max_length=10)
 
+    @property
+    def single_line(self):
+        parts = [self.street, self.town, self.postcode]
+        return ", ".join(part for part in parts if part)
+
 
 class DeliveryDetail(models.Model):
     delivery_method = models.CharField(
         max_length=10,
         choices=DELIVERY_METHOD_CHOICES,
-        # default='delivery',
     )
     requested_delivery_date = models.DateField()
     additional_requirements = models.TextField(blank=True, null=True)

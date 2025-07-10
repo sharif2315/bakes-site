@@ -6,8 +6,8 @@
     <div class="section-1-wrapper flex justify-between items-center">
         <!-- date -->
             <div class="_outline outline-green-500">
-                <div class="font-semibold _outline outline-orange-500">Order Placed</div>
-                <div class="_outline outline-orange-500">{{ order.created_at|date:"j M Y H:i" }}</div>
+                <div class="font-semibold">Order Placed</div>
+                <div>{{ order.created_at|date:"j M Y H:i" }}</div>
             </div>
 
         <!-- deposit paid, status -->
@@ -44,7 +44,7 @@
                     <div class="max-w-32 max-h-32 overflow-hidden rounded-sm">
                         <img src="{{ product_img.url }}" alt="">
                     </div>
-                    <div class="flex justify-between text-sm w-full text-gray-700">
+                    <div class="flex justify-between _text-sm w-full text-gray-700">
                         <div class="space-y-3">
                             <p>{{ item.product.title }}</p>
                             <p>Qty: {{ item.quantity }}</p>
@@ -89,66 +89,69 @@
     <div class="section-3-wrapper">
         <h1>Customer</h1>
 
-        <div class="space-y-8">
+        <div class="grid grid-cols-2 gap-8">
 
-            <div class="flex justify-between">
-                <p class="font-semibold">Name</p>
-                <p>{{ order.full_name }}</p>
-                <div class="copy-icon">
-                    {% include 'icons/ellipsis.html' %}
-                </div>
-            </div>
-
-            <hr class="text-gray-200">
-
-            <div class="flex justify-between">
-                <p class="font-semibold">Contact</p>
-                <div>
-                    {% if order.phone %}
-                    <p>{{ order.phone }}</p>
-                    {% endif %}
-                    {% if order.email %}
-                    <p>{{ order.email }}</p>
-                    {% endif %}
-                </div>
-                <div class="copy-icon">
-                    {% include 'icons/ellipsis.html' %}
-                </div>                    
-            </div>
-
-            <hr class="text-gray-200">
-
-            <div class="flex justify-between">
-                <div>
-                    <div class="font-semibold">Delivery</div>
-                    <div class="font-semibold">Method</div>
-                </div>
-                <div>{{ order.delivery_detail.get_delivery_method_display }}</div>
-                {% include 'icons/ellipsis.html' %}
+            <div class="space-y-1">
+                <div class="font-semibold">Name</div>
+                <div>{{ order.full_name }}</div>
             </div>
 
             {% if order.address %}
-            <hr class="text-gray-200">
-
-            <div class="flex justify-between items-center">
-                <p class="font-semibold">Address</p>
+            <div class="space-y-1">
+                <div class="font-semibold">Address</div>
                 <div class="space-y-0">
-                    {% if order.address.street %}
-                    <div>{{ order.address.street  }}</div>
-                    {% endif %}
-                    {% if order.address.town %}
-                    <div>{{ order.address.town  }}</div>
-                    {% endif %}
-                    {% if order.address.postcode %}
-                    <div>{{ order.address.postcode  }}</div>
-                    {% endif %}
+                    {{ order.address.single_line }}
                 </div>
-                {% include 'orders/admin/partials/address_modal.html' %}
             </div>
             {% endif %}
 
-            
-            {% comment %} <div>Delivery Address</div> {% endcomment %}
+            {% if order.phone %}
+            <div class="space-y-1">
+                <div class="font-semibold">Phone</div>
+                <div>{{ order.phone }}</div>
+            </div>
+            {% endif %}            
+
+            {% if order.email %}
+            <div class="space-y-1">
+                <div class="font-semibold">Email</div>
+                <div>{{ order.email }}</div>
+            </div>
+            {% endif %}            
+
+            {% comment %} <div class="space-y-1">
+                <div class="font-semibold">Contact</div>
+                <div class="space-y-1">
+                    {% if order.phone %}
+                    <div>{{ order.phone }}</div>
+                    {% endif %}
+
+                    {% if order.email %}
+                    <div>{{ order.email }}</div>
+                    {% endif %}
+                </div>
+            </div> {% endcomment %}
+
+
+
+
+            <div class="space-y-1">
+                <div class="font-semibold">Delivery Method</div>
+                <div>{{ order.delivery_detail.get_delivery_method_display }}</div>
+            </div>
+
+            <div class="space-y-1">
+                <div class="font-semibold">Requested Date</div>
+                <div>{{ order.delivery_detail.requested_delivery_date }}</div>
+            </div>
+
+            {% if order.delivery_detail.additional_requirements %}
+            <div class="space-y-1">
+                <div class="font-semibold">Additional Requirements</div>
+                <div>{{ order.delivery_detail.additional_requirements }}</div>
+            </div>
+            {% endif %}
+
 
         </div>
 
