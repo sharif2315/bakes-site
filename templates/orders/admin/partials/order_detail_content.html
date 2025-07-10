@@ -1,0 +1,156 @@
+{% load wagtailimages_tags %}
+
+<div id="admin-order-detail" class="admin-order-detail-page nice-padding max-w-6xl">
+
+    <!-- Section 1 - Date, Desposit Paid, Status -->
+    <div class="section-1-wrapper flex justify-between items-center">
+        <!-- date -->
+            <div class="_outline outline-green-500">
+                <div class="font-semibold _outline outline-orange-500">Order Placed</div>
+                <div class="_outline outline-orange-500">{{ order.created_at|date:"j M Y H:i" }}</div>
+            </div>
+
+        <!-- deposit paid, status -->
+            <div class="flex gap-3 items-center">
+            <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
+                <div class="p-1 bg-red-500 rounded-full"></div>
+                {% if order.deposit_paid %}Deposit Paid{% else %}Awaiting Deposit{% endif %}
+            </div>
+            <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
+                <div class="p-1 bg-orange-500 rounded-full"></div>
+                {{ order.get_status_display }}
+            </div>
+            <div class="text-gray-500 ml-1 hover:cursor-pointer">
+                {% include 'icons/ellipsis.html' %}
+            </div>
+            </div>
+
+    </div>
+
+    <hr class="text-gray-200">
+
+    <!-- Section 2 - Summary -->
+    <div class="section-2-wrapper">
+
+        <h1>Summary</h1>
+        
+        <!-- Order Items -->
+        <div class="space-y-8">
+            {% for item in order.items.all %}
+            <div>
+                <!-- Item - image, name, price, quantity -->
+                <div class="flex gap-6">
+                    {% image item.product.first_image fill-300x300 as product_img %}
+                    <div class="max-w-32 max-h-32 overflow-hidden rounded-sm">
+                        <img src="{{ product_img.url }}" alt="">
+                    </div>
+                    <div class="flex justify-between text-sm w-full text-gray-700">
+                        <div class="space-y-3">
+                            <p>{{ item.product.title }}</p>
+                            <p>Qty: {{ item.quantity }}</p>
+                        </div>
+                        <p class="text-black">£{{ item.get_total }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}            
+        </div>
+
+        <!-- Order charges-->
+        <div class="space-y-8">
+
+            <hr class="text-gray-200">
+
+            <div class="space-y-3">
+                <div class="flex justify-between text-sm text-gray-700">
+                    <p class="font-bold text-sm">Subtotal</p>
+                    <p class="text-black">£{{ order.subtotal }}</p>
+                </div>
+
+                {% if order.address %}
+                <div class="flex justify-between text-sm text-gray-700">
+                    <p class="font-bold text-sm">Delivery</p>
+                    <p class="text-black">£{{ order.delivery_charge }}</p>
+                </div>
+                {% endif %}
+
+                <div class="flex justify-between text-sm text-gray-900">
+                    <p class="font-bold text-sm">Total</p>
+                    <p class="text-black">£{{ order.total }}</p>
+                </div>
+                <hr class="text-gray-200">
+            </div>
+
+        </div>            
+
+    </div>
+
+    <!-- Section 3 - Customer, Contact and Delivery Details -->
+    <div class="section-3-wrapper">
+        <h1>Customer</h1>
+
+        <div class="space-y-8">
+
+            <div class="flex justify-between">
+                <p class="font-semibold">Name</p>
+                <p>{{ order.full_name }}</p>
+                <div class="copy-icon">
+                    {% include 'icons/ellipsis.html' %}
+                </div>
+            </div>
+
+            <hr class="text-gray-200">
+
+            <div class="flex justify-between">
+                <p class="font-semibold">Contact</p>
+                <div>
+                    {% if order.phone %}
+                    <p>{{ order.phone }}</p>
+                    {% endif %}
+                    {% if order.email %}
+                    <p>{{ order.email }}</p>
+                    {% endif %}
+                </div>
+                <div class="copy-icon">
+                    {% include 'icons/ellipsis.html' %}
+                </div>                    
+            </div>
+
+            <hr class="text-gray-200">
+
+            <div class="flex justify-between">
+                <div>
+                    <div class="font-semibold">Delivery</div>
+                    <div class="font-semibold">Method</div>
+                </div>
+                <div>{{ order.delivery_detail.get_delivery_method_display }}</div>
+                {% include 'icons/ellipsis.html' %}
+            </div>
+
+            {% if order.address %}
+            <hr class="text-gray-200">
+
+            <div class="flex justify-between items-center">
+                <p class="font-semibold">Address</p>
+                <div class="space-y-0">
+                    {% if order.address.street %}
+                    <div>{{ order.address.street  }}</div>
+                    {% endif %}
+                    {% if order.address.town %}
+                    <div>{{ order.address.town  }}</div>
+                    {% endif %}
+                    {% if order.address.postcode %}
+                    <div>{{ order.address.postcode  }}</div>
+                    {% endif %}
+                </div>
+                {% include 'orders/admin/partials/address_modal.html' %}
+            </div>
+            {% endif %}
+
+            
+            {% comment %} <div>Delivery Address</div> {% endcomment %}
+
+        </div>
+
+    </div>
+</div>
