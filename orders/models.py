@@ -104,6 +104,13 @@ class Order(models.Model):
     def contact(self):
         return self.phone or self.email
 
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        return self.first_name or self.last_name or ""
+
+
 
 
 class OrderItem(models.Model):

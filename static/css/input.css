@@ -88,3 +88,13 @@
 .captcha-error-field-outer {
     @apply w-fit ring ring-red-500 bg-red-300/10 rounded-sm;
 }
+
+/* ADMIN ORDER DETAIL PAGE */
+
+.border-base {
+    @apply border border-gray-300;
+}
+
+.admin-order-detail-page .copy-icon svg {
+    @apply h-5 w-5 hover:text-gray-600 hover:cursor-pointer;
+}
