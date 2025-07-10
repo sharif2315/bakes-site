@@ -11,10 +11,10 @@
 
     
     
-    <div class="admin-order-detail-page __nice-padding px-20 max-w-6xl">
+    <div class="admin-order-detail-page nice-padding max-w-6xl">
 
         <!-- Section 1 - Date, Desposit Paid, Status -->
-        <div class="section-1-wrapper flex justify-between items-center _outline outline-red-500">
+        <div class="section-1-wrapper flex justify-between items-center">
             <!-- date -->
              <div class="_outline outline-green-500">
                  <div class="font-semibold _outline outline-orange-500">Order Placed</div>
@@ -143,9 +143,7 @@
                         <div>{{ order.address.postcode  }}</div>
                         {% endif %}
                     </div>
-                    <div class="copy-icon">
-                        {% include 'icons/ellipsis.html' %}
-                    </div>                    
+                    {% include 'orders/admin/partials/address_modal.html' %}
                 </div>
                 {% endif %}
 

@@ -98,3 +98,7 @@
 .admin-order-detail-page .copy-icon svg {
     @apply h-5 w-5 hover:text-gray-600 hover:cursor-pointer;
 }
+
+.modal-base .modal-content .close-modal-btn {
+    @apply absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-300;
+}
