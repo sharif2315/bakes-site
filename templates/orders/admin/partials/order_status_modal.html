@@ -8,6 +8,7 @@
 
 {% block modal_content %}
 <div class="order-status-modal-container">
+    
     <!-- title and close button-->
     <div class="flex items-center justify-between pb-3 header">
     
@@ -22,15 +23,14 @@
     <form class="flex flex-col gap-6 justify-center">
 
         <div class="space-y-2">
-            <div class="font-bold text-base">Order Deposit</div>
-            <select name="" id="">
-                <option value="" selected>Paid</option>
-                <option value="" selected>Unpaid</option>
-            </select>
+            <h2>
+                <label for="deposit-paid-id">Deposit Paid</label>
+            </h2>
+            <input id="deposit-paid-id" type="checkbox">
         </div>
 
         <div class="space-y-2">
-            <div class="font-bold text-base">Order Status</div>
+            <h2>Status</h2>
             <select name="" id="">
                 <option value="" selected>Pending</option>
                 <option value="" selected>Confirmed</option>
