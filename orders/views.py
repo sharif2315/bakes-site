@@ -22,7 +22,7 @@ def update_order_status(request, order_id):
     order.status = status
     order.save()
 
-    return render(request, "orders/admin/partials/order_status_modal.html", {"order": order})
+    return render(request, "orders/admin/partials/order_detail_content.html", {"order": order})
 
 
 
@@ -205,6 +205,17 @@ def view_orders(request):
 
 def view_order_detail(request, order_id: int):
     order = get_object_or_404(Order, id=order_id)
+
+    if request.method == "POST":
+        deposit_paid = request.POST.get("deposit_paid") == "on"
+        status = request.POST.get("status")
+
+        order.deposit_paid = deposit_paid
+        order.status = status
+        order.save()
+
+        return redirect('view_order_detail', order_id=order.id)
+    
     context = { 'order': order }
     return render(request, "orders/admin/order_detail.html", context)
     

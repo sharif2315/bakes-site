@@ -23,11 +23,9 @@
     <form 
         class="flex flex-col gap-6 justify-center"
         method="POST"
-        hx-target="#admin-order-detail"
-        hx-swap="outerHTML"
-        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-        hx-post="{% url 'update-order-status' order.id %}"
+        action="{% url 'view_order_detail' order.id %}"
     >
+    {% csrf_token %}
 
         <div class="space-y-2">
             <h2>
@@ -49,14 +47,6 @@
                     <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
                 {% endfor %}
             </select>
-
-            {% comment %} <select name="" id="">
-                <option value="" selected>Pending</option>
-                <option value="" selected>Confirmed</option>
-                <option value="" selected>Peparing</option>
-                <option value="" selected>Ready for Collection</option>
-                <option value="" selected>Delivered</option>
-            </select> {% endcomment %}
         </div>
     
         
