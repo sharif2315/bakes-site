@@ -21,53 +21,53 @@ def register_view_orders_menu_item():
     return MenuItem('View Orders', reverse('view_orders'), icon_name='doc-full')
 
 
-@register_snippet
-class OrderSnippetViewSet(SnippetViewSet):
-    model = Order
-    add_to_admin_menu = True
-    menu_label = "Orders"
+# @register_snippet
+# class OrderSnippetViewSet(SnippetViewSet):
+#     model = Order
+#     add_to_admin_menu = True
+#     menu_label = "Orders"
 
-@register_snippet
-class OrderItemSnippetViewSet(SnippetViewSet):
-    model = OrderItem
-    add_to_admin_menu = True
-    menu_label = "Order Items"
-
-
-@register_snippet
-class AddressSnippetViewSet(SnippetViewSet):
-    model = Address
-    add_to_admin_menu = True
-    menu_label = "Addresses"
-    list_display = [
-        "street",
-        "town",
-        "postcode",
-        ]
-    search_fields = ["street", "town", "postcode"]
-    panels = [
-        FieldPanel("street"),
-        FieldPanel("town"),
-        FieldPanel("postcode"),
-    ]
+# @register_snippet
+# class OrderItemSnippetViewSet(SnippetViewSet):
+#     model = OrderItem
+#     add_to_admin_menu = True
+#     menu_label = "Order Items"
 
 
-@register_snippet
-class DeliveryDetailSnippetViewSet(SnippetViewSet):
-    model = DeliveryDetail
-    add_to_admin_menu = True
-    menu_label = "Delivery Details"
-    list_display = [
-        "delivery_method",
-        "requested_delivery_date",
-        "additional_requirements",
-        ]
-    search_fields = ["delivery_method", "requested_delivery_date"]
-    panels = [
-        FieldPanel("delivery_method"),
-        FieldPanel("requested_delivery_date"),
-        FieldPanel("additional_requirements"),
-    ]
+# @register_snippet
+# class AddressSnippetViewSet(SnippetViewSet):
+#     model = Address
+#     add_to_admin_menu = True
+#     menu_label = "Addresses"
+#     list_display = [
+#         "street",
+#         "town",
+#         "postcode",
+#         ]
+#     search_fields = ["street", "town", "postcode"]
+#     panels = [
+#         FieldPanel("street"),
+#         FieldPanel("town"),
+#         FieldPanel("postcode"),
+#     ]
+
+
+# @register_snippet
+# class DeliveryDetailSnippetViewSet(SnippetViewSet):
+#     model = DeliveryDetail
+#     add_to_admin_menu = True
+#     menu_label = "Delivery Details"
+#     list_display = [
+#         "delivery_method",
+#         "requested_delivery_date",
+#         "additional_requirements",
+#         ]
+#     search_fields = ["delivery_method", "requested_delivery_date"]
+#     panels = [
+#         FieldPanel("delivery_method"),
+#         FieldPanel("requested_delivery_date"),
+#         FieldPanel("additional_requirements"),
+#     ]
 
 
 @register_snippet

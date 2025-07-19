@@ -54,12 +54,9 @@ class Order(models.Model):
     STATUS_CHOICES = [
         ("pending", "Pending"),
         ("confirmed", "Confirmed"),
-        ("preparing", "Preparing"),
-        ("ready", "Ready for Pickup"),
-        ("dispatched", "Dispatched"),
+        ("dispatched", "Out for Delivery"),
         ("delivered", "Delivered"),
-        ("cancelled", "Cancelled"),
-        ("refunded", "Refunded"),
+        ("collected", "Collected"),
     ]    
     order_ref = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=30)
