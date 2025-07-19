@@ -8,7 +8,7 @@
 
 {% block modal_content %}
 <div class="order-status-modal-container">
-    
+
     <!-- title and close button-->
     <div class="flex items-center justify-between pb-3 header">
     
@@ -20,30 +20,51 @@
     </div>
     
     <!-- form inputs -->
-    <form class="flex flex-col gap-6 justify-center">
+    <form 
+        class="flex flex-col gap-6 justify-center"
+        method="POST"
+        hx-target="#admin-order-detail"
+        hx-swap="outerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        hx-post="{% url 'update-order-status' order.id %}"
+    >
 
         <div class="space-y-2">
             <h2>
                 <label for="deposit-paid-id">Deposit Paid</label>
             </h2>
-            <input id="deposit-paid-id" type="checkbox">
+            <input 
+                id="deposit-paid-id"
+                name="deposit_paid"
+                type="checkbox" 
+                {% if order.deposit_paid %}checked{% endif %}
+            >
         </div>
 
         <div class="space-y-2">
             <h2>Status</h2>
-            <select name="" id="">
+
+            <select name="status" id="status-id">
+                {% for value, label in order.STATUS_CHOICES %}
+                    <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            {% comment %} <select name="" id="">
                 <option value="" selected>Pending</option>
                 <option value="" selected>Confirmed</option>
                 <option value="" selected>Peparing</option>
                 <option value="" selected>Ready for Collection</option>
                 <option value="" selected>Delivered</option>
-            </select>
+            </select> {% endcomment %}
         </div>
     
         
         <div class="flex gap-4 justify-end">
             <button @click="modalOpen=false" type="button" class="cancel-btn">Cancel</button>
-            <button @click="modalOpen=false" type="button" class="update-btn">Update</button>
+            {% comment %} <button @click="modalOpen=false" type="button" class="update-btn">Update</button> {% endcomment %}
+            <button type="submit" class="update-btn">Update</button>
+
         </div>
         
     

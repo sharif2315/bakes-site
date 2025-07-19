@@ -11,6 +11,21 @@ from .forms import OrderForm, AddressForm, DeliveryDetailForm
 from .constants import DELIVERY_METHOD_COLLECTION
 
 
+@require_POST
+def update_order_status(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+
+    deposit_paid = request.POST.get("deposit_paid") == "on"
+    status = request.POST.get("status")
+
+    order.deposit_paid = deposit_paid
+    order.status = status
+    order.save()
+
+    return render(request, "orders/admin/partials/order_status_modal.html", {"order": order})
+
+
+
 def checkout(request):
     home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
     cart = request.session.get('cart', {})
