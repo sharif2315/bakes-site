@@ -5,13 +5,13 @@
     <!-- Section 1 - Date, Desposit Paid, Status -->
     <div class="section-1-wrapper flex justify-between items-center">
         <!-- date -->
-            <div class="_outline outline-green-500">
-                <div class="font-semibold">Order Placed</div>
-                <div>{{ order.created_at|date:"j M Y H:i" }}</div>
-            </div>
+        <div class="_outline outline-green-500">
+            <div class="font-semibold">Order Placed</div>
+            <div>{{ order.created_at|date:"j M Y H:i" }}</div>
+        </div>
 
         <!-- deposit paid, status -->
-            <div class="flex gap-3 items-center">
+        <div class="flex gap-3 items-center">
             <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
                 <div class="p-1 bg-red-500 rounded-full"></div>
                 {% if order.deposit_paid %}Deposit Paid{% else %}Awaiting Deposit{% endif %}
@@ -21,15 +21,17 @@
                 {{ order.get_status_display }}
             </div>
             <div class="text-gray-500 ml-1 hover:cursor-pointer">
-                {% include 'icons/ellipsis.html' %}
-            </div>
-            </div>
+                {% include 'orders/admin/partials/order_status_modal.html' %}
+            </div>                  
+            
+       
+        </div>
 
     </div>
 
     <hr class="text-gray-200">
 
-    <!-- Section 2 - Summary -->
+    <!-- Section 3 - Summary -->
     <div class="section-2-wrapper">
 
         <h1>Summary</h1>
@@ -78,18 +80,20 @@
                     <p class="font-bold text-sm">Total</p>
                     <p class="text-black">£{{ order.total }}</p>
                 </div>
-                <hr class="text-gray-200">
+                {% comment %} <hr class="text-gray-200"> {% endcomment %}
             </div>
 
         </div>            
 
     </div>
 
-    <!-- Section 3 - Customer, Contact and Delivery Details -->
+    <hr class="text-gray-200">
+
+    <!-- Section 2 - Customer, Contact and Delivery Details -->
     <div class="section-3-wrapper">
         <h1>Customer</h1>
 
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
 
             <div class="space-y-1">
                 <div class="font-semibold">Name</div>
@@ -155,5 +159,10 @@
 
         </div>
 
-    </div>
+    </div>    
+
+
+
+
+
 </div>

@@ -183,7 +183,7 @@ def update_item_quantity(request, product_id):
 
 
 def view_orders(request):
-    context = { 'orders': Order.objects.all() }
+    context = { 'orders': Order.objects.order_by('-created_at') }
     template = "orders/admin/orders.html"
     return render(request, template, context)
 

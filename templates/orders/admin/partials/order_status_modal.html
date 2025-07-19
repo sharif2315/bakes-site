@@ -1,0 +1,52 @@
+{% extends 'components/modal.html' %}
+
+
+{% block trigger_btn %}
+{% include 'icons/ellipsis.html' %}
+{% endblock trigger_btn %}
+
+
+{% block modal_content %}
+<div class="order-status-modal-container flex flex-col gap-6">
+    <!-- title and close button-->
+    <div class="flex items-center justify-between pb-3 header _outline outline-red-500">
+    
+        <div class="text-3xl font-semibold">Update Order</div>
+        
+        <button @click="modalOpen=false" class="close-modal-btn">
+            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+    </div>
+    
+    <!-- form inputs -->
+    <form class="flex flex-col gap-8 justify-center">
+
+        <div class="space-y-2">
+            <div class="font-bold text-base">Order Deposit</div>
+            <select name="" id="">
+                <option value="" selected>Paid</option>
+                <option value="" selected>Unpaid</option>
+            </select>
+        </div>
+
+        <div class="space-y-2">
+            <div class="font-bold text-base">Order Status</div>
+            <select name="" id="">
+                <option value="" selected>Pending</option>
+                <option value="" selected>Confirmed</option>
+                <option value="" selected>Peparing</option>
+                <option value="" selected>Ready for Collection</option>
+                <option value="" selected>Delivered</option>
+            </select>
+        </div>
+    
+        
+        <div class="flex gap-2 justify-end">
+            <button @click="modalOpen=false" type="button" class="cancel-btn">Cancel</button>
+            <button @click="modalOpen=false" type="button" class="update-btn">Update</button>
+        </div>
+        
+    
+    </form>
+</div>
+{% endblock modal_content %}

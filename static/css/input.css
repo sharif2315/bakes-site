@@ -95,10 +95,24 @@
     @apply border border-gray-300;
 }
 
-.admin-order-detail-page .copy-icon svg {
-    @apply h-5 w-5 hover:text-gray-600 hover:cursor-pointer;
-}
-
 .modal-base .modal-content .close-modal-btn {
     @apply absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-300;
+}
+
+/* .order-status-input #order-status-input {
+    @apply rounded-lg px-6 outline outline-red-500;
+} */
+
+/* ADMIN ORDER CONFIRMATION - MODAL */
+
+/* .order-status-modal-container label {
+    @apply border border-gray-300 flex items-start p-5 space-x-3 bg-white border rounded-md shadow-sm hover:bg-gray-50 border-neutral-200/70;
+} */
+
+.order-status-modal-container .cancel-btn {
+    @apply inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium transition-colors border rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-100 focus:ring-offset-2;
+}
+
+.order-status-modal-container .update-btn {
+    @apply inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white transition-colors border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 bg-neutral-950 hover:bg-neutral-900;
 }
