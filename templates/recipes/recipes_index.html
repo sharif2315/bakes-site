@@ -17,8 +17,8 @@
         x-ref="form"
 
         class="flex gap-8 mb-10"
-        hx-get="{{ product_listing.url }}" 
-        hx-target="#products-grid" 
+        hx-get="{{ recipe_index.url }}" 
+        hx-target="#recipes-grid" 
         hx-push-url="true"
         hx-swap="outerHTML"
 
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <!-- Products Section  -->
+            <!-- Recipes Section  -->
             {% include "recipes/partials/_recipes_grid.html" %}
             
         </div>

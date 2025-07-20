@@ -3,6 +3,7 @@ from django import forms
 from django.utils import timezone
 from django.http import HttpRequest
 from django.shortcuts import render
+from django.contrib.postgres.search import SearchVector, SearchQuery
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
@@ -48,7 +49,21 @@ class RecipeIndex(Page):
 
         # Exclude the featured recipe if it exists
         recipes = RecipePage.objects.live().order_by('-first_published_at') # [:3] for paging
-        if self.featured_recipe:
+
+        if query:
+            vector = SearchVector("title", "description")
+            search_query = SearchQuery(query)
+            recipes = recipes.annotate(search=vector).filter(search=search_query)
+
+        # Dietary filter (many-to-many)
+        if dietary_slugs and dietary_slugs != ['']:
+            recipes = recipes.filter(dietary_options__slug__in=dietary_slugs).distinct()
+
+        # Category filter (foreign key)
+        if category_slugs and category_slugs != ['']:
+            recipes = recipes.filter(category__slug__in=category_slugs)
+
+        if not query and self.featured_recipe:
             recipes = recipes.exclude(id=self.featured_recipe.id)
 
         context['recipes'] = recipes
