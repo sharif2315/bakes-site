@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponseBadRequest
+from wagtail.admin.auth import permission_required
 
 from utils.products import build_cart_context
 from home.models import HomePage
@@ -196,19 +197,24 @@ def update_item_quantity(request, product_id):
     context = build_cart_context(cart)
     return render(request, "orders/cart/_cart_update_fragments.html", context)
 
-
+@permission_required('wagtailadmin.access_admin')
 def view_orders(request):
     context = { 'orders': Order.objects.order_by('-created_at') }
     template = "orders/admin/orders.html"
     return render(request, template, context)
 
-
+@permission_required('wagtailadmin.access_admin')
+@require_http_methods(["GET", "POST"])
 def view_order_detail(request, order_id: int):
     order = get_object_or_404(Order, id=order_id)
 
     if request.method == "POST":
         deposit_paid = request.POST.get("deposit_paid") == "on"
         status = request.POST.get("status")
+
+        valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
+        if status not in valid_statuses:
+            return HttpResponseBadRequest("Invalid status.")        
 
         order.deposit_paid = deposit_paid
         order.status = status
