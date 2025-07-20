@@ -1,6 +1,8 @@
 from django.db import models
 from django import forms
 from django.utils import timezone
+from django.http import HttpRequest
+from django.shortcuts import render
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
@@ -8,7 +10,7 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
-from products.models import DietaryOption
+from products.models import DietaryOption, Category
 from utils.breadcrumbs import get_breadcrumbs
 
 
@@ -37,8 +39,12 @@ class RecipeIndex(Page):
         FieldPanel('featured_recipe'),
     ]
 
-    def get_context(self, request):
+    def get_context(self, request: HttpRequest):
         context = super().get_context(request)
+
+        query = request.GET.get('q')
+        category_slugs = request.GET.getlist("category")
+        dietary_slugs = request.GET.getlist("dietary")        
 
         # Exclude the featured recipe if it exists
         recipes = RecipePage.objects.live().order_by('-first_published_at') # [:3] for paging
@@ -47,7 +53,27 @@ class RecipeIndex(Page):
 
         context['recipes'] = recipes
         context['breadcrumbs'] = get_breadcrumbs(self)
+
+        context["q"] = query
+        context["selected_dietary"] = dietary_slugs
+        context["selected_categories"] = category_slugs
+        
+        context["dietary_options"] = [
+            {"label": d.name, "value": d.slug} for d in DietaryOption.objects.all()
+        ]  
+        
+        context["category_options"] = [
+            {"label": c.name, "value": c.slug} for c in Category.objects.all()
+        ]              
         return context
+    
+    def serve(self, request):
+        context = self.get_context(request)
+
+        if request.headers.get("HX-Request") == "true":
+            return render(request, "recipes/partials/_recipes_grid.html", context)
+
+        return render(request, "recipes/recipes_index.html", context)
 
 
 class RecipePageTags(TaggedItemBase):

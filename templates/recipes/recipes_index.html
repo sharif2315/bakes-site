@@ -2,8 +2,83 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block inner_content %}
-    
-    <!-- Title and Description -->
+    <div class="mb-10 space-y-4">
+        <h1 class="text-4xl font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
+        <div class="richtext">{{ page.description | richtext }}</div>
+    </div>
+
+
+    <form 
+        x-data="{
+            filters: { category: {{ selected_categories|safe }}, dietary: {{ selected_dietary|safe }} },
+            submit() { $refs.form.requestSubmit(); }
+        }"
+        x-init="$watch('filters', () => submit(), { deep: true })"
+        x-ref="form"
+
+        class="flex gap-8 mb-10"
+        hx-get="{{ product_listing.url }}" 
+        hx-target="#products-grid" 
+        hx-push-url="true"
+        hx-swap="outerHTML"
+
+    >
+
+        <!-- Accordion Filters -->
+        <div class="hidden sm:block w-full max-w-48">
+            <div class="relative w-full overflow-hidden text-sm font-normal bg-white border border-gray-200 divide-y divide-gray-200 rounded-md h-fit">
+
+                {% include "components/filter_accordion.html" with title="Categories" name="category" options=category_options selected=selected_categories %}
+                
+                {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
+
+            </div>
+        </div>
+
+        <div class="space-y-5">
+            <div class="flex sm:block gap-6 sm:gap-0">
+                <!-- Search Input Group-->
+                <div class="relative border border-gray-200 max-w-sm rounded-sm">
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request.GET.q }}"
+                        placeholder="Search"
+                        class="mt-0.5 w-full rounded border-gray-300 pe-10 shadow-sm sm:text-sm py-2 pl-3"
+                    />
+                    <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                        <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </button>
+                    </span>
+        
+                </div>
+
+                <!-- mobile filters button -->
+                <div class="sm:hidden">
+                    {% comment %} {% include 'products/_filters_slide_over.html' %} {% endcomment %}
+                </div>
+            </div>
+
+            <!-- Products Section  -->
+            {% include "recipes/partials/_recipes_grid.html" %}
+            
+        </div>
+
+        <template x-for="cat in filters.category" :key="cat">
+            <input type="hidden" name="category" :value="cat">
+        </template>
+
+        <template x-for="diet in filters.dietary" :key="diet">
+            <input type="hidden" name="dietary" :value="diet">
+        </template>
+
+    </form>
+
+
+    {% comment %} <!-- Title and Description -->
     <div class="mb-6">
         <h1 class="text-4xl mb-2 font-semibold tracking-wide text-gray-800">{{ page.title }}</h1>
 
@@ -83,6 +158,6 @@
         {% endfor %}
 
         </div>
-    </div>
+    </div> {% endcomment %}
 
 {% endblock inner_content %}
