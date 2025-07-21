@@ -18,7 +18,7 @@ def register_view_orders_url():
 
 @hooks.register('register_admin_menu_item')
 def register_view_orders_menu_item():
-    return MenuItem('View Orders', reverse('view_orders'), icon_name='doc-full')
+    return MenuItem('Orders', reverse('view_orders'), icon_name='doc-full')
 
 
 # @register_snippet
