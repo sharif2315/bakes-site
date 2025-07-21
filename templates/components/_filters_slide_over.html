@@ -24,6 +24,9 @@
     
     {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
 
+    {% if "recipes" in current_url %}
+    {% include "components/filter_accordion_tags.html" with title="Tags" name="tags" options=tag_options selected=selected_tags %}
+    {% endif %}
 </div>
 
 {% endblock content %}

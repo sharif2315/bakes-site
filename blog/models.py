@@ -96,6 +96,8 @@ class RecipeIndex(Page):
         context["tag_options"] = [
             {"label": t.name, "value": t.name} for t in Tag.objects.all()
         ]
+
+        context['current_url'] = request.path
         return context
     
     def serve(self, request: HttpRequest):
