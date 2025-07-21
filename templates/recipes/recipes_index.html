@@ -10,7 +10,7 @@
 
     <form 
         x-data="{
-            filters: { category: {{ selected_categories|safe }}, dietary: {{ selected_dietary|safe }} },
+            filters: { category: {{ selected_categories|safe }}, dietary: {{ selected_dietary|safe }}, tags: {{ selected_tags|safe }} },
             submit() { $refs.form.requestSubmit(); }
         }"
         x-init="$watch('filters', () => submit(), { deep: true })"
@@ -32,7 +32,7 @@
                 
                 {% include "components/filter_accordion.html" with title="Dietary" name="dietary" options=dietary_options selected=selected_dietary %}
                 
-                {% include "components/filter_accordion.html" with title="Tags" name="tags" options=tags selected=selected_tags %}
+                {% include "components/filter_accordion.html" with title="Tags" name="tags" options=tag_options selected=selected_tags %}
 
             </div>
         </div>
@@ -75,6 +75,10 @@
 
         <template x-for="diet in filters.dietary" :key="diet">
             <input type="hidden" name="dietary" :value="diet">
+        </template>
+
+        <template x-for="tag in filters.tags" :key="tag">
+            <input type="hidden" name="tags" :value="tag">
         </template>
 
     </form>

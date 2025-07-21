@@ -46,7 +46,7 @@ class RecipeIndex(Page):
         query = request.GET.get('q')
         category_slugs = request.GET.getlist("category")
         dietary_slugs = request.GET.getlist("dietary")
-        tag_names = request.GET.getlist('tag')
+        tag_names = request.GET.getlist('tags')
 
         # Exclude the featured recipe if it exists
         recipes = RecipePage.objects.live().order_by('-first_published_at') # [:3] for paging
@@ -64,7 +64,7 @@ class RecipeIndex(Page):
         if category_slugs and category_slugs != ['']:
             recipes = recipes.filter(category__slug__in=category_slugs)
 
-        if tag_names and tag_names != [""]:
+        if tag_names and tag_names != ['']:
             recipes = recipes.filter(tags__name__in=tag_names).distinct()
 
         if not query and self.featured_recipe:
@@ -86,7 +86,7 @@ class RecipeIndex(Page):
             {"label": c.name, "value": c.slug} for c in Category.objects.all()
         ]
 
-        context["tags"] = [
+        context["tag_options"] = [
             {"label": t.name, "value": t.name} for t in Tag.objects.all()
         ]
         return context
