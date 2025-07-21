@@ -4,7 +4,7 @@
 
 
     <!-- featured recipe post -->
-    {% if not q and page.featured_recipe %}
+    {% if not q and not selected_categories and not selected_dietary and not selected_tags and page.featured_recipe %}
     <div class="mb-8">
         <!-- blog post grid -> img & textblock -->
             <div class="grid lg:grid-cols-3 bg-gray-100 shadow-sm rounded-sm overflow-hidden">

@@ -66,8 +66,15 @@ class RecipeIndex(Page):
 
         if tag_names and tag_names != ['']:
             recipes = recipes.filter(tags__name__in=tag_names).distinct()
+        
+        has_no_filters = (
+            not query and 
+            not category_slugs and 
+            not dietary_slugs and 
+            not tag_names
+        )
 
-        if not query and self.featured_recipe:
+        if has_no_filters and self.featured_recipe:
             recipes = recipes.exclude(id=self.featured_recipe.id)
 
         context['recipes'] = recipes
@@ -91,7 +98,7 @@ class RecipeIndex(Page):
         ]
         return context
     
-    def serve(self, request):
+    def serve(self, request: HttpRequest):
         context = self.get_context(request)
 
         if request.headers.get("HX-Request") == "true":
