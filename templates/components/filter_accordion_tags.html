@@ -1,0 +1,41 @@
+<!-- filter_accordion.html -->
+<div x-data="{ isOpen: true }" class="recipe-index-tags-filters">
+    <div class="group">
+        <div 
+            role="button" 
+            @click="isOpen = !isOpen" 
+            @keydown.enter="isOpen = !isOpen"
+            tabindex="0" 
+            class="flex items-center justify-between w-full p-4 text-left select-none group-hover:underline"
+        >
+            <span class="text-sm font-bold tracking-wide">{{ title }}</span>
+            <svg class="w-4 h-4 duration-200 ease-out" :class="{ 'rotate-180': isOpen }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
+            </svg>
+        </div>
+
+        <div x-show="isOpen" x-collapse x-cloak class="flex gap-2 flex-wrap p-4 pt-0">
+            <template x-for="option in {{ options|safe }}" :key="option.value">
+                <label
+                    class="cursor-pointer px-3 py-1 text-xs font-medium rounded-full border transition-colors duration-200 ease-in-out bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
+                    :class="filters['{{ name }}'].includes(option.value) 
+                             ? 'bg-gray-950 _bg-orange-500 text-white hover:bg-gray-500 border-black _border-orange-500' 
+                             : ''"
+                >
+                    <input
+                        type="checkbox"
+                        class="sr-only"
+                        :value="option.value"
+                        name="{{ name }}[]"
+                        x-model="filters['{{ name }}']"
+                    >
+                    <span x-text="option.label"></span>
+                </label>
+            </template>
+        </div>        
+
+
+
+
+    </div>
+</div>

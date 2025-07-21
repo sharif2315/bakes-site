@@ -117,3 +117,8 @@
     @apply w-6 h-6 text-gray-600;
 }
 
+/* RECIPE LISTINGS */
+
+.recipe-index-tags-filters .tag {
+    @apply w-fit hover:cursor-pointer rounded-full px-2.5 py-0.5 text-white text-xs font-semibold bg-gray-700 flex justify-center items-center;
+}
