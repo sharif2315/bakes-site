@@ -9,7 +9,7 @@ from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, Tag
 
 from products.models import DietaryOption, Category
 from utils.breadcrumbs import get_breadcrumbs
@@ -45,7 +45,8 @@ class RecipeIndex(Page):
 
         query = request.GET.get('q')
         category_slugs = request.GET.getlist("category")
-        dietary_slugs = request.GET.getlist("dietary")        
+        dietary_slugs = request.GET.getlist("dietary")
+        tag_names = request.GET.getlist('tag')
 
         # Exclude the featured recipe if it exists
         recipes = RecipePage.objects.live().order_by('-first_published_at') # [:3] for paging
@@ -63,6 +64,9 @@ class RecipeIndex(Page):
         if category_slugs and category_slugs != ['']:
             recipes = recipes.filter(category__slug__in=category_slugs)
 
+        if tag_names and tag_names != [""]:
+            recipes = recipes.filter(tags__name__in=tag_names).distinct()
+
         if not query and self.featured_recipe:
             recipes = recipes.exclude(id=self.featured_recipe.id)
 
@@ -72,6 +76,7 @@ class RecipeIndex(Page):
         context["q"] = query
         context["selected_dietary"] = dietary_slugs
         context["selected_categories"] = category_slugs
+        context["selected_tags"] = tag_names
         
         context["dietary_options"] = [
             {"label": d.name, "value": d.slug} for d in DietaryOption.objects.all()
@@ -79,7 +84,11 @@ class RecipeIndex(Page):
         
         context["category_options"] = [
             {"label": c.name, "value": c.slug} for c in Category.objects.all()
-        ]              
+        ]
+
+        context["tags"] = [
+            {"label": t.name, "value": t.name} for t in Tag.objects.all()
+        ]
         return context
     
     def serve(self, request):
