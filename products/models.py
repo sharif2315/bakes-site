@@ -74,7 +74,7 @@ class ProductListing(Page):
         context = self.get_context(request)
 
         if request.headers.get("HX-Request") == "true":
-            return render(request, "products/products_grid.html", context)
+            return render(request, "products/_products_grid.html", context)
 
         return render(request, "products/products_listing.html", context)
 

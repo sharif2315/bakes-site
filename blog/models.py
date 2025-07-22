@@ -104,7 +104,7 @@ class RecipeIndex(Page):
         context = self.get_context(request)
 
         if request.headers.get("HX-Request") == "true":
-            return render(request, "recipes/partials/_recipes_grid.html", context)
+            return render(request, "recipes/_recipes_grid.html", context)
 
         return render(request, "recipes/recipes_index.html", context)
 
