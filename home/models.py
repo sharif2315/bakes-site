@@ -65,6 +65,10 @@ class ContactSubmission(models.Model):
     message = models.TextField()
     submitted_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = "Inbox"
+        verbose_name = "Contact Message"
+
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.submitted_at:%Y-%m-%d}"
 

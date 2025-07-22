@@ -22,7 +22,7 @@ class ContactSubmissionViewSet(SnippetViewSet):
     model = ContactSubmission
     icon = "mail"
     add_to_admin_menu = True
-    menu_label = "Contact Submissions"
+    menu_label = "Inbox"
     menu_order = 250
     list_display = ["first_name", "last_name", "email", "submitted_at"]
     search_fields = ["first_name", "last_name", "email"]
