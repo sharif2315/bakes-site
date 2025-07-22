@@ -30,6 +30,7 @@ class StoreSettings(models.Model):
         verbose_name = "Store Settings"
         verbose_name_plural = "Store Settings"
 
+
 class Address(models.Model):
     street = models.CharField(max_length=100)
     town = models.CharField(max_length=20)
