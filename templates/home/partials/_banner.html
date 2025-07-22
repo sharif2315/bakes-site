@@ -1,14 +1,14 @@
-<div class="py-2 bg-black">
+<div class="py-2 bg-slate-100 border-b border-slate-200">
     
     <div class="px-4 xl:px-0 max-w-7xl mx-auto flex justify-between">
         
         <!-- Social links -->
-        <ul class="flex items-center gap-6">
+        <ul class="flex items-center gap-8">
 
             {% for link in social_links %}
-            <li class="bg-black">
+            <li>
                 <a href="{{ link.url }}">
-                    <div class="text-white h-5 w-5 flex justify-center items-center">
+                    <div class="text-black h-5 w-5 flex justify-center items-center">
                         {{ link.icon.icon|safe }}
                     </div>
                 </a>
@@ -18,39 +18,39 @@
         </ul>
 
         <!-- Contact Links -->
-        <ul class="flex gap-6 lg:gap-12">
+        <ul class="flex gap-8 lg:gap-12">
             {% for entry  in contact_methods.all %}
             
                 {% if entry.svg_icon %}
-                <li class="text-white flex gap-3">
+                <li class="text-black flex gap-3">
                     
                     <div class="flex gap-3 text-sm">
                         {% if entry.contact_type == 'phone' %}
                             <a 
                                 href="tel:{{ entry.contact_text|cut:' ' }}" 
-                                class="flex justify-center items-center gap-2 text-white hover:cursor-pointer"
+                                class="flex justify-center items-center gap-2 hover:cursor-pointer"
                             >
-                                <div class="w-5 h-5 text-white">{{ entry.svg_icon.icon|safe }}</div>
-                                <p class="hidden lg:block">{{ entry.contact_text }}</p>
+                                <div class="w-5 h-5 text-black">{{ entry.svg_icon.icon|safe }}</div>
+                                <p class="hidden lg:block text-gray-700">{{ entry.contact_text }}</p>
                             </a>
 
                         {% elif entry.contact_type == 'email' %}
                             <a 
                                 href="mailto:{{ entry.contact_text }}" 
-                                class="flex justify-center items-center gap-2 text-white hover:cursor-pointer"
+                                class="flex justify-center items-center gap-2 hover:cursor-pointer"
                             >
-                                <div class="w-5 h-5 text-white">{{ entry.svg_icon.icon|safe }}</div>
-                                <p class="hidden lg:block">{{ entry.contact_text }}</p>
+                                <div class="w-5 h-5 text-black">{{ entry.svg_icon.icon|safe }}</div>
+                                <p class="hidden lg:block text-gray-700">{{ entry.contact_text }}</p>
                             </a>
 
                         {% elif entry.contact_type == 'address' %}
                             <a 
                                 href="https://www.google.com/maps/search/{{ entry.contact_text|urlencode }}" 
                                 target="_blank" 
-                                class="flex justify-center items-center gap-2 text-white hover:cursor-pointer"
+                                class="flex justify-center items-center gap-2 hover:cursor-pointer"
                             >
-                                <div class="w-5 h-5 text-white">{{ entry.svg_icon.icon|safe }}</div>
-                                <p class="hidden lg:block">{{ entry.contact_text }}</p>
+                                <div class="w-5 h-5 text-black">{{ entry.svg_icon.icon|safe }}</div>
+                                <p class="hidden lg:block text-gray-700">{{ entry.contact_text }}</p>
                             </a>
 
                         {% else %}
