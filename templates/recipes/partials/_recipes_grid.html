@@ -2,6 +2,15 @@
 
 <div id="recipes-grid">
 
+    <!-- Search Results Message -->
+    {% if q %}
+    <p class="text-sm text-gray-800 mb-6">
+        Found {{ recipes.count }} result{{ recipes.count|pluralize }} for "<strong>{{ q }}</strong>"
+    </p>
+    {% else %}
+    <div class="h-1"></div>
+    {% endif %}       
+
 
     <!-- featured recipe post -->
     {% if not q and not selected_categories and not selected_dietary and not selected_tags and page.featured_recipe %}
