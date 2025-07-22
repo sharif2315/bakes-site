@@ -13,18 +13,53 @@ from .constants import DELIVERY_METHOD_COLLECTION
 
 
 @require_POST
-def update_order_status(request, order_id):
-    order = get_object_or_404(Order, pk=order_id)
+def add_to_cart(request, product_id):
+    cart = request.session.get("cart", {})
+    quantity = int(request.POST.get("quantity", 1))
+    product_id_str = str(product_id)
+    cart[product_id_str] = cart.get(product_id_str, 0) + quantity
 
-    deposit_paid = request.POST.get("deposit_paid") == "on"
-    status = request.POST.get("status")
+    request.session["cart"] = cart
+    context = { "cart_total": sum(cart.values()) }
 
-    order.deposit_paid = deposit_paid
-    order.status = status
-    order.save()
+    # Return just the updated cart count in cart template partial
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
 
-    return render(request, "orders/admin/partials/order_detail_content.html", {"order": order})
 
+@require_http_methods(["DELETE"])
+def remove_item_from_cart_slideover(request, product_id):
+    cart = request.session.get("cart", {})
+    product_id_str = str(product_id)
+
+    if product_id_str in cart:
+        del cart[product_id_str]
+
+    request.session["cart"] = cart
+
+    context = build_cart_context(cart)
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
+
+
+@require_POST
+def update_item_quantity(request, product_id):
+    action = request.POST.get("action")
+    cart = request.session.get("cart", {})
+    product_id_str = str(product_id)
+
+    current_qty = cart.get(product_id_str, 1)
+
+    if action == "increment":
+        new_qty = current_qty + 1
+    elif action == "decrement":
+        new_qty = max(1, current_qty - 1)  # Prevent going below 1
+    else:
+        return HttpResponseBadRequest("Invalid action")
+
+    cart[product_id_str] = new_qty
+    request.session["cart"] = cart
+
+    context = build_cart_context(cart)
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
 
 
 def checkout(request):
@@ -117,6 +152,18 @@ def checkout(request):
     return render(request, 'orders/checkout/checkout.html', context)
 
 
+@require_http_methods(["DELETE"])
+def remove_item_from_checkout(request, product_id):
+    cart = request.session.get("cart", {})
+
+    # Remove item
+    cart.pop(str(product_id), None)
+    request.session["cart"] = cart
+
+    context = build_cart_context(cart)
+    return render(request, "orders/cart/_cart_update_fragments.html", context)
+
+
 def order_confirmation(request, order_ref):
     # home_page_url = HomePage.objects.first().url if HomePage.objects.exists() else '/'
     
@@ -136,72 +183,15 @@ def order_confirmation(request, order_ref):
     }
     return render(request, 'orders/checkout/order_confirmation.html', context)
 
-@require_POST
-def add_to_cart(request, product_id):
-    cart = request.session.get("cart", {})
-    quantity = int(request.POST.get("quantity", 1))
-    product_id_str = str(product_id)
-    cart[product_id_str] = cart.get(product_id_str, 0) + quantity
 
-    request.session["cart"] = cart
-    context = { "cart_total": sum(cart.values()) }
-
-    # Return just the updated cart count in cart template partial
-    return render(request, "orders/cart/_cart_update_fragments.html", context)
-
-
-@require_http_methods(["DELETE"])
-def remove_item_from_cart_slideover(request, product_id):
-    cart = request.session.get("cart", {})
-    product_id_str = str(product_id)
-
-    if product_id_str in cart:
-        del cart[product_id_str]
-
-    request.session["cart"] = cart
-
-    context = build_cart_context(cart)
-    return render(request, "orders/cart/_cart_update_fragments.html", context)
-
-
-@require_http_methods(["DELETE"])
-def remove_item_from_checkout(request, product_id):
-    cart = request.session.get("cart", {})
-
-    # Remove item
-    cart.pop(str(product_id), None)
-    request.session["cart"] = cart
-
-    context = build_cart_context(cart)
-    return render(request, "orders/cart/_cart_update_fragments.html", context)
-
-
-@require_POST
-def update_item_quantity(request, product_id):
-    action = request.POST.get("action")
-    cart = request.session.get("cart", {})
-    product_id_str = str(product_id)
-
-    current_qty = cart.get(product_id_str, 1)
-
-    if action == "increment":
-        new_qty = current_qty + 1
-    elif action == "decrement":
-        new_qty = max(1, current_qty - 1)  # Prevent going below 1
-    else:
-        return HttpResponseBadRequest("Invalid action")
-
-    cart[product_id_str] = new_qty
-    request.session["cart"] = cart
-
-    context = build_cart_context(cart)
-    return render(request, "orders/cart/_cart_update_fragments.html", context)
+# ADMIN VIEWS
 
 @permission_required('wagtailadmin.access_admin')
 def view_orders(request):
     context = { 'orders': Order.objects.order_by('-created_at') }
     template = "orders/admin/orders.html"
     return render(request, template, context)
+
 
 @permission_required('wagtailadmin.access_admin')
 @require_http_methods(["GET", "POST"])
@@ -224,4 +214,19 @@ def view_order_detail(request, order_id: int):
     
     context = { 'order': order }
     return render(request, "orders/admin/order_detail.html", context)
-    
+
+
+@permission_required('wagtailadmin.access_admin')
+@require_POST
+def update_order_status(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+
+    deposit_paid = request.POST.get("deposit_paid") == "on"
+    status = request.POST.get("status")
+
+    order.deposit_paid = deposit_paid
+    order.status = status
+    order.save()
+
+    return render(request, "orders/admin/partials/order_detail_content.html", {"order": order})
+
