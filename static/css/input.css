@@ -146,7 +146,8 @@
 }
 
 .orders-page .pagination-container .previous-link a {
-    @apply relative inline-flex items-center h-full px-3 ml-0 rounded-l hover:text-neutral-900;
+    @apply relative flex justify-center items-center h-full px-3 ml-0 rounded-l hover:text-neutral-900;
+    /* @apply relative inline-flex items-center h-full px-3 rounded-r hover:text-neutral-900; */
 }
 
 .orders-page .pagination-container li {

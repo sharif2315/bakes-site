@@ -187,11 +187,14 @@ def order_confirmation(request, order_ref):
 
 # ADMIN VIEWS
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 @permission_required('wagtailadmin.access_admin')
 def view_orders(request: HttpRequest):
     query = request.GET.get('q')
     order_status = request.GET.get('order_status')
     delivery_method = request.GET.get('delivery_method')
+    page = request.GET.get('page', 1)
 
     orders = Order.objects.select_related('address').order_by('-created_at')
 
@@ -209,6 +212,14 @@ def view_orders(request: HttpRequest):
 
     if delivery_method in dict(DELIVERY_METHOD_CHOICES):
         orders = orders.filter(delivery_detail__delivery_method=delivery_method)
+    
+    paginator = Paginator(orders, 3)
+    try:
+        orders = paginator.page(page)
+    except PageNotAnInteger:
+        orders = paginator.page(1)
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)
 
     context = { 
         'orders': orders,
