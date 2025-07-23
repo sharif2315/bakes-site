@@ -3,7 +3,7 @@
         <tr>
             <th>Order Placed</th>
             <th>Customer</th>
-            <th>Contact</th>
+            <th class="hidden sm:block">Contact</th>
             <th>Delivery Method</th>
             <th>Order Total</th>
 
@@ -12,9 +12,9 @@
     <tbody>
         {% for order in orders %}
             <tr>
-                <td>{{ order.created_at|date:"j M Y H:i" }}</td>
+                <td>{{ order.created_at|date:"j M Y" }}</td>
                 <td>{{ order.first_name }} {{ order.last_name }}</td>
-                <td>{{ order.contact }}</td>
+                <td class="hidden sm:block">{{ order.contact }}</td>
                 <td>
                     <div class="flex gap-2 items-center">
                         <div class="{% if order.is_delivery %}bg-green-500 {% else %} bg-blue-500 {% endif %} p-1 rounded-full">
