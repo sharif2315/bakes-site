@@ -5,35 +5,15 @@
     {% vite_hmr_client %}
     {% vite_asset 'static/js/main.js' %}
 
-    {% include "wagtailadmin/shared/header.html" with title="Orders" %}
-
-
-    <!--
+    {% include "wagtailadmin/shared/header.html" with title="Orders" %} 
     
-    Fields to filter for orders:
 
-    Text Input:
-    - name
-    - contact (email, phone)
-    - postcode, address fields - use property order.single_line
-
-    Select Input:
-    - order status
-    
-    Date Input:
-    - requested date
-
-
-    how to best sort the orders qs? 
-    filter out the completed orders onto another tab in same page? 
-
-    -->   
-    
     <div class="nice-padding space-y-6">
 
         <!-- Search Input Group -->
         <form 
             class="space-y-6"
+            x-data
             x-ref="form"
             hx-get="{% url 'view_orders' %}"
             hx-target="#orders-table"
@@ -59,12 +39,16 @@
             </div>    
 
             <!-- Order Status & Date Input Group-->
-            <div class="flex flex-col-reverse sm:flex-row gap-0 sm:gap-6 mb-3 __sm:mb-0">
+            <div class="flex gap-6 mb-3">
 
                 <!-- Select Input - Order Status -->
                 <div>
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Status</label>
-                    <select name="order_status" class="__w-field__input">
+                    <select 
+                        name="order_status" 
+                        class="__w-field__input"
+                        @change="$refs.form.requestSubmit()"
+                    >
                         <option value="">Select status</option>
                         {% for value, label in status_choices %}
                         <option value="{{ value }}">{{ label }}</option>
@@ -75,7 +59,11 @@
                 <!-- Select Input - Delivery Option -->
                 <div>
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Delivery</label>
-                    <select name="delivery_method" class="__w-field__input">
+                    <select 
+                        name="delivery_method" 
+                        class="__w-field__input"
+                        @change="$refs.form.requestSubmit()"
+                    >
                         <option value="">Select method</option>
                         {% for value, label in delivery_methods %}
                         <option value="{{ value }}">{{ label }}</option>
