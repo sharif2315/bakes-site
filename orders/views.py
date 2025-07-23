@@ -8,9 +8,9 @@ from wagtail.admin.auth import permission_required
 from utils.products import build_cart_context
 from home.models import HomePage
 from products.models import Product
-from .models import OrderItem, Order, StoreSettings
+from .models import OrderItem, Order, StoreSettings, DeliveryDetail
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
-from .constants import DELIVERY_METHOD_COLLECTION
+from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_CHOICES
 
 
 @require_POST
@@ -193,26 +193,28 @@ def view_orders(request: HttpRequest):
     order_status = request.GET.get('order_status')
     delivery_method = request.GET.get('delivery_method')
 
-    orders = Order.objects.order_by('-created_at')
+    orders = Order.objects.select_related('address').order_by('-created_at')
 
     if query:
-        vector = SearchVector('first_name', 'last_name', 'email', 'phone')
+        search_vector = SearchVector(
+            'first_name', 'last_name', 'email', 'phone', 'status', 
+            'address__street', 'address__town', 'address__postcode'
+        )
         search_query = SearchQuery(query)
-        orders = orders.annotate(search=vector).filter(search=search_query)
+        orders = orders.annotate(search=search_vector).filter(search=search_query)
     
-    # if order_status:
     status_choices = [ val for val,label in Order.STATUS_CHOICES ]
     if order_status in status_choices:
         orders = orders.filter(status=order_status)
 
-    # if delivery_method:
-    #     pass
+    if delivery_method in dict(DELIVERY_METHOD_CHOICES):
+        orders = orders.filter(delivery_detail__delivery_method=delivery_method)
 
     context = { 
         'orders': orders,
         'status_choices': Order.STATUS_CHOICES,
+        'delivery_methods': DELIVERY_METHOD_CHOICES,
     }
-
 
     if request.headers.get("HX-Request") == "true":
         return render(request, 'orders/admin/partials/_orders_table.html', context)

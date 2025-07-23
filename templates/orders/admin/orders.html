@@ -49,7 +49,6 @@
                 placeholder="Search…"
                 value="{{ request.GET.q }}"
                 />        
-                {% comment %} <svg class="icon icon-search w-field__icon" aria-hidden="true"><use href="#icon-search"></use></svg> {% endcomment %}
                 <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
                     <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -78,8 +77,9 @@
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Delivery</label>
                     <select name="delivery_method" class="__w-field__input">
                         <option value="">Select method</option>
-                        <option value="delivery">Delivery</option>
-                        <option value="collection">Collection</option>
+                        {% for value, label in delivery_methods %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
                     </select>            
                 </div>
                 
