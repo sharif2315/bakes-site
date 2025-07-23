@@ -1,0 +1,36 @@
+<table id="orders-table" class="listing">
+    <thead>
+        <tr>
+            <th>Order Placed</th>
+            <th>Customer</th>
+            <th>Contact</th>
+            <th>Delivery Method</th>
+            <th>Order Total</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.created_at|date:"j M Y H:i" }}</td>
+                <td>{{ order.first_name }} {{ order.last_name }}</td>
+                <td>{{ order.contact }}</td>
+                <td>
+                    <div class="flex gap-2 items-center">
+                        <div class="{% if order.is_delivery %}bg-green-500 {% else %} bg-blue-500 {% endif %} p-1 rounded-full">
+                        </div>
+                        {{ order.delivery_detail.get_delivery_method_display }}
+                    </div>
+                </td>
+                <td>£{{ order.total }}</td>
+                <td>
+                    <a href="{% url 'view_order_detail' order.id %}" class="button button-small button-secondary">View</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7">No orders found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

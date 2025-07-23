@@ -31,19 +31,41 @@
     
     <div class="nice-padding space-y-6">
 
-        <div class="space-y-6">
+        <!-- Search Input Group -->
+        <form 
+            class="space-y-6"
+            x-ref="form"
+            hx-get="{% url 'view_orders' %}"
+            hx-target="#orders-table"
+            hx-push-url="true"
+            hx-swap="outerHTML"
+        >
 
-            <div class="w-field__input max-w-xl">
-                <svg class="icon icon-search w-field__icon" aria-hidden="true"><use href="#icon-search"></use></svg>
-                <input type="text" name="q" placeholder="Search…">        
+            <!-- Search Text Input -->
+            <div class="w-field__input max-w-xl relative">
+                <input 
+                type="text" 
+                name="q" 
+                placeholder="Search…"
+                value="{{ request.GET.q }}"
+                />        
+                {% comment %} <svg class="icon icon-search w-field__icon" aria-hidden="true"><use href="#icon-search"></use></svg> {% endcomment %}
+                <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                    <button type="submit" aria-label="Submit" class="rounded-full p-1.5 text-gray-700 transition-colors hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </button>
+                </span>                
             </div>    
 
-            <div class="flex gap-6">
+            <!-- Order Status & Date Input Group-->
+            <div class="flex flex-col-reverse sm:flex-row gap-0 sm:gap-6 mb-3 sm:mb-0">
 
                 <!-- Select Input - Order Status -->
                 <div>
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Order Status</label>
-                    <select name="colour" id="id_colour" class="__w-field__input">
+                    <select class="__w-field__input">
                         <option value="#e7000b">Pending</option>
                         <option value="#5ea500">Confirmed</option>
                         <option value="#ff8904" selected="">Out for Delivery</option>
@@ -214,51 +236,11 @@
                         </div>
                 </div>   
             </div>
+    
+        </form>
 
-            
-                
-        </div>
+        <!-- Orders Table -->
+         {% include 'orders/admin/partials/_orders_table.html' %}
 
-
-
-
-
-
-        <table class="listing">
-            <thead>
-                <tr>
-                    <th>Order Placed</th>
-                    <th>Customer</th>
-                    <th>Contact</th>
-                    <th>Delivery Method</th>
-                    <th>Order Total</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                    <tr>
-                        <td>{{ order.created_at|date:"j M Y H:i" }}</td>
-                        <td>{{ order.first_name }} {{ order.last_name }}</td>
-                        <td>{{ order.contact }}</td>
-                        <td>
-                            <div class="flex gap-2 items-center">
-                                <div class="{% if order.is_delivery %}bg-green-500 {% else %} bg-blue-500 {% endif %} p-1 rounded-full">
-                                </div>
-                                {{ order.delivery_detail.get_delivery_method_display }}
-                            </div>
-                        </td>
-                        <td>£{{ order.total }}</td>
-                        <td>
-                            <a href="{% url 'view_order_detail' order.id %}" class="button button-small button-secondary">View</a>
-                        </td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="7">No orders found.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 {% endblock %}

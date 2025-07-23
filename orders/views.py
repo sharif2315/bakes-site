@@ -189,8 +189,11 @@ def order_confirmation(request, order_ref):
 @permission_required('wagtailadmin.access_admin')
 def view_orders(request):
     context = { 'orders': Order.objects.order_by('-created_at') }
-    template = "orders/admin/orders.html"
-    return render(request, template, context)
+
+    if request.headers.get("HX-Request") == "true":
+        return render(request, 'orders/admin/partials/_orders_table.html', context)
+
+    return render(request, "orders/admin/orders.html", context)
 
 
 @permission_required('wagtailadmin.access_admin')
