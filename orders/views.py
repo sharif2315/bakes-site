@@ -1,7 +1,8 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST, require_http_methods
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpRequest
+from django.contrib.postgres.search import SearchVector, SearchQuery
 from wagtail.admin.auth import permission_required
 
 from utils.products import build_cart_context
@@ -187,11 +188,31 @@ def order_confirmation(request, order_ref):
 # ADMIN VIEWS
 
 @permission_required('wagtailadmin.access_admin')
-def view_orders(request):
+def view_orders(request: HttpRequest):
+    query = request.GET.get('q')
+    order_status = request.GET.get('order_status')
+    delivery_method = request.GET.get('delivery_method')
+
+    orders = Order.objects.order_by('-created_at')
+
+    if query:
+        vector = SearchVector('first_name', 'last_name', 'email', 'phone')
+        search_query = SearchQuery(query)
+        orders = orders.annotate(search=vector).filter(search=search_query)
+    
+    # if order_status:
+    status_choices = [ val for val,label in Order.STATUS_CHOICES ]
+    if order_status in status_choices:
+        orders = orders.filter(status=order_status)
+
+    # if delivery_method:
+    #     pass
+
     context = { 
-        'orders': Order.objects.order_by('-created_at'),
+        'orders': orders,
         'status_choices': Order.STATUS_CHOICES,
     }
+
 
     if request.headers.get("HX-Request") == "true":
         return render(request, 'orders/admin/partials/_orders_table.html', context)
