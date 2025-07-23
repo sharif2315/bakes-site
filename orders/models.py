@@ -59,6 +59,13 @@ class Order(models.Model):
         ("delivered", "Delivered"),
         ("collected", "Collected"),
     ]    
+    STATUS_COLOR_MAP = {
+        "pending": "bg-yellow-500",
+        "confirmed": "bg-blue-500",
+        "dispatched": "bg-purple-500",
+        "delivered": "bg-green-500",
+        "collected": "bg-green-500",
+    }
     order_ref = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -93,6 +100,9 @@ class Order(models.Model):
         if self.created_at < timezone.now() - timedelta(hours=max_age_hours):
             return False
         return True
+    
+    def status_color(self):
+        return self.STATUS_COLOR_MAP.get(self.status, "bg-neutral-400")    
 
     @property
     def subtotal(self):

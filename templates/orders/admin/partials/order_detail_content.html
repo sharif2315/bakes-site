@@ -25,18 +25,17 @@
         <!-- deposit paid, status -->
         <div class="flex gap-3 items-center">
             <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
-                <div class="p-1 bg-red-500 rounded-full"></div>
+                <div class="p-1 {% if order.deposit_paid %}bg-green-500 {% else %}bg-red-500 {% endif %} rounded-full"></div>
                 {% if order.deposit_paid %}Deposit Paid{% else %}Awaiting Deposit{% endif %}
             </div>
             <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
-                <div class="p-1 bg-orange-500 rounded-full"></div>
+                <div class="p-1 rounded-full {{ order.status_color }}"></div>
                 {{ order.get_status_display }}
             </div>
             <div class="text-gray-500 ml-1 hover:cursor-pointer">
                 {% include 'orders/admin/partials/order_status_modal.html' %}
             </div>                  
             
-       
         </div>
 
     </div>
@@ -92,7 +91,6 @@
                     <p class="font-bold text-sm">Total</p>
                     <p class="text-black">£{{ order.total }}</p>
                 </div>
-                {% comment %} <hr class="text-gray-200"> {% endcomment %}
             </div>
 
         </div>            
@@ -135,22 +133,6 @@
             </div>
             {% endif %}            
 
-            {% comment %} <div class="space-y-1">
-                <div class="font-semibold">Contact</div>
-                <div class="space-y-1">
-                    {% if order.phone %}
-                    <div>{{ order.phone }}</div>
-                    {% endif %}
-
-                    {% if order.email %}
-                    <div>{{ order.email }}</div>
-                    {% endif %}
-                </div>
-            </div> {% endcomment %}
-
-
-
-
             <div class="space-y-1">
                 <div class="font-semibold">Delivery Method</div>
                 <div>{{ order.delivery_detail.get_delivery_method_display }}</div>
@@ -168,13 +150,6 @@
             </div>
             {% endif %}
 
-
         </div>
-
     </div>    
-
-
-
-
-
 </div>
