@@ -9,7 +9,7 @@ class DietaryOptionSnippetViewSet(SnippetViewSet):
     model = DietaryOption
     add_to_admin_menu = True
     menu_label = "Dietary Options"
-    menu_order = 200
+    menu_order = 210
     list_display = ["name", "description", "colour"]
     search_fields = ["name",]
     panels = [
@@ -24,7 +24,7 @@ class CategoryViewSet(SnippetViewSet):
     icon = "tag"
     add_to_admin_menu = True
     menu_label = "Categories"
-    menu_order = 210
+    menu_order = 220
     list_display = ["name", "description"]
     search_fields = ["name",]
     panels = [

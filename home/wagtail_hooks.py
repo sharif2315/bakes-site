@@ -31,13 +31,10 @@ class ContactSubmissionViewSet(SnippetViewSet):
         FieldPanel("last_name"),
         FieldPanel("email"),
         FieldPanel("message"),
-
     ]
-    
-    # def get_queryset(self):
-    #     return self.model.objects.order_by("-submitted_at")
 
-        # Disable add, edit, and delete
+    def get_queryset(self, request):
+        return self.model.objects.order_by("-submitted_at")
 
 
 @register_snippet
