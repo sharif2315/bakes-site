@@ -8,7 +8,7 @@
     {% include "wagtailadmin/shared/header.html" with title="Orders" %} 
     
 
-    <div class="nice-padding space-y-6">
+    <div class="orders-page nice-padding space-y-6">
 
         <!-- Search Input Group -->
         <form 
@@ -78,6 +78,67 @@
 
         <!-- Orders Table -->
          {% include 'orders/admin/partials/_orders_table.html' %}
+
+        <!-- Pagination Block -->
+        <div class="pagination-container">
+            <p>Showing <span>1</span> to <span>10</span> of <span>89</span> results</p>
+            <nav>
+                <ul>
+                    <li class="previous-link">
+                        <a href="#" class="group">
+                            <span>Previous</span>
+                        </a>
+                    </li>
+                    <li class="current-link">
+                        <a href="#" class="group">
+                            <span>1</span>
+                            <span class="underline"></span>
+                        </a>
+                    </li>
+                    <li class="link">
+                        <a href="#" class="group">
+                            <span>2</span>
+                            <span class="no-underline"></span>
+                        </a>
+                    </li>
+                    <li class="link">
+                        <a href="#" class="group">
+                            <span>3</span>
+                            <span class="no-underline"></span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <div class="more">
+                            <span>...</span>
+                        </div>
+                    </li>
+                    <li class="link">
+                        <a href="#" class="group">
+                            <span>6</span>
+                            <span class="no-underline"></span>
+                        </a>
+                    </li>
+                    <li class="link">
+                        <a href="#" class="group">
+                            <span>7</span>
+                            <span class="no-underline"></span>
+                        </a>
+                    </li>
+                    <li class="link">
+                        <a href="#" class="group">
+                            <span>8</span>
+                            <span class="no-underline"></span>
+                        </a>
+                    </li>
+                    <li class="h-full next-link">
+                        <a href="#" class="group">
+                            <span>Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>         
 
     </div>
 {% endblock %}

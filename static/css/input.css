@@ -122,3 +122,57 @@
 .recipe-index-tags-filters .tag {
     @apply w-fit hover:cursor-pointer rounded-full px-2.5 py-0.5 text-white text-xs font-semibold bg-gray-700 flex justify-center items-center;
 }
+
+/* ORDERS PAGE */
+
+.orders-page .pagination-container {
+    @apply flex items-center justify-between w-full h-16 px-3;
+}
+
+.orders-page .pagination-container p {
+    @apply pl-2 text-sm text-gray-700;
+}
+
+.orders-page .pagination-container p span {
+    @apply font-medium;
+}
+
+.orders-page .pagination-container nav ul {
+    @apply flex items-center text-sm leading-tight bg-white border divide-x rounded h-9 text-neutral-500 divide-neutral-200 border-neutral-200;
+}
+
+.orders-page .pagination-container .previous-link {
+    @apply h-full;
+}
+
+.orders-page .pagination-container .previous-link a {
+    @apply relative inline-flex items-center h-full px-3 ml-0 rounded-l hover:text-neutral-900;
+}
+
+.orders-page .pagination-container li {
+    @apply hidden h-full md:block;
+}
+
+.orders-page .pagination-container .current-link a {
+    @apply relative inline-flex items-center h-full px-3 text-neutral-900 bg-gray-50;
+}
+
+.orders-page .pagination-container .link a {
+    @apply relative inline-flex items-center h-full px-3 hover:text-neutral-900;
+}
+
+.orders-page .pagination-container .underline {
+    @apply box-content absolute bottom-0 left-0 w-full h-px -mx-px translate-y-px border-l border-r bg-neutral-900 border-neutral-900;
+}
+
+.orders-page .pagination-container .no-underline {
+    @apply box-content absolute bottom-0 w-0 h-px -mx-px duration-200 ease-out translate-y-px border-transparent bg-neutral-900 group-hover:border-l group-hover:border-r group-hover:border-neutral-900 left-1/2 group-hover:left-0 group-hover:w-full;
+}
+
+.orders-page .pagination-container .more {
+    @apply relative inline-flex items-center h-full px-2.5;
+}
+
+.orders-page .pagination-container .next-link a {
+    @apply relative inline-flex items-center h-full px-3 rounded-r hover:text-neutral-900;
+}
