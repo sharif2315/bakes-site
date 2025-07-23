@@ -65,12 +65,10 @@
                 <!-- Select Input - Order Status -->
                 <div>
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Order Status</label>
-                    <select class="__w-field__input">
-                        <option value="#e7000b">Pending</option>
-                        <option value="#5ea500">Confirmed</option>
-                        <option value="#ff8904" selected="">Out for Delivery</option>
-                        <option value="#51a2ff">Delivered</option>
-                        <option value="#c27aff">Collected</option>
+                    <select name="status_choice" class="__w-field__input">
+                        {% for value, label in status_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
                     </select>            
                 </div>
                 
@@ -175,7 +173,19 @@
                             <div class="w-full mb-5">
                                 <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Select Date</label>
                                 <div class="relative w-[18rem]">
-                                    <input x-ref="datePickerInput" type="text" @click="datePickerOpen=!datePickerOpen" x-model="datePickerValue" x-on:keydown.escape="datePickerOpen=false" class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md text-neutral-600 border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Select date" readonly />
+                                    
+                                    <input
+                                        name="date"
+                                        x-ref="datePickerInput" 
+                                        type="text" 
+                                        @click="datePickerOpen=!datePickerOpen" 
+                                        x-model="datePickerValue" 
+                                        x-on:keydown.escape="datePickerOpen=false" 
+                                        class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md text-neutral-600 border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50" 
+                                        placeholder="Select date" 
+                                        readonly 
+                                    />
+                                    
                                     <div @click="datePickerOpen=!datePickerOpen; if(datePickerOpen){ $refs.datePickerInput.focus() }" class="absolute top-0 right-0 px-3 py-2 cursor-pointer text-neutral-400 hover:text-neutral-500">
                                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                     </div>
