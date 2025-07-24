@@ -213,7 +213,9 @@ def view_orders(request: HttpRequest):
     if delivery_method in dict(DELIVERY_METHOD_CHOICES):
         orders = orders.filter(delivery_detail__delivery_method=delivery_method)
     
-    paginator = Paginator(orders, 3)
+    # TODO: build template pagination urls in view not template
+    # TODO: give user option to set 25, 50, 100 rows per page
+    paginator = Paginator(orders, 10)
     try:
         orders = paginator.page(page)
     except PageNotAnInteger:
