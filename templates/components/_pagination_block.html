@@ -3,9 +3,9 @@
         Showing <span>{{ orders.start_index }}</span> to <span>{{ orders.end_index }}</span> of <span>{{ orders.paginator.count }}</span> results
     </p>
     <nav>
-        <ul class="_outline outline-green-500">
+        <ul>
             {% if orders.has_previous %}
-                <li class="previous-link __outline outline-red-500">
+                <li class="previous-link">
                     <a 
                         href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.order_status %}order_status={{ request.GET.order_status }}&{% endif %}{% if request.GET.delivery_method %}delivery_method={{ request.GET.delivery_method }}&{% endif %}page={{ orders.previous_page_number }}"                                
                         class="group"
