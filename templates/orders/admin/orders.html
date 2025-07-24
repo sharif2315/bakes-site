@@ -51,7 +51,7 @@
                     >
                         <option value="">Select status</option>
                         {% for value, label in status_choices %}
-                        <option value="{{ value }}">{{ label }}</option>
+                        <option value="{{ value }}" {% if request.GET.delivery_method == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
                     </select>            
                 </div>
@@ -66,7 +66,7 @@
                     >
                         <option value="">Select method</option>
                         {% for value, label in delivery_methods %}
-                        <option value="{{ value }}">{{ label }}</option>
+                        <option value="{{ value }}" {% if request.GET.delivery_method == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
                     </select>            
                 </div>
@@ -78,9 +78,6 @@
 
         <!-- Orders Table -->
         {% include 'orders/admin/partials/_orders_table.html' %}
-
-        <!-- Pagination Block -->
-        {% include 'components/_pagination_block.html' with page_obj=orders %}     
 
     </div>
 {% endblock %}
