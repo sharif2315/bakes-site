@@ -80,7 +80,7 @@
         {% include 'orders/admin/partials/_orders_table.html' %}
 
         <!-- Pagination Block -->
-        {% include 'components/_pagination_block.html' %}     
+        {% include 'components/_pagination_block.html' with page_obj=orders %}     
 
     </div>
 {% endblock %}

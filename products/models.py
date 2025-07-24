@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.utils.text import slugify
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.contrib.postgres.indexes import GinIndex
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
@@ -36,6 +36,7 @@ class ProductListing(Page):
         query = request.GET.get("q")        
         category_slugs = request.GET.getlist("category")
         dietary_slugs = request.GET.getlist("dietary")
+        page = request.GET.get('page', 1)
 
         products = Product.objects.live().order_by("-first_published_at")
 
@@ -52,6 +53,14 @@ class ProductListing(Page):
         if category_slugs and category_slugs != ['']:
             products = products.filter(category__slug__in=category_slugs)
 
+
+        paginator = Paginator(products, 3)
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
 
         context['breadcrumbs'] = get_breadcrumbs(self)
 

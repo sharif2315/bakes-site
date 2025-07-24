@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponseBadRequest, HttpRequest
 from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from wagtail.admin.auth import permission_required
 
 from utils.products import build_cart_context
@@ -11,6 +12,14 @@ from products.models import Product
 from .models import OrderItem, Order, StoreSettings, DeliveryDetail
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
 from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_CHOICES
+
+from urllib.parse import urlencode
+
+
+def build_pagination_query(request: HttpRequest):
+    query_params = request.GET.copy()
+    query_params.pop("page", None)  # Remove existing 'page' if any
+    return urlencode(query_params)
 
 
 @require_POST
@@ -187,8 +196,6 @@ def order_confirmation(request, order_ref):
 
 # ADMIN VIEWS
 
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
 @permission_required('wagtailadmin.access_admin')
 def view_orders(request: HttpRequest):
     query = request.GET.get('q')
@@ -215,6 +222,7 @@ def view_orders(request: HttpRequest):
     
     # TODO: build template pagination urls in view not template
     # TODO: give user option to set 25, 50, 100 rows per page
+    # BUG: when selecting filters and then visiting next page, query params dont get included in next page
     paginator = Paginator(orders, 10)
     try:
         orders = paginator.page(page)
@@ -227,6 +235,7 @@ def view_orders(request: HttpRequest):
         'orders': orders,
         'status_choices': Order.STATUS_CHOICES,
         'delivery_methods': DELIVERY_METHOD_CHOICES,
+        "base_querystring": build_pagination_query(request),
     }
 
     if request.headers.get("HX-Request") == "true":

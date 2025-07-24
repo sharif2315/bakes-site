@@ -1,13 +1,13 @@
 <div class="pagination-container">
     <p>
-        Showing <span>{{ orders.start_index }}</span> to <span>{{ orders.end_index }}</span> of <span>{{ orders.paginator.count }}</span> results
+        Showing <span>{{ page_obj.start_index }}</span> to <span>{{ page_obj.end_index }}</span> of <span>{{ page_obj.paginator.count }}</span> results
     </p>
     <nav>
         <ul>
-            {% if orders.has_previous %}
+            {% if page_obj.has_previous %}
                 <li class="previous-link">
-                    <a 
-                        href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.order_status %}order_status={{ request.GET.order_status }}&{% endif %}{% if request.GET.delivery_method %}delivery_method={{ request.GET.delivery_method }}&{% endif %}page={{ orders.previous_page_number }}"                                
+                    <a
+                        href="?{{ base_querystring }}{% if base_querystring %}&{% endif %}page={{ page_obj.previous_page_number }}"
                         class="group"
                     >
                         <span>Previous</span>
@@ -15,25 +15,25 @@
                 </li>
             {% endif %}
 
-            {% for num in orders.paginator.page_range %}
-                {% if num == orders.number %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
                     <li class="current-link">
                         <a href="#" class="group">
                             <span>{{ num }}</span>
                             <span class="underline"></span>
                         </a>
                     </li>
-                {% elif num >= orders.number|add:-2 and num <= orders.number|add:2 %}
+                {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
                     <li class="link">
                         <a                            
-                            href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.order_status %}order_status={{ request.GET.order_status }}&{% endif %}{% if request.GET.delivery_method %}delivery_method={{ request.GET.delivery_method }}&{% endif %}page={{ num }}"
+                            href="?{{ base_querystring }}{% if base_querystring %}&{% endif %}page={{ num }}"
                             class="group"
                         >
                             <span>{{ num }}</span>
                             <span class="no-underline"></span>
                         </a>
                     </li>
-                {% elif num == orders.number|add:-3 or num == orders.number|add:3 %}
+                {% elif num == page_obj.number|add:-3 or num == page_obj.number|add:3 %}
                     <li>
                         <div class="more">
                             <span>...</span>
@@ -42,10 +42,10 @@
                 {% endif %}
             {% endfor %}
 
-            {% if orders.has_next %}
+            {% if page_obj.has_next %}
                 <li class="h-full next-link">
-                    <a 
-                        href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.order_status %}order_status={{ request.GET.order_status }}&{% endif %}{% if request.GET.delivery_method %}delivery_method={{ request.GET.delivery_method }}&{% endif %}page={{ orders.next_page_number }}"       
+                    <a    
+                        href="?{{ base_querystring }}{% if base_querystring %}&{% endif %}page={{ page_obj.next_page_number }}"
                         class="group"
                     >
                         <span>Next</span>
