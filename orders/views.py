@@ -12,8 +12,7 @@ from products.models import Product
 from .models import OrderItem, Order, StoreSettings, DeliveryDetail
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
 from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_CHOICES
-
-from urllib.parse import urlencode
+from utils.pagination import build_pagination_query
 
 
 @require_POST
@@ -190,11 +189,6 @@ def order_confirmation(request, order_ref):
 
 # ADMIN VIEWS
 
-def build_pagination_query(request: HttpRequest):
-    query_params = request.GET.copy()
-    query_params.pop("page", None)  # Remove existing 'page' if any
-    return urlencode(query_params) 
-
 @permission_required('wagtailadmin.access_admin')
 def view_orders(request: HttpRequest):
     query = request.GET.get('q')
@@ -213,23 +207,16 @@ def view_orders(request: HttpRequest):
         orders = orders.annotate(search=search_vector).filter(search=search_query)
     
     status_choices = [ val for val,label in Order.STATUS_CHOICES ]
-    # if order_status in status_choices:
-    #     orders = orders.filter(status=order_status)
 
     if order_status:
         if order_status in status_choices:
             orders = orders.filter(status=order_status)    
 
-    # if delivery_method in dict(DELIVERY_METHOD_CHOICES):
-    #     orders = orders.filter(delivery_detail__delivery_method=delivery_method)
-
     if delivery_method:
         if delivery_method in dict(DELIVERY_METHOD_CHOICES):
             orders = orders.filter(delivery_detail__delivery_method=delivery_method)    
     
-    # TODO: build template pagination urls in view not template
     # TODO: give user option to set 25, 50, 100 rows per page
-    # BUG: when selecting filters and then visiting next page, query params dont get included in next page
     paginator = Paginator(orders, 5)
     try:
         orders = paginator.page(page)
@@ -244,8 +231,6 @@ def view_orders(request: HttpRequest):
         'delivery_methods': DELIVERY_METHOD_CHOICES,
         "base_querystring": build_pagination_query(request),
     }
-
-    print("BASE QUERYSTRING:", build_pagination_query(request))
 
     if request.headers.get("HX-Request") == "true":
         return render(request, 'orders/admin/partials/_orders_table.html', context)

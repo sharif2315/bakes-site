@@ -11,6 +11,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 
 from utils.breadcrumbs import get_breadcrumbs
+from utils.pagination import build_pagination_query
 
 
 class ProductListing(Page):
@@ -54,13 +55,15 @@ class ProductListing(Page):
             products = products.filter(category__slug__in=category_slugs)
 
 
-        paginator = Paginator(products, 3)
+        paginator = Paginator(products, 2)
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
             products = paginator.page(1)
         except EmptyPage:
             products = paginator.page(paginator.num_pages)
+        
+        context["base_querystring"] = build_pagination_query(request)
 
         context['breadcrumbs'] = get_breadcrumbs(self)
 
