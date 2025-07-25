@@ -24,6 +24,11 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
+# Install Node.js (using NodeSource official setup for Node 20.x, adjust if needed)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    node -v && npm -v
+
 # Install the application server.
 RUN pip install "gunicorn==20.0.4"
 
@@ -44,6 +49,9 @@ COPY --chown=wagtail:wagtail . .
 
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail
+
+# Install npm packages and build the frontend assets using Vite
+RUN npm install && npm run build
 
 # Collect static files.
 RUN python manage.py collectstatic --noinput --clear
