@@ -194,8 +194,7 @@ def view_orders(request: HttpRequest):
     query = request.GET.get('q')
     order_status = request.GET.get('order_status')
     delivery_method = request.GET.get('delivery_method')
-    page = request.GET.get('page', 1)
-
+    
     orders = Order.objects.select_related('address').order_by('-created_at')
 
     if query:
@@ -217,7 +216,8 @@ def view_orders(request: HttpRequest):
             orders = orders.filter(delivery_detail__delivery_method=delivery_method)    
     
     # TODO: give user option to set 25, 50, 100 rows per page
-    paginator = Paginator(orders, 5)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(orders, 25)
     try:
         orders = paginator.page(page)
     except PageNotAnInteger:

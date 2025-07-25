@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.http import HttpRequest
 from django.shortcuts import render
 from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
@@ -13,6 +14,7 @@ from taggit.models import TaggedItemBase, Tag
 
 from products.models import DietaryOption, Category
 from utils.breadcrumbs import get_breadcrumbs
+from utils.pagination import build_pagination_query
 
 
 rt_features=['h2', 'h3', 'h4', 'bold', 'italic', 'ol', 'ul', 'hr']
@@ -76,6 +78,17 @@ class RecipeIndex(Page):
 
         if has_no_filters and self.featured_recipe:
             recipes = recipes.exclude(id=self.featured_recipe.id)
+
+        page = request.GET.get('page', 1)
+        paginator = Paginator(recipes, 25)
+        try:
+            recipes = paginator.page(page)
+        except PageNotAnInteger:
+            recipes = paginator.page(1)
+        except EmptyPage:
+            recipes = paginator.page(paginator.num_pages)
+        
+        context["base_querystring"] = build_pagination_query(request)
 
         context['recipes'] = recipes
         context['breadcrumbs'] = get_breadcrumbs(self)

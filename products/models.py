@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from django.shortcuts import render
+from django.http import HttpRequest
 from django.utils.text import slugify
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.contrib.postgres.indexes import GinIndex
@@ -31,13 +32,12 @@ class ProductListing(Page):
         FieldPanel('description'),
     ]
 
-    def get_context(self, request):
+    def get_context(self, request: HttpRequest):
         context = super().get_context(request)
 
         query = request.GET.get("q")        
         category_slugs = request.GET.getlist("category")
         dietary_slugs = request.GET.getlist("dietary")
-        page = request.GET.get('page', 1)
 
         products = Product.objects.live().order_by("-first_published_at")
 
@@ -54,8 +54,8 @@ class ProductListing(Page):
         if category_slugs and category_slugs != ['']:
             products = products.filter(category__slug__in=category_slugs)
 
-
-        paginator = Paginator(products, 2)
+        page = request.GET.get('page', 1)
+        paginator = Paginator(products, 25)
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
