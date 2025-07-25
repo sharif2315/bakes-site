@@ -12,6 +12,8 @@ media/
 # vite files
 /assets
 
+staticfiles/*
+
 # Distribution / packaging
 .Python
 build/
