@@ -51,7 +51,7 @@
                     >
                         <option value="">Select status</option>
                         {% for value, label in status_choices %}
-                        <option value="{{ value }}" {% if request.GET.delivery_method == value %}selected{% endif %}>{{ label }}</option>
+                        <option value="{{ value }}" {% if request.GET.order_status == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
                     </select>            
                 </div>
