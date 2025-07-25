@@ -6,15 +6,17 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 SECRET_KEY = config('SECRET_KEY')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-DJANGO_VITE = {
-    "default": {
-        "dev_mode": DEBUG
-    }
-}
 
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
+
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": DEBUG,
+        "manifest_path": os.path.join(BASE_DIR, "assets", "manifest.json"),
+    }
+}
 
 INSTALLED_APPS = [
     "home",
@@ -132,12 +134,15 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "assets"),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_URL = "/static/"
+# STATIC_URL = "/static/"
+STATIC_URL = f"{config('AWS_S3_ENDPOINT_URL')}/{config('AWS_STORAGE_BUCKET_NAME')}/static/"
 
 MEDIA_URL = f"{config('AWS_S3_ENDPOINT_URL')}/{config('AWS_STORAGE_BUCKET_NAME')}/"
 
@@ -204,3 +209,38 @@ if config("EMAIL_HOST_USER", default=None):
 # Recaptcha Settings
 RECAPTCHA_PUBLIC_KEY = config("RECAPTCHA_PUBLIC_KEY") # site key
 RECAPTCHA_PRIVATE_KEY = config("RECAPTCHA_PRIVATE_KEY") # secret key
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "django.log"),
+            "formatter": "verbose",
+        },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console", "file"],
+        "level": "DEBUG",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}

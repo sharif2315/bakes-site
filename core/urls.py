@@ -7,8 +7,15 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
+from django.http import HttpResponseNotFound
+
+
+def ignore_well_known(request):
+    return HttpResponseNotFound()
 
 urlpatterns = [
+    path('.well-known/appspecific/com.chrome.devtools.json', ignore_well_known),
+
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
