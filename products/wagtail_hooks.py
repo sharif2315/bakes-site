@@ -7,6 +7,7 @@ from .models import DietaryOption, Category
 @register_snippet
 class DietaryOptionSnippetViewSet(SnippetViewSet):
     model = DietaryOption
+    icon = 'sliders'
     add_to_admin_menu = True
     menu_label = "Dietary Options"
     menu_order = 210

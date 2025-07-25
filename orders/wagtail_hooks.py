@@ -24,6 +24,7 @@ def register_view_orders_menu_item():
 @register_snippet
 class StoreSettingsSnippetViewSet(SnippetViewSet):
     model = StoreSettings
+    icon = 'cog'
     add_to_admin_menu = True
     menu_label = "Store Settings"
     menu_order = 260
