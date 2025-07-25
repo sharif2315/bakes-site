@@ -1,6 +1,5 @@
 import os
 from decouple import config, Csv
-from storages.backends.s3boto3 import S3Boto3Storage
 
 
 DEBUG = config('DEBUG', default=False, cast=bool)
