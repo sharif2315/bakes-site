@@ -17,16 +17,16 @@
             <div x-show="slideOverOpen" x-transition.opacity.duration.600ms @click="slideOverOpen = false" class="fixed inset-0 bg-black/50"></div>
             <div class="fixed inset-0 overflow-hidden">
                 <div class="absolute inset-0 overflow-hidden">
-                    <div class="fixed inset-y-0  flex max-w-full {% if slide_direction == 'left' %} left-0 pr-10 {% else %} right-0 pl-10 {% endif %}">
+                    <div class="fixed inset-y-0  flex max-w-full {% block slide_direction_class %}right-0 pl-10{% endblock %}">
                         <div 
                             x-show="slideOverOpen" 
                             @click.away="slideOverOpen = false"
                             x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" 
-                            x-transition:enter-start="{% if slide_direction == 'left' %} -translate-x-full {% else %} translate-x-full {% endif %}" 
+                            x-transition:enter-start="{% block x_transition_enter_start %}translate-x-full{% endblock %}" 
                             x-transition:enter-end="translate-x-0" 
                             x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" 
                             x-transition:leave-start="translate-x-0" 
-                            x-transition:leave-end="{% if slide_direction == 'left' %} -translate-x-full {% else %} translate-x-full {% endif %}" 
+                            x-transition:leave-end="{% block x_transition_leave_end %}translate-x-full{% endblock %}" 
                             class="w-screen max-w-md">
                             
 
