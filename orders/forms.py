@@ -1,7 +1,8 @@
 from django.conf import settings
 from django import forms
 from django_recaptcha.fields import ReCaptchaField
-from .models import Order, Address, DeliveryDetail, StoreSettings
+from .models import Order, Address, DeliveryDetail
+from home.models import StoreSettings
 from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_DELIVERY
 
 

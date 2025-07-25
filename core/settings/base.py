@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'django_recaptcha',
 ]
 
+INSTALLED_APPS += [
+    'wagtail.contrib.settings',
+]
+
 MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

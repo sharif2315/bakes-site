@@ -1,6 +1,13 @@
+import json
+
 from django.db import models
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.core.exceptions import ValidationError
+from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.http import urlencode
+
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.models import Page, Orderable
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.fields import StreamField
@@ -8,12 +15,49 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.blocks import StructBlock, CharBlock, TextBlock, ListBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 from modelcluster.fields import ParentalKey
-from django.core.serializers.json import DjangoJSONEncoder
-from django.utils.http import urlencode
-import json
 
 from utils.email import send_contact_email
 from .forms import ContactForm
+
+
+# TODO: if Collection, order delivery_charge should be 0.00
+@register_setting
+class StoreSettings(BaseSiteSetting):
+    favicon = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    allow_delivery = models.BooleanField(default=True)
+    allow_collection = models.BooleanField(default=True)
+    delivery_charge = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=5.00,
+        help_text="Charge for delivery service",
+    )
+    
+    def save(self, *args, **kwargs):
+        if not self.pk and StoreSettings.objects.exists():
+            raise ValidationError("Only one StoreSettings instance allowed.")
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "Store Settings"
+
+    class Meta:
+        verbose_name = "Store Settings"
+        verbose_name_plural = "Store Settings"
+
+    panels = [
+        FieldPanel('favicon'),
+        FieldPanel('allow_delivery'),
+        FieldPanel('allow_collection'),
+        FieldPanel('delivery_charge'),
+
+    ]
 
 
 class SvgIcon(models.Model):

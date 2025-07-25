@@ -1,18 +1,21 @@
 from decimal import Decimal
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import HttpResponseBadRequest, HttpRequest
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 from wagtail.admin.auth import permission_required
 
 from utils.products import build_cart_context
+from utils.pagination import build_pagination_query
 from home.models import HomePage
 from products.models import Product
-from .models import OrderItem, Order, StoreSettings, DeliveryDetail
+from .models import OrderItem, Order
+from home.models import StoreSettings
 from .forms import OrderForm, AddressForm, DeliveryDetailForm
 from .constants import DELIVERY_METHOD_COLLECTION, DELIVERY_METHOD_CHOICES
-from utils.pagination import build_pagination_query
 
 
 @require_POST

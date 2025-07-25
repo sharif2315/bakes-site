@@ -1,12 +1,9 @@
 from django.urls import path, reverse
+
 from wagtail.admin.menu import MenuItem
-from wagtail.admin.panels import FieldPanel
-from wagtail.snippets.models import register_snippet
-from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail import hooks
 
 from .views import view_orders, view_order_detail
-from .models import StoreSettings
 
 
 @hooks.register('register_admin_urls')
@@ -19,26 +16,3 @@ def register_view_orders_url():
 @hooks.register('register_admin_menu_item')
 def register_view_orders_menu_item():
     return MenuItem('Orders', reverse('view_orders'), icon_name='doc-full', order=200)
-
-
-@register_snippet
-class StoreSettingsSnippetViewSet(SnippetViewSet):
-    model = StoreSettings
-    icon = 'cog'
-    add_to_admin_menu = True
-    menu_label = "Store Settings"
-    menu_order = 260
-    list_display = [
-        "allow_delivery",
-        "allow_collection",
-        "delivery_charge",
-        ]
-    search_fields = ["allow_delivery", "allow_collection", "delivery_charge"]
-    panels = [
-        FieldPanel("allow_delivery"),
-        FieldPanel("allow_collection"),
-        FieldPanel("delivery_charge"),
-    ]
-    # 🔒 Prevent creating more than one
-    def has_add_permission(self, request):
-        return not StoreSettings.objects.exists()

@@ -1,34 +1,11 @@
 import uuid
 from datetime import timedelta
+
 from django.db import models
 from django.utils import timezone
-from django.core.exceptions import ValidationError
+
 from products.models import Product
 from .constants import DELIVERY_METHOD_CHOICES, DELIVERY_METHOD_DELIVERY
-
-# TODO: if Collection, order delivery_charge should be 0.00
-
-class StoreSettings(models.Model):
-    allow_delivery = models.BooleanField(default=True)
-    allow_collection = models.BooleanField(default=True)
-    delivery_charge = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=5.00,
-        help_text="Charge for delivery service",
-    )
-    
-    def save(self, *args, **kwargs):
-        if not self.pk and StoreSettings.objects.exists():
-            raise ValidationError("Only one StoreSettings instance allowed.")
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return "Store Settings"
-
-    class Meta:
-        verbose_name = "Store Settings"
-        verbose_name_plural = "Store Settings"
 
 
 class Address(models.Model):
