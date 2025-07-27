@@ -9,21 +9,9 @@
   {% endif %}
 {% endblock %}
 
-{% block x_transition_enter_start %}
-  {% if slide_direction == 'left' %}
-    -translate-x-full
-  {% else %}
-    translate-x-full
-  {% endif %}
-{% endblock %}
+{% block x_transition_enter_start %}{% if slide_direction == 'left' %}-translate-x-full{% else %}translate-x-full{% endif %}{% endblock %}
 
-{% block x_transition_leave_end %}
-  {% if slide_direction == 'left' %}
-    -translate-x-full
-  {% else %}
-    translate-x-full
-  {% endif %}
-{% endblock %}
+{% block x_transition_leave_end %}{% if slide_direction == 'left' %}-translate-x-full{% else %}translate-x-full{% endif %}{% endblock %}
 
 {% block slide_over_trigger_btn %}
 <span class="h-8 w-8 flex justify-center items-center">
