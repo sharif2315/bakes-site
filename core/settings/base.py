@@ -210,7 +210,7 @@ EMAIL_BACKEND = config(
     default="django.core.mail.backends.console.EmailBackend"
 )
 EMAIL_HOST = config("EMAIL_HOST", default=None)
-EMAIL_PORT = config("EMAIL_PORT", default=None, cast=int)
+EMAIL_PORT = config("EMAIL_PORT", default=None)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
 EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=None)
