@@ -15,7 +15,8 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 DJANGO_VITE = {
     "default": {
         "dev_mode": DEBUG,
-        "manifest_path": os.path.join(BASE_DIR, "assets", "manifest.json"),
+        # "manifest_path": os.path.join(BASE_DIR, "assets", "manifest.json"),
+        "manifest_path": os.path.join(BASE_DIR, "static", "dist", "manifest.json"),
     }
 }
 
@@ -138,7 +139,8 @@ STATICFILES_FINDERS = [
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "assets"),
+    # os.path.join(BASE_DIR, "assets"),
+    os.path.join(BASE_DIR, "static", "dist"),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
