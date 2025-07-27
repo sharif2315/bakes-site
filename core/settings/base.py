@@ -205,13 +205,16 @@ WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'tx
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email settings
-EMAIL_BACKEND = config("EMAIL_BACKEND")
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = config("EMAIL_PORT", cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
-CONTACT_FORM_RECEIVER = config("CONTACT_FORM_RECEIVER")
+EMAIL_BACKEND = config(
+    "EMAIL_BACKEND", 
+    default="django.core.mail.backends.console.EmailBackend"
+)
+EMAIL_HOST = config("EMAIL_HOST", default=None)
+EMAIL_PORT = config("EMAIL_PORT", default=None, cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=None)
+CONTACT_FORM_RECEIVER = config("CONTACT_FORM_RECEIVER", default=None)
 
 # Omit EMAIL_HOST_USER and EMAIL_HOST_PASSWORD unless needed
 if config("EMAIL_HOST_USER", default=None):
