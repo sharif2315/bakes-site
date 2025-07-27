@@ -141,30 +141,12 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+"""
+Since you're using S3/MinIO for both local and production, STATIC_ROOT will not be used, because collectstatic pushes directly to S3 storage backend
+"""
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATICFILES_DIRS = [
-    # os.path.join(BASE_DIR, "assets"),
-    os.path.join(BASE_DIR, "static", "dist"),
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# STATIC_URL = "/static/"
-STATIC_URL = f"{config('AWS_S3_ENDPOINT_URL')}/{config('AWS_STORAGE_BUCKET_NAME')}/"
-
-MEDIA_URL = f"{config('AWS_S3_ENDPOINT_URL')}/{config('AWS_STORAGE_BUCKET_NAME')}/"
-
-
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        # "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-    },
-}
-
+# Common AWS/MinIO Settings
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
@@ -173,6 +155,27 @@ AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL")
 AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="us-east-1")
 AWS_S3_FILE_OVERWRITE = config("AWS_S3_FILE_OVERWRITE", cast=bool, default=False)
 AWS_QUERYSTRING_AUTH = config("AWS_QUERYSTRING_AUTH", cast=bool, default=False)
+
+# Always use S3/MinIO for static and media
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+STATIC_URL = f"{config('AWS_S3_ENDPOINT_URL')}/{config('AWS_STORAGE_BUCKET_NAME')}/static/"
+MEDIA_URL = f"{config('AWS_S3_ENDPOINT_URL')}/{config('AWS_STORAGE_BUCKET_NAME')}/media/"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+}
+
+# Avoid STATICFILES_DIRS error in local if folder doesn't exist
+STATICFILES_DIRS = []
+static_dist_path = os.path.join(BASE_DIR, "static", "dist")
+if os.path.isdir(static_dist_path):
+    STATICFILES_DIRS.append(static_dist_path)
 
 AWS_DEFAULT_ACL = None
 

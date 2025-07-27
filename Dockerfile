@@ -47,12 +47,10 @@ COPY --chown=wagtail:wagtail . .
 # Copy built frontend assets from Node stage
 COPY --from=frontend-builder /app/assets /app/static/dist
 
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
 USER wagtail
 
-# Collect static files
-# RUN python manage.py collectstatic --noinput --clear
 
-# CMD set -xe; python manage.py migrate --noinput; gunicorn core.wsgi:application
-CMD set -xe; python manage.py migrate --noinput; python manage.py collectstatic --noinput; gunicorn core.wsgi:application
-
-
+CMD set -xe; python manage.py migrate --noinput; gunicorn core.wsgi:application
