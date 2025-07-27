@@ -1,20 +1,30 @@
-# Use an official Python runtime based on Debian 12 "bookworm" as a parent image.
+# ----------- Stage 1: Node Build -----------
+FROM node:20-slim AS frontend-builder
+
+WORKDIR /app
+
+# Install dependencies first for better caching
+COPY package*.json ./
+RUN npm install
+
+# Copy all frontend files and build
+COPY . .
+RUN npm run build
+
+
+# ----------- Stage 2: Python Runtime -----------
 FROM python:3.12-slim-bookworm
 
-# Add user that will be used in the container.
+# Add wagtail user
 RUN useradd wagtail
 
-# Port used by this container to serve HTTP.
+WORKDIR /app
 EXPOSE 8000
 
-# Set environment variables.
-# 1. Force Python stdout and stderr streams to be unbuffered.
-# 2. Set PORT variable that is used by Gunicorn. This should match "EXPOSE"
-#    command.
 ENV PYTHONUNBUFFERED=1 \
     PORT=8000
 
-# Install system packages required by Wagtail and Django.
+# Install system packages
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -24,45 +34,25 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (using NodeSource official setup for Node 20.x, adjust if needed)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
-    node -v && npm -v
-
 # Install the application server.
 RUN pip install "gunicorn==20.0.4"
 
-# Install the project requirements.
+# Install Python dependencies
 COPY requirements.txt /
 RUN pip install -r /requirements.txt
 
-# Use /app folder as a directory where the source code is stored.
-WORKDIR /app
-
-# Set this directory to be owned by the "wagtail" user. This Wagtail project
-# uses SQLite, the folder needs to be owned by the user that
-# will be writing to the database file.
-RUN chown wagtail:wagtail /app
-
-# Copy the source code of the project into the container.
+# Copy Django project files
 COPY --chown=wagtail:wagtail . .
 
-# Use user "wagtail" to run the build commands below and the server itself.
+# Copy built frontend assets from Node stage
+COPY --from=frontend-builder /app/assets /app/static/dist
+
 USER wagtail
 
-# Install npm packages and build the frontend assets using Vite
-RUN npm install && npm run build
+# Collect static files
+# RUN python manage.py collectstatic --noinput --clear
 
-# Collect static files.
-RUN python manage.py collectstatic --noinput --clear
+# CMD set -xe; python manage.py migrate --noinput; gunicorn core.wsgi:application
+CMD set -xe; python manage.py migrate --noinput; python manage.py collectstatic --noinput; gunicorn core.wsgi:application
 
-# Runtime command that executes when "docker run" is called, it does the
-# following:
-#   1. Migrate the database.
-#   2. Start the application server.
-# WARNING:
-#   Migrating database at the same time as starting the server IS NOT THE BEST
-#   PRACTICE. The database should be migrated manually or using the release
-#   phase facilities of your hosting platform. This is used only so the
-#   Wagtail instance can be started with a simple "docker run" command.
-CMD set -xe; python manage.py migrate --noinput; gunicorn core.wsgi:application
+

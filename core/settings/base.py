@@ -11,10 +11,22 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
+
+"""
+Local (DEBUG=True): Looks for assets/manifest.json
+
+Production: Looks for static/dist/manifest.json
+"""
+if DEBUG:
+    VITE_MANIFEST_PATH = os.path.join(BASE_DIR, "assets", "manifest.json")
+else:
+    VITE_MANIFEST_PATH = os.path.join(BASE_DIR, "static", "dist", "manifest.json")
+
 DJANGO_VITE = {
     "default": {
         "dev_mode": DEBUG,
         # "manifest_path": os.path.join(BASE_DIR, "assets", "manifest.json"),
+        "manifest_path": VITE_MANIFEST_PATH,
     }
 }
 
