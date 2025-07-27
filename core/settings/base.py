@@ -226,6 +226,7 @@ if config("EMAIL_HOST_USER", default=None):
 RECAPTCHA_PUBLIC_KEY = config("RECAPTCHA_PUBLIC_KEY") # site key
 RECAPTCHA_PRIVATE_KEY = config("RECAPTCHA_PRIVATE_KEY") # secret key
 
+# Full logging
 # LOGGING = {
 #     "version": 1,
 #     "disable_existing_loggers": False,
