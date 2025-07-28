@@ -24,8 +24,8 @@ class ContactSubmissionViewSet(SnippetViewSet):
     add_to_admin_menu = True
     menu_label = "Inbox"
     menu_order = 250
-    list_display = ["first_name", "last_name", "email", "submitted_at"]
-    search_fields = ["first_name", "last_name", "email"]
+    list_display = ["email", "message", "submitted_at"]
+    search_fields = ["first_name", "last_name", "message", "email"]
     panels = [
         FieldPanel("first_name"),
         FieldPanel("last_name"),
