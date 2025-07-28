@@ -21,7 +21,8 @@
 
 
 {% block title %}
-<a href="{{ home_page.url }}">Richmond Bakes</a>
+{% wagtail_site as current_site %}
+<a href="{{ home_page.url }}">{{ current_site.site_name|default:'' }}</a>
 {% endblock title %}
 
 

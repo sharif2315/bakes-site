@@ -1,4 +1,4 @@
-{% load django_browser_reload %}
+{% load django_browser_reload wagtailsettings_tags wagtailimages_tags %}
 {% load static wagtailcore_tags wagtailuserbar %}
 {% load django_vite %}
 
@@ -30,6 +30,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
         <!-- Favicon -->
+        {% get_settings use_default_site=True as settings %}
+        {% if settings.home.StoreSettings.favicon %}
+            {% image settings.home.StoreSettings.favicon original as favicon_img %}
+            <link rel="icon" href="{{ favicon_img.url }}" type="image/png">
+        {% endif %}
+        
 
         <!-- Vite Tags -->
         {% vite_hmr_client %}
