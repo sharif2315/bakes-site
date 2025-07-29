@@ -11,89 +11,91 @@
         <ul>
             {% for item in cart_items %}
             <li>
-            <div class="flex border-l border-r border-t {% if forloop.first %} rounded-t-sm {% endif %} {% if forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
+                <div class="flex border-l border-r border-t {% if forloop.first %} rounded-t-sm {% endif %} {% if forloop.last %} border-b rounded-b-sm{% endif %} border-gray-200 bg-white">
 
-                <!-- product image -->
-                <div class="p-3">
-                {% image item.image fill-200x200 as product_image %}
-                <img
-                    src="{{ product_image.url }}"
-                    alt="Product Image"
-                    class="w-full h-auto object-cover rounded-sm"
-                />
-                </div>
-
-                <!-- product: name, price, delete btn, qty btn -->
-                <div class="flex flex-col justify-between space-y-8 text-sm w-full px-4 py-3">
-
-                    <!-- product: name, delete btn -->
-                    <div class="flex justify-between items-center">
-                        <p>{{ item.title }}</p>
-                    
-                        <!-- Delete Item Form -->
-                        <form
-                            hx-delete="{% url 'remove_item_from_checkout' product_id=item.id %}"
-                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        >
-
-                            <button class="hover:cursor-pointer text-gray-500 hover:text-red-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                            </button>
-                        </form>
-
+                    <!-- product image -->
+                    <div class="p-3">
+                    {% image item.image fill-150x150 as product_image %}
+                    <img
+                        src="{{ product_image.url }}"
+                        alt="Product Image"
+                        class="w-full h-auto object-cover rounded-sm"
+                    />
                     </div>
-        
-                    <!-- product: price, qty btn -->
-                    <div class="flex justify-between items-center">
-                        <p>£{{ item.price }}</p>
 
-                        <!-- Quantity Input -->
-                        <div class="flex justify-center items-center text-lg rounded border border-slate-400 max-w-32">
-                            
-                            <!-- Minus Icon -->
-                            <form 
-                                hx-post="{% url 'update_item_quantity' product_id=item.id %}" 
-                                hx-include="[name=action]"
-                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                                hx-swap="outerHTML"
-                            >
-                                <input type="hidden" name="action" value="decrement">
+                    <!-- product: name, price, delete btn, qty btn -->
+                    <div class="flex flex-col justify-between space-y-8 text-sm w-full px-4 py-3">
 
-                                <button type="submit" type="button" class="py-2 px-3 text-slate-700 hover:cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
-                                </button>
-                            </form> 
-
-                            <input 
-                                type="number" 
-                                class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none py-1 text-sm" 
-                                min="1"
-                                value="{{ item.quantity }}"
-                                name="quantity"
-                                disabled
-                            >
-                            
-                            <!-- Add Icon -->
+                        <!-- product: name, delete btn -->
+                        <div class="flex justify-between items-center">
+                            <p>{{ item.title }}</p>
+                        
+                            <!-- Delete Item Form -->
                             <form
-                                hx-post="{% url 'update_item_quantity' product_id=item.id %}" 
-                                hx-include="[name=action]"
+                                hx-delete="{% url 'remove_item_from_checkout' product_id=item.id %}"
                                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                                hx-swap="outerHTML"                            
                             >
-                                <input type="hidden" name="action" value="increment">
 
-                                <button type="submit" class="py-2 px-3 text-slate-700 hover:cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                                <button class="hover:cursor-pointer text-gray-500 hover:text-red-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                                 </button>
                             </form>
-                            
-                        </div>                        
 
+                        </div>
+            
+                        <!-- product: price, qty btn -->
+                        <div class="flex justify-between items-center">
+                            <p>£{{ item.price }}</p>
+
+                            <!-- Quantity Input -->
+                            <div class="flex justify-center items-center text-lg rounded border border-slate-400 max-w-28">
+                                
+                                <!-- Minus Icon -->
+                                <form 
+                                    hx-post="{% url 'update_item_quantity' product_id=item.id %}" 
+                                    hx-include="[name=action]"
+                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                    hx-swap="outerHTML"
+                                    class="flex justify-center" 
+                                    
+                                >
+                                    <input type="hidden" name="action" value="decrement">
+
+                                    <button type="submit" type="button" class="p-2 text-slate-700 hover:cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
+                                    </button>
+                                </form> 
+
+                                <input 
+                                    type="number" 
+                                    class="max-w-12 text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none py-1 text-sm" 
+                                    min="1"
+                                    value="{{ item.quantity }}"
+                                    name="quantity"
+                                    disabled
+                                >
+                                
+                                <!-- Add Icon -->
+                                <form
+                                    hx-post="{% url 'update_item_quantity' product_id=item.id %}" 
+                                    hx-include="[name=action]"
+                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                    hx-swap="outerHTML"     
+                                    class="flex justify-center"                       
+                                >
+                                    <input type="hidden" name="action" value="increment">
+
+                                    <button type="submit" class="p-2 text-slate-700 hover:cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                                    </button>
+                                </form>
+                                
+                            </div>                        
+
+                        </div>
                     </div>
+
                 </div>
-
-            </div>
-
             </li>
             {% endfor %}
         </ul>

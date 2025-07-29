@@ -2,17 +2,17 @@
 {% block inner_content %}
 
     <div>
-    <h1 class="text-3xl font-bold mb-3">Checkout</h1>
-    <p class="text-gray-600 mb-4">Please review your order and fill in your details below.</p>
+        <h1 class="text-3xl font-bold mb-3">Checkout</h1>
+        <p class="text-gray-600 mb-4">Please review your order and fill in your details below.</p>
     </div>
 
     <!-- Order Summary and Checkout Form -->
-    <div class="grid md:grid-cols-2 gap-16 bg-gray-50 p-8 rounded-lg border border-gray-200 justify-center">
+    <div class="grid md:grid-cols-2 gap-16 xs:bg-gray-50 xs:p-8 rounded-lg xs:border border-gray-200 justify-center">
 
-    <!-- Order Summary -->
-    {% include 'orders/checkout/_order_summary.html' %}
+        <!-- Order Summary -->
+        {% include 'orders/checkout/_order_summary.html' %}
 
-    <!-- Order Details -->
+        <!-- Order Details -->
         {% include 'orders/checkout/_order_details.html' %}
 
     </div>

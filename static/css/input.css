@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
 .richtext ol {
     @apply list-decimal list-outside flex flex-col gap-3 pl-2 space-y-2;
 }

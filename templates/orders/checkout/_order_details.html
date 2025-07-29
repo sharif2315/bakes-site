@@ -2,7 +2,7 @@
     id="order-form" 
     method="POST" 
     action="{% url 'checkout' %}" 
-    class="space-y-10 max-w-md" 
+    class="space-y-10 mx-auto max-w-xs xs:max-w-md" 
     x-data="formHandler()" x-init="init()"
 >
     {% csrf_token %}
@@ -31,7 +31,7 @@
         <div class="space-y-3">
         
             <!-- First Name & Last Name Container -->
-            <div class="flex gap-3">
+            <div class="flex flex-col xs:flex-row gap-3">
                 
                 <!-- First Name Input with Label Group -->
                 <div>
@@ -369,7 +369,7 @@
 
 
             <!-- Town/City & Postcode Container -->
-            <div class="flex gap-3 justify-between">
+            <div class="flex flex-col xs:flex-row gap-3 xs:justify-between">
                 <!-- Town/City Input with Label Group -->
                 <div>
                     <!-- Town Label -->
@@ -414,13 +414,13 @@
 
     </div>
 
+    <!-- Recaptcha-->
     <div class="space-y-3">        
         <!-- captcha Errors -->
         {% for error in order_form.captcha.errors %}
             <p class="error-msg-text">{{ error }}</p>
         {% endfor %}   
 
-        
         <!-- captcha field -->
         <div class="{% if order_form.captcha.errors %} captcha-error-field-outer {% endif %}">
             {{ order_form.captcha }}
