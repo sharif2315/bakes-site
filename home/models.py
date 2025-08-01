@@ -1,5 +1,5 @@
 import json
-
+from urllib.parse import quote
 from django.db import models
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -146,6 +146,16 @@ class ContactMethod(Orderable):
 
     def __str__(self):
         return self.contact_text
+
+    def get_contact_url(self):
+        text = self.contact_text.strip()
+        if self.contact_type == 'phone':
+            return f"tel:{text.replace(' ', '')}"
+        elif self.contact_type == 'email':
+            return f"mailto:{text}"
+        elif self.contact_type == 'address':
+            return f"https://www.google.com/maps/search/{quote(text)}"
+        return "#"
 
 
 class GalleryImage(Orderable):

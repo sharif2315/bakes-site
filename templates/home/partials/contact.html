@@ -14,8 +14,11 @@
                 
                 {% if page.contact_methods.all %}
                     {% for entry in page.contact_methods.all %}
+
+
                     <a 
-                        href="{{ entry.get_url }}" target="_blank" 
+                        href="{{ entry.get_contact_url }}" 
+                        target="_blank" 
                         class="flex gap-4 items-center hover:cursor-pointer">
 
                         {% if entry.svg_icon %}
@@ -24,13 +27,10 @@
                         </div>
                         {% endif %}
 
-                        {% if entry.get_url %}
                         <p>{{ entry.contact_text }}</p>
-
-                        {% else %}
-                        <p>{{ entry.contact_text }}</p>
-                        {% endif %}
                     </a>
+
+
                     {% endfor %}
                 {% endif %}    
             </div>
