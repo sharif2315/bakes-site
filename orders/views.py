@@ -1,13 +1,15 @@
 from decimal import Decimal
-
+from urllib.parse import urlparse
+from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST, require_http_methods
-from django.http import HttpResponseBadRequest, HttpRequest
+from django.http import HttpResponseBadRequest, HttpRequest, HttpResponse
 from django.contrib.postgres.search import SearchVector, SearchQuery
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from wagtail.admin.auth import permission_required
 
+from products.models import ProductListing
 from utils.products import build_cart_context
 from utils.pagination import build_pagination_query
 from home.models import HomePage
@@ -41,6 +43,19 @@ def remove_item_from_cart_slideover(request, product_id):
         del cart[product_id_str]
 
     request.session["cart"] = cart
+
+    # Check if cart is now empty
+    if not cart:
+        referer = request.headers.get("Referer", "")
+        path = urlparse(referer).path
+
+        # redirect user to products if cart is empty and user is on checkout page
+        if path == reverse("checkout"):
+            product_listing = ProductListing.objects.live().only('title').first()
+            if product_listing:
+                response = HttpResponse()
+                response["HX-Redirect"] = product_listing.url
+                return response    
 
     context = build_cart_context(cart)
     return render(request, "orders/cart/_cart_update_fragments.html", context)
@@ -165,7 +180,13 @@ def remove_item_from_checkout(request, product_id):
     # Remove item
     cart.pop(str(product_id), None)
     request.session["cart"] = cart
-
+    
+    if not cart:
+        product_listing = ProductListing.objects.live().only('title').first()
+        if product_listing:
+            response = HttpResponse()
+            response["HX-Redirect"] = product_listing.url
+            return response
     context = build_cart_context(cart)
     return render(request, "orders/cart/_cart_update_fragments.html", context)
 
