@@ -63,7 +63,10 @@
                         class="space-y-6"
                         x-data="{ qty: 1 }"
                         x-init="
-                            document.addEventListener('htmx:afterRequest', () => { 
+                            const form = $el;
+                            document.addEventListener('htmx:afterRequest', (event) => {
+                                if (event.detail.requestConfig.elt !== form) return;
+
                                 qty = 1;
 
                                 requestAnimationFrame(() => {
@@ -72,10 +75,9 @@
                                     if (triggerButton) {
                                         triggerButton.click();
                                     }
-                                });                                
-
-                            })
-                        "
+                                });
+                            });
+"
 
                     >
                         {% csrf_token %}
