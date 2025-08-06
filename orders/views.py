@@ -12,6 +12,7 @@ from wagtail.admin.auth import permission_required
 from products.models import ProductListing
 from utils.products import build_cart_context
 from utils.pagination import build_pagination_query
+from utils.email import send_order_confirmation_email
 from home.models import HomePage
 from products.models import Product
 from .models import OrderItem, Order
@@ -133,6 +134,9 @@ def checkout(request):
                     quantity=item['quantity'],
                     price=item['price'] / item['quantity']  # unit price
                 )
+
+            # Send email to admin
+            send_order_confirmation_email(order)
 
             # Clear cart
             request.session['cart'] = {}

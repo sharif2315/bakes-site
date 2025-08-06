@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Order Confirmation</title>
+</head>
+<body>
+  <h2>Thank you for your order, {{ order.first_name }}!</h2>
+
+  <p><strong>Order Summary:</strong></p>
+  <ul>
+    {% for item in order.items.all %}
+      <li>{{ item.product.title }} × {{ item.quantity }} — £{{ item.price|floatformat:2 }}</li>
+    {% endfor %}
+  </ul>
+
+  <p><strong>Total:</strong> £{{ order.total }}</p>
+  <p><strong>Delivery Method:</strong> {{ order.delivery_detail.get_delivery_method_display }}</p>
+
+  <p>We’ll be in contact with you soon.</p>
+  <p>— The Team</p>
+</body>
+</html>
