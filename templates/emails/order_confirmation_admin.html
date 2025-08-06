@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>New Order Received</title>
-</head>
-<body>
-  <h2>New Order Received</h2>
+  <head>
+    <meta charset="utf-8">
+    <title>New Order Received</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px; color: #0f172a;">
+    <div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 6px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      <h2 style="font-size: 24px; margin-bottom: 16px; color: #1e293b;">New Order Received</h2>
 
-  <p><strong>Customer:</strong> {{ order.first_name }} {{ order.last_name }}</p>
-  <p><strong>Email:</strong> {{ order.email }}</p>
-  <p><strong>Total:</strong> £{{ order.total }}</p>
-  <p><strong>Delivery Method:</strong> {{ order.delivery_detail.get_delivery_method_display }}</p>
+      <p style="margin: 8px 0;"><strong>Customer:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+      <p style="margin: 8px 0;"><strong>Email:</strong> {{ order.email }}</p>
+      <p style="margin: 8px 0;"><strong>Total:</strong> £{{ order.total }}</p>
+      <p style="margin: 8px 0;"><strong>Delivery Method:</strong> {{ order.delivery_detail.get_delivery_method_display }}</p>
 
-  <p><strong>Order Items:</strong></p>
-  <ul>
-    {% for item in order.items.all %}
-      <li>{{ item.product.title }} × {{ item.quantity }} — £{{ item.price|floatformat:2 }}</li>
-    {% endfor %}
-  </ul>
-</body>
+      <p style="margin-top: 24px; font-weight: bold;">Order Items:</p>
+      <ul style="padding-left: 20px;">
+        {% for item in order.items.all %}
+          <li style="margin-bottom: 6px;">
+            {{ item.product.title }} × {{ item.quantity }} — £{{ item.price|floatformat:2 }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
 </html>

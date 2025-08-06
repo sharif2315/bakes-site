@@ -4,20 +4,27 @@
   <meta charset="utf-8">
   <title>Order Confirmation</title>
 </head>
-<body>
-  <h2>Thank you for your order, {{ order.first_name }}!</h2>
+<body style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px; color: #0f172a;">
+  <div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 6px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    
+    <h2 style="font-size: 24px; margin-bottom: 16px; color: #1e293b;">
+      Thank you for your order, {{ order.first_name }}!
+    </h2>
 
-  <p><strong>Order Summary:</strong></p>
-  <ul>
-    {% for item in order.items.all %}
-      <li>{{ item.product.title }} × {{ item.quantity }} — £{{ item.price|floatformat:2 }}</li>
-    {% endfor %}
-  </ul>
+    <p style="font-weight: bold; margin-bottom: 8px;">Order Summary:</p>
+    <ul style="padding-left: 20px; margin-bottom: 16px;">
+      {% for item in order.items.all %}
+        <li style="margin-bottom: 6px;">
+          {{ item.product.title }} × {{ item.quantity }} — £{{ item.price|floatformat:2 }}
+        </li>
+      {% endfor %}
+    </ul>
 
-  <p><strong>Total:</strong> £{{ order.total }}</p>
-  <p><strong>Delivery Method:</strong> {{ order.delivery_detail.get_delivery_method_display }}</p>
+    <p style="margin: 8px 0;"><strong>Total:</strong> £{{ order.total }}</p>
+    <p style="margin: 8px 0;"><strong>Delivery Method:</strong> {{ order.delivery_detail.get_delivery_method_display }}</p>
 
-  <p>We’ll be in contact with you soon.</p>
-  <p>— The Team</p>
+    <p style="margin-top: 24px;">We’ll be in contact with you soon.</p>
+    <p style="margin-top: 12px;">— The Team</p>
+  </div>
 </body>
 </html>
