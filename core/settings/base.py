@@ -208,22 +208,53 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+
 # Email settings
-EMAIL_BACKEND = config(
-    "EMAIL_BACKEND", 
-    default="django.core.mail.backends.console.EmailBackend"
-)
-EMAIL_HOST = config("EMAIL_HOST", default=None)
-EMAIL_PORT = config("EMAIL_PORT", default=None)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
-EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=None)
-CONTACT_FORM_RECEIVER = config("CONTACT_FORM_RECEIVER", default=None)
+# EMAIL_BACKEND = config(
+#     "EMAIL_BACKEND", 
+#     default="django.core.mail.backends.console.EmailBackend"
+# )
+# EMAIL_HOST = config("EMAIL_HOST", default=None)
+# EMAIL_PORT = config("EMAIL_PORT", default=None)
+# EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
+# EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
+# DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=None)
+# CONTACT_FORM_RECEIVER = config("CONTACT_FORM_RECEIVER", default=None)
 
 # Omit EMAIL_HOST_USER and EMAIL_HOST_PASSWORD unless needed
-if config("EMAIL_HOST_USER", default=None):
-    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+# if config("EMAIL_HOST_USER", default=None):
+#     EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+#     EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+
+
+if not DEBUG:
+    # Sendgrid for production
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_USER = "apikey"  # This is literally the string 'apikey'
+    EMAIL_HOST_PASSWORD = config("SENDGRID_API_KEY")
+    EMAIL_PORT = 587 
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+
+    DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=None)
+    CONTACT_FORM_RECEIVER = config("CONTACT_FORM_RECEIVER", default=None)
+
+else:
+    # Dockerised Mailpit for local development
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "localhost"
+    EMAIL_PORT = 1025
+    EMAIL_USE_TLS = False
+    EMAIL_USE_SSL = False
+    
+    DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=None)
+    CONTACT_FORM_RECEIVER = config("CONTACT_FORM_RECEIVER", default=None)
+
+
 
 
 # Recaptcha Settings
