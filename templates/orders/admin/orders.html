@@ -39,17 +39,17 @@
             </div>    
 
             <!-- Order Status & Date Input Group-->
-            <div class="flex gap-6 mb-3">
+            <div class="flex gap-2 xs:gap-6 mb-3">
 
                 <!-- Select Input - Order Status -->
-                <div>
+                <div class="max-w-[11.5rem] sm:max-w-none">
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Status</label>
                     <select 
                         name="order_status" 
-                        class="__w-field__input"
+                        class="w-field__input"
                         @change="$refs.form.requestSubmit()"
                     >
-                        <option value="">Select status</option>
+                        <option value="">Select Status</option>
                         {% for value, label in status_choices %}
                         <option value="{{ value }}" {% if request.GET.order_status == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}
@@ -57,14 +57,14 @@
                 </div>
 
                 <!-- Select Input - Delivery Option -->
-                <div>
+                <div class="max-w-[11.5rem] xs:max-w-none">
                     <label for="datepicker" class="block mb-1 text-sm font-medium text-neutral-500">Delivery</label>
                     <select 
                         name="delivery_method" 
-                        class="__w-field__input"
+                        class="w-field__input"
                         @change="$refs.form.requestSubmit()"
                     >
-                        <option value="">Select method</option>
+                        <option value="">Select Method</option>
                         {% for value, label in delivery_methods %}
                         <option value="{{ value }}" {% if request.GET.delivery_method == value %}selected{% endif %}>{{ label }}</option>
                         {% endfor %}

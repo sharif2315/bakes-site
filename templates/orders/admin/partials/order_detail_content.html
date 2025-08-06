@@ -11,27 +11,29 @@
      </div>
  </a>
 
-<div id="admin-order-detail" class="admin-order-detail-page nice-padding max-w-6xl">
+<div id="admin-order-detail" class="admin-order-detail-page nice-padding max-w-6xl mb-14 xs:mb-0">
     
 
     <!-- Section 1 - Date, Desposit Paid, Status -->
     <div class="section-1-wrapper flex justify-between items-center">
         <!-- date -->
-        <div class="_outline outline-green-500">
+        <div>
             <div class="font-semibold">Order Placed</div>
             <div>{{ order.created_at|date:"j M Y H:i" }}</div>
         </div>
 
         <!-- deposit paid, status -->
-        <div class="flex gap-3 items-center">
-            <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
-                <div class="p-1 {% if order.deposit_paid %}bg-green-500 {% else %}bg-red-500 {% endif %} rounded-full"></div>
-                {% if order.deposit_paid %}Deposit Paid{% else %}Awaiting Deposit{% endif %}
-            </div>
-            <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
-                <div class="p-1 rounded-full {{ order.status_color }}"></div>
-                {{ order.get_status_display }}
-            </div>
+        <div class="flex flex-col-reverse xs:flex-row gap-3 items-end xs:items-center">
+
+                <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
+                    <div class="p-1 {% if order.deposit_paid %}bg-green-500 {% else %}bg-red-500 {% endif %} rounded-full"></div>
+                    {% if order.deposit_paid %}Deposit Paid{% else %}Awaiting Deposit{% endif %}
+                </div>
+                <div class="border-base border-gray-300 bg-gray-50 text-gray-600 text-xs rounded-lg px-1.5 py-0.5 tracking-wide flex items-center gap-2 font-semibold">
+                    <div class="p-1 rounded-full {{ order.status_color }}"></div>
+                    {{ order.get_status_display }}
+                </div>
+
             <div class="text-gray-500 ml-1 hover:cursor-pointer">
                 {% include 'orders/admin/partials/order_status_modal.html' %}
             </div>                  
