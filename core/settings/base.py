@@ -212,7 +212,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email settings
 EMAIL_ENABLED = config("EMAIL_ENABLED", default=False, cast=bool)
 
-if DEBUG:
+if not DEBUG:
     # Sendgrid for production
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = "smtp.sendgrid.net"
