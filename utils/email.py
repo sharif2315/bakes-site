@@ -9,8 +9,9 @@ def send_contact_email(subject: str, message: str) -> None:
     """
     from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None)
     recipient = getattr(settings, 'CONTACT_FORM_RECEIVER', None)
-
-    if not from_email or not recipient:
+    email_enabled = getattr(settings, "EMAIL_ENABLED", False)
+    
+    if not email_enabled:
         # Skip sending if either email is missing
         return
 
@@ -30,7 +31,9 @@ def send_order_confirmation_email(order) -> None:
     admin_email = getattr(settings, 'CONTACT_FORM_RECEIVER', None)
     customer_email = order.email
 
-    if not from_email:
+    email_enabled = getattr(settings, "EMAIL_ENABLED", False)
+
+    if not email_enabled:
         return
 
     # Send to admin
